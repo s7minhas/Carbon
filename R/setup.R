@@ -25,7 +25,7 @@ toLoad=c(
 	'foreign', # load foreign packages
 	'cshapes', # R pkgs to get data
 	'countrycode', # Matching countries
-	'reshape2', # Data manip
+	'reshape2', 'dplyr', # Data manip
 	'ggplot2', 'grid', 'xtable', 'tikzDevice',  # plotting/output
 	'MASS', # stat pkgs
 	'magrittr' # other

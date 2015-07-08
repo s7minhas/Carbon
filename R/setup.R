@@ -27,6 +27,7 @@ toLoad=c(
 	'countrycode', # Matching countries
 	'reshape2', # Data manip
 	'ggplot2', 'grid', 'xtable', 'tikzDevice',  # plotting/output
+	'MASS', # stat pkgs
 	'magrittr' # other
 	)
 

@@ -8,7 +8,6 @@ load(paste0(pathDataRaw,'Voeten/undata-213.RData')); un=x ; rm(list='x')
 ###############################################################
 
 ###############################################################
-head(un)
 un$year = unlist(lapply(strsplit(char(un$date), '-'), function(x) x[1]))
 
 tmp = un[un$year==1955,]

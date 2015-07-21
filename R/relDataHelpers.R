@@ -151,17 +151,17 @@ dyadComb  = function(id, name, num){
 	return(dyads)
 } 
 
-makeDyad = function(data, unit){
+# SM: change makeDyad to use lapply instead of for loop
+makeDyad = function(data, unit){ 
 uniqueUnit = unique(data[, unit])
-rawDyad = NULL
-for (ii in 1:length(uniqueUnit)){
+rawDyad = lapply(1:length(uniqueUnit), function(ii){
     slice = data[which(data[, unit] == uniqueUnit[ii]),]
     if( dim(slice)[1] ==1 ){
         sList2 = cbind(slice[,1], slice[,4], NA, slice[,3], NA )} 
     else if ( dim(slice)[1] > 1 ){
             sList2 = dyadComb(unique(slice[, unit]),slice[,4], slice[,3]) }
-    rawDyad = rbind(rawDyad, sList2)
-}
+    return(sList2) })
+rawDyad = do.call('rbind', rawDyad)
 rawDyad = data.frame(rawDyad, stringsAsFactors = F)
 names(rawDyad) = c(unit, "cname_1", "cname_2", "ccode1", "ccode2")
 rawDyad2 = rawDyad[-which(is.na(rawDyad$cname_2)),]
@@ -171,16 +171,28 @@ return(rawDyad2)
 }
 
 # aggDyad aggregates output from makeDyad by year
+# SM: change makeDyad to use lapply instead of for loop
 aggDyad = function(data, year, name){
   yrs = sort(unique(data[,year]))
-  aggD = NULL
-  for (jj in 1:length(yrs)){
-    slice = data[which(data[, year] == yrs[jj]),]
-    sList2 = data.frame(tapply(slice$year, slice$dyadID, length), year = yrs[jj])
-    aggD = rbind(aggD, data.frame(id = row.names(sList2), sList2))
-  }
+  aggD = lapply(1:length(yrs), function(jj){
+  	    slice = data[which(data[, year] == yrs[jj]),]
+	    sList2 = data.frame(tapply(slice$year, slice$dyadID, length), year = yrs[jj])
+    	return(data.frame(id = row.names(sList2), sList2)) })
+  aggD = do.call('rbind', aggD)
   names(aggD) = c("dyadID", name, "year" )
   aggD$dyadID = as.numeric(as.character(aggD$dyadID))
   aggD$year = as.numeric(as.character(aggD$year))
   return(aggD)
+}
+
+# Convert dyadic dataset to list and standardize value
+convToList = function(data, brks, brkVar, ids, var){
+	
+	dList = lapply(brks, function(ii){
+		slice = data[data[,brkVar]==ii,c(ids,var)]
+		slice[,var] = slice[,var] %>% num() %>% stdz( ) 
+		return(slice)
+		})
+	
+	return( dList )	 
 }

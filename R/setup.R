@@ -50,6 +50,7 @@ num = function(x) { as.numeric(char(x)) }
 cname = function(x) { countrycode(x, 'country.name', 'country.name') }
 trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
+stdz = function(x, na=TRUE){ (x - mean(x, na.rm=na))/sd(x, na.rm=na) }
 
 # Relational Data Helper Functions
 source(paste0(gpth, 'R/relDataHelpers.R'))

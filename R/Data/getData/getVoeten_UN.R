@@ -40,6 +40,33 @@ aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agree3un')
 ###############################################################
 
 ###############################################################
+# use UN data to set nodes for dyadic dataset
+yrs = un$year %>% unique() %>% sort()
+frame = lapply(yrs, function(yr){
+	slice = un[un$year==yr,c('ccode1','ccode2')]
+	cntries = c(slice$ccode1,slice$ccode2) %>% unique() %>% num()
+	frYr = expand.grid(i=cntries, j=cntries)
+	frYr = frYr[frYr$i != frYr$j,]
+	frYr$ij = paste(frYr$i, frYr$j, sep='_')
+	frYr$ji = paste(frYr$j, frYr$i, sep='_')	
+	frYr = cbind(frYr, t=yr)
+	return(frYr)
+	})
+names(frame) = yrs
+###############################################################
+
+###############################################################
+# Turn undirected un data into complete frame
+aun3Lfull = lapply(aun3L, function(unSl){
+	unDat=data.frame( rbind(
+		cbind( ij=paste(unSl$ccode1, unSl$ccode2, sep='_'), unSl ),
+		cbind( ij=paste(unSl$ccode2, unSl$ccode1, sep='_'), unSl ) ) )
+	unDat[,4] = num( unDat[,4] )
+	return(unDat)
+})
+###############################################################
+
+###############################################################
 # Save
-save(un, aun3L, file=paste0(pathDataBin, 'un.rda'))
+save(un, aun3Lfull, frame, file=paste0(pathDataBin, 'un.rda'))
 ###############################################################

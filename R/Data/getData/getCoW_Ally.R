@@ -1,7 +1,7 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 
-############################
+###############################################################
 # Download file from ICOW site
 allyURL = 'http://www.correlatesofwar.org/data-sets/formal-alliances/alliances-data-dta-zip/at_download/file'
 allyName = paste0(pathDataRaw, 'ally.zip')
@@ -9,75 +9,63 @@ if(!file.exists(allyName)) { download.file(allyURL, allyName) }
 
 ally = unzip(allyName, 
 	'version4.1_dta/alliance_v4.1_by_directed_yearly.dta') %>% read.dta()
-############################
 
-############################
+# Include only post 1946 data
+ally = ally[ally$year>=1946,]
+
+# Subset to relevant vars
+ally = ally[,c(
+	'ccode1','ccode2','state_name1','state_name2','year',
+	'defense', 'neutrality', 'nonaggression', 'entente'
+	)]
+###############################################################
+
+###############################################################
 # Match ally names to panel
-ally$ccode1=num(ally$ccode1)
-ally$ccode2=num(ally$ccode2)
+cntries = c(ally$state_name1, ally$state_name2) %>% char() %>% unique() %>% data.frame(cntry=.)
+cntries$cname = cname(cntries$cntry)
 
-ctyNameA=countrycode(ally$ccode1, "cown", "country.name")
-ctyNameB=countrycode(ally$ccode2, "cown", "country.name")
+# Fix few cnames issue so it matches with panel
+cntries$cname[cntries$cntry=="Yemen People's Republic"] = 'S. YEMEN'
+cntries$cname[cntries$cntry=="Yugoslavia"] = 'SERBIA'
+cntries$cname[cntries$cntry=="Czechoslovakia"] = 'CZECH REPUBLIC'
 
-sancIDs=data.frame(unique(cbind(ally$ccode1, ally$ccode2, ctyNameA, ctyNameB)))
+# Add ccode
+cntries$ccode = panel$ccode[match(cntries$cname,panel$cname)]
 
-sancIDs$V1= num(sancIDs$V1)
-sancIDs$V2 = num(sancIDs$V2)
-sancIDs$ctyNameA =char(sancIDs$ctyNameA)
-sancIDs$ctyNameB =char(sancIDs$ctyNameB)
+# Merge updated cname and ccode to un
+ally$cname1 = cntries$cname[match(ally$state_name1, cntries$cntry)]
+ally$cname2 = cntries$cname[match(ally$state_name2, cntries$cntry)]
+ally$ccode1 = cntries$ccode[match(ally$state_name1, cntries$cntry)]
+ally$ccode2 = cntries$ccode[match(ally$state_name2, cntries$cntry)]
 
-sancIDs2 = unique(
-	data.frame(cbind(
-			rbind(cowcode=t(t(sancIDs[,c(1)])), cowcode=t(t(sancIDs[,c(2)]))),
-			rbind(country=t(t(sancIDs[,c(3)])), country=t(t(sancIDs[,c(4)]))) ) ) )
-names(sancIDs2) = c('cowcode', 'country')
+# Create separate dfs for defense and any
+ally$any = apply(ally[,c('defense', 'neutrality', 'nonaggression', 'entente')], 1, sum) %>% ifelse(., 1, 0)
+ally$defEnt = apply(ally[,c('defense', 'entente')], 1, sum) %>% ifelse(., 1, 0)
 
-sancIDs2$cowcode = num(sancIDs2$cowcode)
-sancIDs2$country = char(sancIDs2$country)
+# Aggregate to count variable for any alliance, need to split DF for this
+loadPkg('doBy')
+anyAlly = ally[ally$any==1,c('ccode1','ccode2','cname1','cname2','year','any')]
+anyAlly = summaryBy(any ~ ccode1 + ccode2 + year, data=anyAlly, keep.names=TRUE, FUN=sum)
 
-#fix time
-sancIDs2[sancIDs2$cowcode==245,'country'] = 'BAVARIA'
-sancIDs2[sancIDs2$cowcode==267,'country'] = 'BADEN'
-sancIDs2[sancIDs2$cowcode==300,'country'] = 'AUSTRIA-HUNGARY'
-sancIDs2[sancIDs2$cowcode==730,'country'] = "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"
-sancIDs2[sancIDs2$cowcode==731,'country'] = "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"
-sancIDs2[sancIDs2$cowcode==678,'country'] = 'YEMEN'
-sancIDs2[sancIDs2$cowcode==680,'country'] = 'S. YEMEN' 
-sancIDs2[sancIDs2$cowcode==817,'country'] = 'S. VIETNAM'
-sancIDs2[sancIDs2$cowcode==260,'country'] = 'GERMANY'
-sancIDs2[sancIDs2$cowcode==345,'country'] = 'SERBIA'
-sancIDs2[sancIDs2$cowcode==315,'country'] = 'CZECH REPUBLIC'
+# Aggregate to count variable for def/ent, need to split DF for this
+defEntAlly = ally[ally$defEnt==1,c('ccode1','ccode2','cname1','cname2','year','defEnt')]
+defEntAlly = summaryBy(defEnt ~ ccode1 + ccode2 + year, data=defEntAlly, keep.names=TRUE, FUN=sum)
+###############################################################
 
-# Add in the data from the panel
-sancIDs2$ccode = panel$ccode[match(sancIDs2$country, panel$cname)]
-sancIDs2$cname = panel$cname[match(sancIDs2$country, panel$cname)]
+###############################################################
+# Merge with frame from UN data
 
-sancIDs2[is.na(sancIDs2$ccode),]	# Checks for NAs
-sancIDs2[is.na(sancIDs2$cname),] 
+###############################################################
 
-# Add back to ally
-ally2 = ally[,c('ccode1', 'ccode2', 'state_name1', 'state_name2','year')]
-colnames(ally2)[1:2] = c('cowcode1', 'cowcode2')
+###############################################################
+# Convert to list
+yrs = ally$year %>% unique() %>% sort()
+anyAllyL = convToList(anyAlly, yrs, 'year', c('ccode1','ccode2'), 'any')
+defEntAllyL = convToList(defEntAlly, yrs, 'year', c('ccode1','ccode2'), 'defEnt')
+###############################################################
 
-ally2$ccode_1 = sancIDs2$ccode[match(ally2$cowcode1, sancIDs2$cowcode)]
-ally2$ccode_2 = sancIDs2$ccode[match(ally2$cowcode2, sancIDs2$cowcode)]
-
-ally2$cname_1 = sancIDs2$cname[match(ally2$cowcode1, sancIDs2$cowcode)]
-ally2$cname_2 = sancIDs2$cname[match(ally2$cowcode2, sancIDs2$cowcode)]
-
-allyFINAL = na.omit(ally2)
-allyFINAL$ally = 1
-ally = allyFINAL
-############################
-
-############################
-# Build alliance matrices
-allyMats = DyadBuild(variable='ally', dyadData=ally, 
-	time=1960:2012, panel=panel, directed=FALSE)
-############################
-
-############################
+###############################################################
 # Save
-save(ally, allyMats,
-	file=paste0(pathDataBin, 'ally.rda'))
-############################
+save(anyAlly, anyAllyL, defEntAlly, defEntAllyL, file=paste0(pathDataBin, 'ally.rda'))
+###############################################################

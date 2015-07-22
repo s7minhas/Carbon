@@ -28,7 +28,8 @@ toLoad=c(
 	'reshape2', 'dplyr', # Data manip
 	'ggplot2', 'grid', 'xtable', 'tikzDevice',  # plotting/output
 	'amen', 'MASS', # stat pkgs
-	'magrittr' # other
+	'magrittr', # other
+	'foreach', 'doParallel' # Parallelization	
 	)
 
 # Run function over lib vector

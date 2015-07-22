@@ -244,6 +244,7 @@ ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL,
   BETA <- matrix(nrow = 0, ncol = dim(X)[3] - pr*symmetric)
   VC<-matrix(nrow=0,ncol=5-3*symmetric) 
   UVPS <- U %*% t(V) * 0 
+  uvpsAll = NULL
   APS<-BPS<- rep(0,nrow(Y[,,1]))  
   YPS<-array(0,dim=dim(Y)) ; dimnames(YPS)<-dimnames(Y)
   GOF<-matrix(rowMeans(apply(Y,3,gofstats)),1,4)  
@@ -389,6 +390,7 @@ ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL,
 
       # update posterior sums of random effects
       UVPS <- UVPS + U %*% t(V)
+      uvpsAll[[length(uvpsAll)+1]] = UVPS
       APS <- APS + a
       BPS <- BPS + b 
         
@@ -472,6 +474,7 @@ ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL,
   APM<-APS/nrow(VC)
   BPM<-BPS/nrow(VC)  
   UVPM<-UVPS/nrow(VC)
+  uvpmAll = lapply(uvpsAll, function(x){ x/nrow(VC) })
   YPM<-YPS/nrow(VC) 
   EZ<-array(dim=dim(Y)) 
   for (t in 1:N)
@@ -490,7 +493,15 @@ ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL,
     U<-UDV$u[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
     V<-UDV$v[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
     rownames(U)<-rownames(V)<-dimnames(Y)[[1]]
-    fit <- list(BETA=BETA,VC=VC,APM=APM,BPM=BPM,U=U,V=V,UVPM=UVPM,EZ=EZ,
+    uvAll = lapply(uvpmAll, function(x){
+	    UDV<-svd(x)
+	    U<-UDV$u[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
+	    V<-UDV$v[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
+	    rownames(U)<-rownames(V)<-dimnames(Y)[[1]]
+	    uv = list(U=U, V=V)
+	    return(uv)
+    	})
+    fit <- list(BETA=BETA,VC=VC,APM=APM,BPM=BPM,U=U,V=V,UVPM=UVPM,uvAll=uvAll,EZ=EZ,
                 YPM=YPM,GOF=GOF) 
   }
  
@@ -503,12 +514,23 @@ ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL,
     U<-eULU$vec[,seq(1,R,length=R),drop=FALSE]
     L<-eULU$val[eR]   
     rownames(U)<-rownames(ULUPM)<-colnames(ULUPM)<-dimnames(Y)[[1]]
+    ulAll = lapply(uvpmAll, function(x){
+	    ULUPM<-x 
+	    eULU<-eigen(ULUPM) 
+	    eR<- which( rank(-abs(eULU$val),ties.method="first") <= R )
+	    U<-eULU$vec[,seq(1,R,length=R),drop=FALSE]
+	    L<-eULU$val[eR]   
+	    rownames(U)<-rownames(ULUPM)<-colnames(ULUPM)<-dimnames(Y)[[1]]    	
+	    ul = list(U=U, L=L, ULUPM=ULUPM)
+	    return(ul)
+    	})
+	# ulAll=NULL
     for(t in 1:N)
     { 
       EZ[,,t]<-.5*(EZ[,,t]+t(EZ[,,t]))
       YPM[,,t]<-.5*(YPM[,,t]+t(YPM[,,t]))
     }  
-    fit<-list(BETA=BETA,VC=VC,APM=APM,U=U,L=L,ULUPM=ULUPM,EZ=EZ,
+    fit<-list(BETA=BETA,VC=VC,APM=APM,U=U,L=L,ULUPM=ULUPM,ulAll=ulAll,EZ=EZ,
               YPM=YPM,GOF=GOF)
   } 
 

@@ -40,15 +40,16 @@ amData = lapply(yrs, function(yr){
 		dimnames=list( cntries, cntries, c('agree3un', 'defEntAlly', 'anyAlly') ) )
 	
 	# Add values from relev data
-	diagZero = function(x){ diag(x)=0 ; return(x) }
-	eArr[,,'agree3un'] = acast(i ~ j, data=fSl, value.var='agree3un') %>% .[cntries,cntries] %>% diagZero()
-	eArr[,,'defEntAlly'] = acast(i ~ j, data=fSl, value.var='defEnt') %>% .[cntries,cntries] %>% diagZero()
-	eArr[,,'anyAlly'] = acast(i ~ j, data=fSl, value.var='any') %>% .[cntries,cntries] %>% diagZero()
+	diagVal = function(x,val=NA){ diag(x)=val ; return(x) }
+	eArr[,,'agree3un'] = acast(i ~ j, data=fSl, value.var='agree3un') %>% .[cntries,cntries] %>% diagVal()
+	eArr[,,'defEntAlly'] = acast(i ~ j, data=fSl, value.var='defEnt') %>% .[cntries,cntries] %>% diagVal()
+	eArr[,,'anyAlly'] = acast(i ~ j, data=fSl, value.var='any') %>% .[cntries,cntries] %>% diagVal()
 	return(eArr)
 	})
+names(amData) = yrs
 ############################s
 
 ############################s
 # Save
-save(amData, file='amenData.rda')
+save(amData, file=paste0(pathDataBin,'amenData.rda'))
 ############################s

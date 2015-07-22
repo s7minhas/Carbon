@@ -10,33 +10,45 @@ load( paste0(pathDataBin, 'un.rda') )
 ############################
 # Form list of n x n x p arrays for every t
 # n = # cntries, p = # vars, t = # pds
+yrs = un$year %>% unique() %>% sort()
 amData = lapply(yrs, function(yr){
 	
-	# Turn undirected un data into directed format
-	unSl = aun3L[[char(yr)]]
-	unDat=data.frame( rbind(
-		cbind( paste(unSl$ccode1, unSl$ccode2, sep='_'), unSl[,'agree3un'] ),
-		cbind( paste(unSl$ccode2, unSl$ccode1, sep='_'), unSl[,'agree3un'] ) ) )
-	names(unDat) = c('ij', 'agree3un')
-	unDat$agree3un = num( unDat$agree3un )
+	# Pull yearly slice from un data
+	unSl = aun3Lfull[[char(yr)]]
 
 	# Add id vectors into alliance dataset
-	allySl = defEntAllyL[[char(yr)]]
-	allySl$ij = paste(allySl$ccode1, allySl$ccode2, sep='_')
-	
+	defEntSl = defEntAllyL[[char(yr)]]
+	defEntSl$ij = paste(defEntSl$ccode1, defEntSl$ccode2, sep='_')
+	anyAllySl = anyAllyL[[char(yr)]]
+	anyAllySl$ij = paste(anyAllySl$ccode1, anyAllySl$ccode2, sep='_')
+
 	# Merge covariate data into frame slice
-	fSl = frame[[char(yr)]]	
-	fSl$agree3un = unDat$agree3un[match(fSl$ij, unSl$ij)]
-	fSl$defEnt = allySl$defEnt[match(fSl$ij, allySl$ij)]
+	fSl = unFrame[[char(yr)]]	
+	fSl$agree3un = unSl$agree3un[match(fSl$ij, unSl$ij)]
+	fSl$agree3un[is.na(fSl$agree3un)] = mean(unSl$agree3un)
+	
+	fSl$defEnt = defEntSl$defEnt[match(fSl$ij, defEntSl$ij)]
 	fSl$defEnt[is.na(fSl$defEnt)] = 0
 
+	fSl$any = anyAllySl$any[match(fSl$ij, anyAllySl$ij)]
+	fSl$any[is.na(fSl$any)] = 0
+
 	# Create empty array
-	cntries = c( fSl$i, fSl$j ) %>% unique() %>% num() %>% sort()
+	cntries = c( fSl$i, fSl$j ) %>% unique() %>% char() %>% sort() 
 	eArr = array(0, 
-		dim=c( length(cntries), length(cntries), 2 ), 
-		dimnames=list( cntries, cntries, c('un', 'ally') ) )
+		dim=c( length(cntries), length(cntries), 3 ), 
+		dimnames=list( cntries, cntries, c('agree3un', 'defEntAlly', 'anyAlly') ) )
 	
 	# Add values from relev data
-
+	diagZero = function(x){ diag(x)=0 ; return(x) }
+	eArr[,,'agree3un'] = acast(i ~ j, data=fSl, value.var='agree3un') %>% .[cntries,cntries] %>% diagZero()
+	eArr[,,'defEntAlly'] = acast(i ~ j, data=fSl, value.var='defEnt') %>% .[cntries,cntries] %>% diagZero()
+	eArr[,,'anyAlly'] = acast(i ~ j, data=fSl, value.var='any') %>% .[cntries,cntries] %>% diagZero()
+	return(eArr)
 	})
+############################s
+
+############################s
+# Save
+save(amData, file='amenData.rda')
 ############################s

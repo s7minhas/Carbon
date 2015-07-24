@@ -47,7 +47,7 @@ mod5 = glm(mid~s3un, data=slice, family='binomial')
 ############################
 # Right direction?
 for(ii in 1:5){
-	eval(parse(text=paste0('mod',ii) ) )
+	print( summary( eval(parse(text=paste0('mod',ii) ) ) )$'coefficients')
 }
 ############################
 

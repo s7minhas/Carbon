@@ -1,15 +1,24 @@
-# Clear workspace
-rm(list=ls())
+# # Clear workspace
+# rm(list=ls())
 
-####################################
-# Set up paths
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-	dpth='~/Dropbox/Research/Carbon/'
-	gpth='~/Research/Carbon/'
-	pathDataRaw=paste0(dpth, 'data/components/')
-	pathDataBin=paste0(dpth, 'data/binaries/')
-	pathGraphics=paste0(dpth, 'graphics/')
-	pathResults=paste0(dpth, 'results/') }
+# ####################################
+# # Set up paths
+# if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
+	# dpth='~/Dropbox/Research/Carbon/'
+	# gpth='~/Research/Carbon/'
+	# pathDataRaw=paste0(dpth, 'data/components/')
+	# pathDataBin=paste0(dpth, 'data/binaries/')
+	# pathGraphics=paste0(dpth, 'graphics/')
+	# pathResults=paste0(dpth, 'results/') }
+
+# if(Sys.info()["user"]=="maxgallop" ){
+	# dpth='~/Dropbox/Carbon/'
+	# gpth='/Users/maxgallop/Documents/Carbon/'
+	# pathDataRaw=paste0(dpth, 'data/components/')
+	# pathDataBin=paste0(dpth, 'data/binaries/')
+	# pathGraphics=paste0(dpth, 'graphics/')
+	# pathResults=paste0(dpth, 'results/') }
+
 ####################################
 
 ####################################

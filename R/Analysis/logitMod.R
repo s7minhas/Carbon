@@ -1,5 +1,11 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
+if(Sys.info()["user"]=="maxgallop"){
+	source("/Users/maxgallop/Documents/Carbon")
+	source("/Users/maxgallop/Documents/Carbon/R/tsDataHelpers.R")
+ }
+
+
 ############################
 
 ############################
@@ -19,6 +25,9 @@ data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$s2un = idPt$s2un[match(data$id, idPt$dyadidyr)]
 data$s3un = idPt$s3un[match(data$id, idPt$dyadidyr)]
 
+data$dyadid = paste0(data$ccode1, data$ccode2)
+
+data = lagData(data, "year","dyadid", c("unDefEntDist", "unAnyDist", "idPtDist", "s2un", "s3un"))
 # Drop extraneous datasets
 rm(list=c('latDist', 'idPt'))
 ############################
@@ -32,22 +41,22 @@ rm(list=c('latDist', 'idPt'))
 slice = data[,c(
 	'ccode1', 'ccode2', 'year', 
 	'mid', 
-	'unDefEntDist', 'unAnyDist',
-	'idPtDist', 's2un', 's3un')]
+	'lag1_unDefEntDist', 'lag1_unAnyDist',
+	'lag1_idPtDist', 'lag1_s2un', 'lag1_s3un')]
 slice = na.omit( slice )
 
 # Run models, i know these models are unrealistic
-mod1 = glm(mid~unDefEntDist, data=slice, family='binomial')
-mod2 = glm(mid~unAnyDist, data=slice, family='binomial')
-mod3 = glm(mid~idPtDist, data=slice, family='binomial')
-mod4 = glm(mid~s2un, data=slice, family='binomial')
-mod5 = glm(mid~s3un, data=slice, family='binomial')
+mod1 = glm(mid~lag1_unDefEntDist, data=slice, family='binomial')
+mod2 = glm(mid~lag1_unAnyDist, data=slice, family='binomial')
+mod3 = glm(mid~lag1_idPtDist, data=slice, family='binomial')
+mod4 = glm(mid~lag1_s2un, data=slice, family='binomial')
+mod5 = glm(mid~lag1_s3un, data=slice, family='binomial')
 ############################
 
 ############################
 # Right direction?
 for(ii in 1:5){
-	print( summary( eval(parse(text=paste0('mod',ii) ) ) )$'coefficients')
+	eval(parse(text=paste0('mod',ii) ) )
 }
 ############################
 

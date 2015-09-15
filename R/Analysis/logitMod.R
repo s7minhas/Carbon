@@ -1,7 +1,7 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 if(Sys.info()["user"]=="maxgallop"){
-	source("/Users/maxgallop/Documents/Carbon")
+	source("/Users/maxgallop/Documents/Carbon/setup.R")
 	source("/Users/maxgallop/Documents/Carbon/R/tsDataHelpers.R")
  }
 
@@ -70,3 +70,22 @@ for(ii in c(1,3:5)){
 }
 dev.off()
 ############################
+
+
+###models with controls
+
+data = lagData(data, "year","dyadid", c("unDefEntDist", "unAnyDist", "idPtDist", "s2un", "s3un", "jointdemocB", "caprat", "noncontig", "avdyadgrowth"))
+
+
+slice = data[,c(
+	'ccode1', 'ccode2', 'year', 
+	'mid', 
+	'lag1_unDefEntDist', 'lag1_unAnyDist',
+	'lag1_idPtDist', 'lag1_s2un', 'lag1_s3un', 'lag1_jointdemocB', 'lag1_caprat', 'lag1_noncontig', 'lag1_avdyadgrowth')]
+
+slice = na.omit(slice)
+mod1c = glm(mid~lag1_unDefEntDist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth, data=slice, family='binomial')
+mod2c = glm(mid~lag1_unAnyDist+ lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth, data=slice, family='binomial')
+mod3c = glm(mid~lag1_idPtDist+ lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth, data=slice, family='binomial')
+mod4c = glm(mid~lag1_s2un+ lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth, data=slice, family='binomial')
+mod5c = glm(mid~lag1_s3un+ lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth, data=slice, family='binomial')

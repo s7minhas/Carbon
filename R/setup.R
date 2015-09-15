@@ -11,13 +11,13 @@
 	# pathGraphics=paste0(dpth, 'graphics/')
 	# pathResults=paste0(dpth, 'results/') }
 
-# if(Sys.info()["user"]=="maxgallop" ){
-	# dpth='~/Dropbox/Carbon/'
-	# gpth='/Users/maxgallop/Documents/Carbon/'
-	# pathDataRaw=paste0(dpth, 'data/components/')
-	# pathDataBin=paste0(dpth, 'data/binaries/')
-	# pathGraphics=paste0(dpth, 'graphics/')
-	# pathResults=paste0(dpth, 'results/') }
+ if(Sys.info()["user"]=="maxgallop" ){
+	 dpth='~/Dropbox/Carbon/'
+	 gpth='/Users/maxgallop/Documents/Carbon/'
+	 pathDataRaw=paste0(dpth, 'data/components/')
+	 pathDataBin=paste0(dpth, 'data/binaries/')
+	 pathGraphics=paste0(dpth, 'graphics/')
+	 pathResults=paste0(dpth, 'results/') }
 
 ####################################
 

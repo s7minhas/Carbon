@@ -43,6 +43,8 @@ ally$ccode2 = cntries$ccode[match(ally$state_name2, cntries$cntry)]
 ally$any = apply(ally[,c('defense', 'neutrality', 'nonaggression', 'entente')], 1, sum) %>% ifelse(., 1, 0)
 ally$defEnt = apply(ally[,c('defense', 'entente')], 1, sum) %>% ifelse(., 1, 0)
 
+ally$did = paste(ally$ccode1,ally$ccode2,ally$year, sep='_')
+
 # Aggregate to count variable for any alliance, need to split DF for this
 loadPkg('doBy')
 anyAlly = ally[ally$any==1,c('ccode1','ccode2','cname1','cname2','year','any')]
@@ -54,15 +56,10 @@ defEntAlly = summaryBy(defEnt ~ ccode1 + ccode2 + year, data=defEntAlly, keep.na
 ###############################################################
 
 ###############################################################
-# Merge with frame from UN data
-
-###############################################################
-
-###############################################################
 # Convert to list
 yrs = ally$year %>% unique() %>% sort()
-anyAllyL = convToList(anyAlly, yrs, 'year', c('ccode1','ccode2'), 'any')
-defEntAllyL = convToList(defEntAlly, yrs, 'year', c('ccode1','ccode2'), 'defEnt')
+anyAllyL = convToList(anyAlly, yrs, 'year', c('ccode1','ccode2'), 'any', standardize=FALSE)
+defEntAllyL = convToList(defEntAlly, yrs, 'year', c('ccode1','ccode2'), 'defEnt', standardize=FALSE)
 ###############################################################
 
 ###############################################################

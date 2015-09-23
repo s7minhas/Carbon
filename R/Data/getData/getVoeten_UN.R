@@ -34,9 +34,14 @@ stopifnot( length( table(un$dyadidyr)[table(un$dyadidyr)>1] ) == 0 )
 ###############################################################
 
 ###############################################################
+# Create count of un agreements by dyad-yr
+un$agreeCnt = round( un$agree3un*un$jointvotes3 )
+###############################################################
+
+###############################################################
 # Convert into a list format for object per year
 yrs = un$year %>% unique() %>% sort()
-aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agree3un')
+aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agreeCnt', standardize=FALSE)
 ###############################################################
 
 ###############################################################

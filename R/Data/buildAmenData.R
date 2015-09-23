@@ -10,7 +10,11 @@ load( paste0(pathDataBin, 'un.rda') )
 ############################
 # Form list of n x n x p arrays for every t
 # n = # cntries, p = # vars, t = # pds
+
+# Years to loop through
 yrs = un$year %>% unique() %>% sort()
+
+# Process data into list of arrays
 amData = lapply(yrs, function(yr){
 	
 	# Pull yearly slice from un data
@@ -24,8 +28,8 @@ amData = lapply(yrs, function(yr){
 
 	# Merge covariate data into frame slice
 	fSl = unFrame[[char(yr)]]	
-	fSl$agree3un = unSl$agree3un[match(fSl$ij, unSl$ij)]
-	fSl$agree3un[is.na(fSl$agree3un)] = mean(unSl$agree3un)
+	fSl$agreeCnt = unSl$agreeCnt[match(fSl$ij, unSl$ij)]
+	fSl$agreeCnt[is.na(fSl$agreeCnt)] = mean(unSl$agreeCnt)
 	
 	fSl$defEnt = defEntSl$defEnt[match(fSl$ij, defEntSl$ij)]
 	fSl$defEnt[is.na(fSl$defEnt)] = 0
@@ -37,11 +41,11 @@ amData = lapply(yrs, function(yr){
 	cntries = c( fSl$i, fSl$j ) %>% unique() %>% char() %>% sort() 
 	eArr = array(0, 
 		dim=c( length(cntries), length(cntries), 3 ), 
-		dimnames=list( cntries, cntries, c('agree3un', 'defEntAlly', 'anyAlly') ) )
+		dimnames=list( cntries, cntries, c('agreeCnt', 'defEntAlly', 'anyAlly') ) )
 	
 	# Add values from relev data
 	diagVal = function(x,val=NA){ diag(x)=val ; return(x) }
-	eArr[,,'agree3un'] = acast(i ~ j, data=fSl, value.var='agree3un') %>% .[cntries,cntries] %>% diagVal()
+	eArr[,,'agreeCnt'] = acast(i ~ j, data=fSl, value.var='agreeCnt') %>% .[cntries,cntries] %>% diagVal()
 	eArr[,,'defEntAlly'] = acast(i ~ j, data=fSl, value.var='defEnt') %>% .[cntries,cntries] %>% diagVal()
 	eArr[,,'anyAlly'] = acast(i ~ j, data=fSl, value.var='any') %>% .[cntries,cntries] %>% diagVal()
 	return(eArr)

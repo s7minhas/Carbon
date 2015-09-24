@@ -37,14 +37,32 @@ rm(list=c('latDist', 'idPt'))
 ############################
 # Set up models
 ids = c('ccode1','ccode2','dyadid','year')
+splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
 kivs = c("unDefEntDist", "unAnyDist", 
 	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
 	"idPtDist", "s2un", "s3un")
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 
+# Add splines to count years since dyadic conflict (Carter & Signorino 2010)
+data$dyadid = num(data$dyadid)
+data$dyadidYr = paste0( data$dyadid, data$year ) %>% num()
+data = data[order(data$dyadidYr),]
+
+# functions to help calculate peace years
+flipBin = function(x,a=0,b=1){ z=x ; z[x==a]=b ; z[x==b]=a ; return(z) }
+getPeaceCounter = function(x){
+	tmp = x %>% as.numeric() %>% flipBin()
+	peaceT = tmp * ave(tmp, c(0, cumsum(diff(tmp) != 0)), FUN = seq_along)
+	return(peaceT) }
+
+# Calculate
+data$peaceYrs = with(data, by(mid, dyadid, function(y) getPeaceCounter(y) ) ) %>% unlist()
+data$peaceYrs2 = data$peaceYrs^2
+data$peaceYrs3 = data$peaceYrs^3
+
 # Subset data
-modData = data[,c(ids, dv, kivs, cntrls)]
+modData = data[,c(ids, splines, dv, kivs, cntrls)]
 
 # Create lags
 modData$dyadid = num( modData$dyadid )
@@ -54,24 +72,26 @@ modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls))
 # Finalize data for modeling
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)
-modData = na.omit( modData[,c(ids, dv, kivs, cntrls)] )
+modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 
 # Divide into train and test
-train = modData[modData$year<2001,]
-test = modData[modData$year>=2001,]
+cutYear=2001
+train = modData[modData$year<cutYear,]
+test = modData[modData$year>=cutYear,]
 ############################
 
 ############################
 # Create model specifications and run
 modForms = lapply(kivs, function(x){
 	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls), collapse=' + '))) })
-mods = lapply(modForms, function(x){ glm(x, data=train, family='binomial') })
+mods = lapply(modForms, function(x){
+	glm(x, data=train, family='binomial' ) })
 names(mods) = gsub('lag1_','',kivs)
 ############################
 
 ############################
 # Check direction/sig of coefficient
-lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] })
+lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] }) %>% do.call('rbind',.)
 ############################s
 
 ############################
@@ -91,7 +111,7 @@ lapply(mods, function(x){
 	tProb = predict(object=x, newdata=test, type='response')
 	tAct = test$mid %>% as.numeric()	
 	getAUC(tProb, tAct)
-	})
+	}) %>% unlist()
 
 # Separation plots
 # loadPkg('separationplot')

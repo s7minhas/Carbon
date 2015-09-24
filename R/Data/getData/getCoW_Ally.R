@@ -58,8 +58,8 @@ defEntAlly = summaryBy(defEnt ~ ccode1 + ccode2 + year, data=defEntAlly, keep.na
 ###############################################################
 # Convert to list
 yrs = ally$year %>% unique() %>% sort()
-anyAllyL = convToList(anyAlly, yrs, 'year', c('ccode1','ccode2'), 'any', standardize=FALSE)
-defEntAllyL = convToList(defEntAlly, yrs, 'year', c('ccode1','ccode2'), 'defEnt', standardize=FALSE)
+anyAllyL = convToList(anyAlly, yrs, 'year', c('ccode1','ccode2'), 'any')
+defEntAllyL = convToList(defEntAlly, yrs, 'year', c('ccode1','ccode2'), 'defEnt')
 ###############################################################
 
 ###############################################################

@@ -38,7 +38,8 @@ toLoad=c(
 	'ggplot2', 'grid', 'xtable', 'tikzDevice',  # plotting/output
 	'amen', 'MASS', # stat pkgs
 	'magrittr', # other
-	'foreach', 'doParallel' # Parallelization	
+	'foreach', 'doParallel', # Parallelization	
+	'ROCR' # Performance
 	)
 
 # Run function over lib vector
@@ -67,6 +68,9 @@ source(paste0(gpth, 'R/relDataHelpers.R'))
 
 # Time Series Data Helper Functions
 source(paste0(gpth, 'R/tsDataHelpers.R'))
+
+# Binary performance Helper Functions
+source(paste0(gpth, 'R/binPerfHelpers.R'))
 ####################################
 
 ####################################

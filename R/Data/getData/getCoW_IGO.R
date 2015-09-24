@@ -114,7 +114,7 @@ igo = data.frame(apply(igoDataFINAL,2,num))
 ############################
 # Convert to list object
 yrs = 1965:2005
-igoL = convToList(igo, yrs, 'year', c('ccode1','ccode2'), 'igo', standardize=FALSE)
+igoL = convToList(igo, yrs, 'year', c('ccode1','ccode2'), 'igo')
 
 # Undirected so repeat observations 
 igoL = lapply(igoL, function(l){

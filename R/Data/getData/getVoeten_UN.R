@@ -41,7 +41,7 @@ un$agreeCnt = round( un$agree3un*un$jointvotes3 )
 ###############################################################
 # Convert into a list format for object per year
 yrs = un$year %>% unique() %>% sort()
-aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agreeCnt', standardize=FALSE)
+aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agreeCnt')
 ###############################################################
 
 ###############################################################

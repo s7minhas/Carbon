@@ -34,47 +34,8 @@ data$dyadid = paste0(data$ccode1, data$ccode2)
 rm(list=c('latDist', 'idPt'))
 ############################
 
-# ############################
-# # Run basic logit model
-
-# # lag
-# data = lagData(data, "year","dyadid", c("unDefEntDist", "unAnyDist", "idPtDist", "s2un", "s3un"))
-
-# # Something simple and quick for now
-# slice = data[,c(
-# 	'ccode1', 'ccode2', 'year', 
-# 	'mid', 
-# 	'lag1_unDefEntDist', 'lag1_unAnyDist',
-# 	'lag1_idPtDist', 'lag1_s2un', 'lag1_s3un')]
-# slice = na.omit( slice )
-
-# # Run models, i know these models are unrealistic
-# mod1 = glm(mid~lag1_unDefEntDist, data=slice, family='binomial')
-# mod2 = glm(mid~lag1_unAnyDist, data=slice, family='binomial')
-# mod3 = glm(mid~lag1_idPtDist, data=slice, family='binomial')
-# mod4 = glm(mid~lag1_s2un, data=slice, family='binomial')
-# mod5 = glm(mid~lag1_s3un, data=slice, family='binomial')
-# ############################
-
-# ############################
-# # Right direction?
-# for(ii in 1:5){
-# 	eval(parse(text=paste0('mod',ii) ) )
-# }
-# ############################
-
-# ############################
-# # Model performance
-# loadPkg('separationplot')
-# pdf(file=paste0(pathGraphics, 'quickPerfTest.pdf'))
-# par(mfrow=c(2,2))
-# for(ii in c(1,3:5)){
-# 	separationplot(pred=eval(parse(text=paste0('mod',ii) ) )$fitted.values, actual=slice$mid, newplot=FALSE)	
-# }
-# dev.off()
-# ############################
-
-###models with controls
+############################
+# Set up models
 ids = c('ccode1','ccode2','dyadid','year')
 dv = 'mid'
 kivs = c("unDefEntDist", "unAnyDist", 
@@ -86,27 +47,58 @@ cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 modData = data[,c(ids, dv, kivs, cntrls)]
 
 # Create lags
-modData = lagData(modData, 'year', 'dyadid', c(kivs, cntrls))
+modData$dyadid = num( modData$dyadid )
+modData$dyadidYr = paste0( modData$dyadid, modData$year ) %>% num()
+modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls))
 
 # Finalize data for modeling
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)
 modData = na.omit( modData[,c(ids, dv, kivs, cntrls)] )
 
+# Divide into train and test
+train = modData[modData$year<2001,]
+test = modData[modData$year>=2001,]
+############################
+
+############################
 # Create model specifications and run
 modForms = lapply(kivs, function(x){
 	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls), collapse=' + '))) })
-mods = lapply(modForms, function(x){ glm(x, data=modData, family='binomial') })
+mods = lapply(modForms, function(x){ glm(x, data=train, family='binomial') })
 names(mods) = gsub('lag1_','',kivs)
+############################
 
-# Compare performance
+############################
+# Check direction/sig of coefficient
+lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] })
+############################s
+
+############################
+# Compare out of sample performance
 # Roc Plot
 rocData = lapply(1:length(mods), function(ii){
-	r = roc(mods[[ii]]$fitted.values,mods[[ii]]$y)
+	tProb = predict(object=mods[[ii]], newdata=test, type='response')
+	tAct = test$mid %>% as.numeric()
+	r = roc(tProb, tAct)
 	p = cbind(r, model=names(mods)[ii])
 	return(p) })
 rocData = do.call('rbind', rocData)
 rocPlot(rocData)
 
 # Get AUCs
-lapply(mods, function(x){ getAUC(x$fitted.values, x$y) })
+lapply(mods, function(x){ 
+	tProb = predict(object=x, newdata=test, type='response')
+	tAct = test$mid %>% as.numeric()	
+	getAUC(tProb, tAct)
+	})
+
+# Separation plots
+# loadPkg('separationplot')
+# pdf(file=paste0(pathGraphics, 'quickPerfTest.pdf'))
+# par(mfrow=c(2,2))
+# for(ii in c(1,3:5)){
+# 	separationplot(pred=eval(parse(text=paste0('mod',ii) ) )$fitted.values, actual=slice$mid, newplot=FALSE)	
+# }
+# dev.off()
+############################

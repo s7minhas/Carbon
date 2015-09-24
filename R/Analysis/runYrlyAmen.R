@@ -20,8 +20,8 @@ cl = makeCluster(8)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	imp = 3000
-	toBurn = 2501
+	imp = 1000
+	toBurn = 501
 	# Run Amen model
 	fit = ameRepNull(
 		Y=amData[[yr]][,,1:2], # 2, specifies defensive-entente alliance
@@ -42,8 +42,8 @@ cl = makeCluster(8)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	imp = 3000
-	toBurn = 2501
+	imp = 1000
+	toBurn = 501
 	# Run Amen model
 	fit = ameRepNull(
 		Y=amData[[yr]][,,c(1,3)], # 3, specifies any alliance

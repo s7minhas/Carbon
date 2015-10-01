@@ -38,6 +38,14 @@ stopifnot( length( table(idPt$dyadidyr)[table(idPt$dyadidyr)>1] ) == 0 )
 ###############################################################
 
 ###############################################################
+# Convert into list format for object per year
+yrs = idPt$year %>% unique() %>% sort()
+idPtL = convToList(idPt, yrs, 'year', c('ccode1','ccode2'), 'idealpointdistance')
+s3unL = convToList(idPt, yrs, 'year', c('ccode1','ccode2'), 's3un')
+s2unL = convToList(idPt, yrs, 'year', c('ccode1','ccode2'), 's2un')
+###############################################################
+
+###############################################################
 # Save
 save(idPt, file=paste0(pathDataBin, 'idPt.rda'))
 ###############################################################

@@ -1,7 +1,7 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 if(Sys.info()["user"]=="maxgallop"){
-	source("/Users/maxgallop/Documents/Carbon/setup.R")
+	source("/Users/maxgallop/Documents/Carbon/R/setup.R")
 	source("/Users/maxgallop/Documents/Carbon/R/tsDataHelpers.R")
  }
 
@@ -10,7 +10,8 @@ if(Sys.info()["user"]=="maxgallop"){
 ############################
 # Load necessary files
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
-load(paste0(pathResults, 'latDist_wIGO.rda')); latDistIGO = latDist # includes object called latDist
+load(paste0(pathResults, 'latDist_wIGO.rda')) 
+latDistIGO = latDist # includes object called latDist
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 ############################
@@ -67,11 +68,12 @@ modData = data[,c(ids, splines, dv, kivs, cntrls)]
 # Create lags
 modData$dyadid = num( modData$dyadid )
 modData$dyadidYr = paste0( modData$dyadid, modData$year ) %>% num()
-modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls))
+modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls, splines))
 
 # Finalize data for modeling
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)
+splines = paste0("lag1_", splines)
 modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 
 # Divide into train and test
@@ -88,6 +90,8 @@ mods = lapply(modForms, function(x){
 	glm(x, data=train, family='binomial' ) })
 names(mods) = gsub('lag1_','',kivs)
 ############################
+
+tryspline = glm(mid ~ lag1_unDefEntDist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth + lag1_peaceYrs + lag1_peaceYrs2 + lag1_peaceYrs3, data = train, family = "binomial")
 
 ############################
 # Check direction/sig of coefficient

@@ -1,4 +1,4 @@
-
+rm(list = ls(all = T))
 library(foreign)
 
 ally.dyad = read.dta("~/Dropbox/carbon/Data/Components/version4.1_dta/alliance_v4.1_by_dyad_yearly.dta")

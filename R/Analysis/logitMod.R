@@ -91,7 +91,7 @@ mods = lapply(modForms, function(x){
 names(mods) = gsub('lag1_','',kivs)
 ############################
 
-tryspline = glm(mid ~ lag1_unDefEntDist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth + lag1_peaceYrs + lag1_peaceYrs2 + lag1_peaceYrs3, data = train, family = "binomial")
+tryspline = glm(mid ~ lag1_unDefEntIGODist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth + lag1_peaceYrs + lag1_peaceYrs2 + lag1_peaceYrs3, data = train, family = "binomial")
 
 ############################
 # Check direction/sig of coefficient

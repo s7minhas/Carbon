@@ -5,6 +5,7 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 # Load un and alliance data
 load( paste0(pathDataBin, 'ally.rda') )
 load( paste0(pathDataBin, 'un.rda') )
+load( paste0(pathDataBin, 'idPt.rda') )
 ############################
 
 ############################

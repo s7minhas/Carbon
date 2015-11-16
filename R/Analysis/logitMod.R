@@ -85,14 +85,17 @@ test = modData[modData$year>=cutYear,]
 ############################
 # Create model specifications and run
 modForms = lapply(kivs, function(x){
-	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls), collapse=' + '))) })
+	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls, splines), collapse=' + '))) })
 mods = lapply(modForms, function(x){
 	glm(x, data=train, family='binomial' ) })
 names(mods) = gsub('lag1_','',kivs)
 ############################
 
+<<<<<<< HEAD
 tryspline = glm(mid ~ lag1_unDefEntIGODist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth + lag1_peaceYrs + lag1_peaceYrs2 + lag1_peaceYrs3, data = train, family = "binomial")
 
+=======
+>>>>>>> origin/master
 ############################
 # Check direction/sig of coefficient
 lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] }) %>% do.call('rbind',.)

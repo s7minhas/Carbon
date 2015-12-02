@@ -1,32 +1,67 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 
+###############################################################
+# Download file from ICOW site
+allyURL = 'http://www.correlatesofwar.org/data-sets/formal-alliances/alliances-data-dta-zip/at_download/file'
 allyName = paste0(pathDataRaw, 'ally.zip')
 if(!file.exists(allyName)) { download.file(allyURL, allyName) }
 
-ally.dyad = unzip(allyName, 
+ally = unzip(allyName, 
 	'version4.1_dta/alliance_v4.1_by_directed_yearly.dta') %>% read.dta()
 
-ally.dyad$anyally = ally.dyad$defense | ally.dyad$neutrality | ally.dyad$entente
+# Include only post 1960 data
+ally = ally[ally$year>=1960,]
 
-ally.dyad = ally.dyad[ally.dyad$year != 0,]
+# Subset to relevant vars
+ally = ally[,c(
+	'ccode1','ccode2','state_name1','state_name2','year',
+	'dyad_end_year', 'dyad_st_year',
+	'defense', 'neutrality', 'nonaggression', 'entente'
+	)]
+###############################################################
 
+###############################################################
+# Match ally names to panel
+cntries = c(ally$state_name1, ally$state_name2) %>% char() %>% unique() %>% data.frame(cntry=.)
+cntries$cname = cname(cntries$cntry)
 
-ally.dyad$allyweighted = 3*ally.dyad$defense + 2*ally.dyad$neutrality*(1 - ally.dyad$defense) + ally.dyad$entente*(1 - ally.dyad$defense)*(1 - ally.dyad$neutrality)
-ccs = unique(c(ally.dyad$ccode1, ally.dyad$ccode2))
+# Fix few cnames issue so it matches with panel
+cntries$cname[cntries$cntry=="Yemen People's Republic"] = 'S. YEMEN'
+cntries$cname[cntries$cntry=="Yugoslavia"] = 'SERBIA'
+cntries$cname[cntries$cntry=="Czechoslovakia"] = 'CZECH REPUBLIC'
 
-ally.dyad = ally.dyad[!is.na(ally.dyad$dyad_end_year),]
+# Add ccode
+cntries$ccode = panel$ccode[match(cntries$cname,panel$cname)]
 
-ally.array = array(0, dim = c(length(ccs), length(ccs), max(ally.dyad$dyad_end_year) - min(ally.dyad$dyad_st_year) + 1))
+# Merge updated cname and ccode to un
+ally$cname1 = cntries$cname[match(ally$state_name1, cntries$cntry)]
+ally$cname2 = cntries$cname[match(ally$state_name2, cntries$cntry)]
+ally$ccode1 = cntries$ccode[match(ally$state_name1, cntries$cntry)]
+ally$ccode2 = cntries$ccode[match(ally$state_name2, cntries$cntry)]
+###############################################################
 
+###############################################################
+# Subset to alliance events
+ally$anyally = ally$defense | ally$neutrality | ally$entente
+###############################################################
 
-for(i in 1:dim(ally.dyad)[1]){
-	r = which(ccs == ally.dyad$ccode1[i])
-	c = which(ccs == ally.dyad$ccode2[i])
-	sl = ally.dyad$year[i] - min(ally.dyad$dyad_st_year) + 1
-	ally.array[r,c,sl] = ally.array[c,r,sl] = ally.dyad$allyweighted[i]
+###############################################################
+# Calc S scores
+ally$allyweighted = 3*ally$defense + 2*ally$neutrality*(1 - ally$defense) + ally$entente*(1 - ally$defense)*(1 - ally$neutrality)
+ccs = c(ally$ccode1, ally$ccode2) %>% unique() %>% sort()
+yrs = 1960:2012
+ally = ally[!is.na(ally$dyad_end_year),]
+
+allyArray = array(0, 
+	dim = c(length(ccs), length(ccs), length(yrs)),
+	dimnames = list(ccs, ccs, yrs)
+	)
+
+for(i in 1:dim(ally)[1]){
+	allyArray[char(ally$ccode1[i]), char(ally$ccode2[i]), char(ally$year[i])] = ally$allyweighted[i]
+	allyArray[char(ally$ccode2[i]), char(ally$ccode1[i]), char(ally$year[i])] = ally$allyweighted[i]
 }
-
 
 twoS = function(mat, i, j, wvec){
 	r1 = mat[i,]
@@ -37,25 +72,26 @@ twoS = function(mat, i, j, wvec){
 	return(1 - 2*d/dmax)
 }
 
-
 rowS = function(i, mat, wvec){
 	j = as.matrix(1:dim(mat)[1])
 	out = apply(j, 1, twoS, mat = mat, wvec = wvec, i = i)
 	return(out)
 }
 
-
-matrixS = function(mat, wvec){
+matrixS = function(mat){
 	mat = as.matrix(mat)
+	wvec = rep(1, nrow(mat))
 	smat = apply(as.matrix(1:dim(mat)[1]),1, rowS, mat = mat, wvec = wvec)
 	return(smat)	
 	}
 	
-sArray = ally.array*0
+sArray = allyArray*0
 
 for(i in 1:dim(sArray)[3]){
-	sArray[,,i] = matrixS(ally.array[,,i], wvec)
+	tmp = 1-matrixS(allyArray[,,i])
+	# stdz
+	sArray[,,i] = ( tmp - mean(tmp) ) / sd(tmp)
 }
 
 save(sArray, file = paste0(pathDataBin,'sArray.rda'))
-	
+###############################################################

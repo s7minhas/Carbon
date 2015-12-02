@@ -1,7 +1,11 @@
-rm(list = ls(all = T))
-library(foreign)
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
+	source('~/Research/Carbon/R/setup.R') }
 
-ally.dyad = read.dta("~/Dropbox/carbon/Data/Components/version4.1_dta/alliance_v4.1_by_dyad_yearly.dta")
+allyName = paste0(pathDataRaw, 'ally.zip')
+if(!file.exists(allyName)) { download.file(allyURL, allyName) }
+
+ally.dyad = unzip(allyName, 
+	'version4.1_dta/alliance_v4.1_by_directed_yearly.dta') %>% read.dta()
 
 ally.dyad$anyally = ally.dyad$defense | ally.dyad$neutrality | ally.dyad$entente
 
@@ -11,6 +15,7 @@ ally.dyad = ally.dyad[ally.dyad$year != 0,]
 ally.dyad$allyweighted = 3*ally.dyad$defense + 2*ally.dyad$neutrality*(1 - ally.dyad$defense) + ally.dyad$entente*(1 - ally.dyad$defense)*(1 - ally.dyad$neutrality)
 ccs = unique(c(ally.dyad$ccode1, ally.dyad$ccode2))
 
+ally.dyad = ally.dyad[!is.na(ally.dyad$dyad_end_year),]
 
 ally.array = array(0, dim = c(length(ccs), length(ccs), max(ally.dyad$dyad_end_year) - min(ally.dyad$dyad_st_year) + 1))
 
@@ -46,12 +51,11 @@ matrixS = function(mat, wvec){
 	return(smat)	
 	}
 	
-S.array = ally.array*0
+sArray = ally.array*0
 
-for(i in 1:dim(S.array)[3]){
-	S.array[,,i] = matrixS(ally.array[,,i], wvec)
+for(i in 1:dim(sArray)[3]){
+	sArray[,,i] = matrixS(ally.array[,,i], wvec)
 }
 
-
-save(S.array, file = "~/Dropbox/carbon/Data/Components/sarray.zip")
+save(sArray, file = paste0(pathDataBin,'sArray.rda'))
 	

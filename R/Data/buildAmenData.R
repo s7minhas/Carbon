@@ -52,9 +52,9 @@ amData = lapply(yrs, function(yr){
 	return(eArr)
 	})
 names(amData) = yrs
-############################s
+############################
 
-############################s
+############################
 # Save
 save(amData, file=paste0(pathDataBin,'amenData.rda'))
 ############################s

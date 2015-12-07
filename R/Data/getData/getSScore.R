@@ -10,8 +10,8 @@ if(!file.exists(allyName)) { download.file(allyURL, allyName) }
 ally = unzip(allyName, 
 	'version4.1_dta/alliance_v4.1_by_directed_yearly.dta') %>% read.dta()
 
-# Include only post 1960 data
-ally = ally[ally$year>=1960,]
+# Include only post 1946 data
+ally = ally[ally$year>=1946,]
 
 # Subset to relevant vars
 ally = ally[,c(
@@ -19,6 +19,11 @@ ally = ally[,c(
 	'dyad_end_year', 'dyad_st_year',
 	'defense', 'neutrality', 'nonaggression', 'entente'
 	)]
+
+# Check to make sure if i-j exist then j-i exists
+ally$c1c2yr = paste(ally$ccode1, ally$ccode2, ally$year, sep='xyz')
+ally$c2c1yr = paste(ally$ccode2, ally$ccode1, ally$year, sep='xyz')
+setdiff(ally$c1c2yr, ally$c2c1yr) %>% length()
 ###############################################################
 
 ###############################################################
@@ -48,7 +53,7 @@ ally = ally[!is.na(ally$dyad_end_year),]
 # Create parameters for calcing s scores
 ally$anyally = ally$defense | ally$neutrality | ally$entente
 ally$allyweighted = 3*ally$defense + 2*ally$neutrality*(1 - ally$defense) + ally$entente*(1 - ally$defense)*(1 - ally$neutrality)
-yrs = 1960:2012
+yrs = unique(ally$year) %>% sort()
 ###############################################################
 
 ###############################################################
@@ -87,14 +92,16 @@ allyList = lapply(yrs, function(yr){
 	})
 names(allyList) = yrs
 	
-# Calculate s score	
+# Calculate s score	and reformat into set of long dfs
 sL = lapply(allyList, function(mat){
-	tmp = 1 - matrixS(mat)
+	tmp = 1 - matrixS(mat); rownames(tmp)=colnames(tmp)=rownames(mat)
 	diag(tmp) = NA
 	tmp = ( tmp - mean(tmp, na.rm=TRUE) ) / sd(tmp, na.rm=TRUE)
 	diag(tmp) = 0
-	return(tmp)
+	tmpL=melt(tmp); colnames(tmpL)=c('ccode1','ccode2','sScore')
+	tmpL = tmpL[tmpL$ccode1 != tmpL$ccode2,]
+	return(tmpL)
 	})
 
-save(sL, file = paste0(pathDataBin,'SScore.rda'))
+save(sL, file = paste0(pathDataBin,'sScore.rda'))
 ###############################################################

@@ -10,10 +10,11 @@ if(Sys.info()["user"]=="maxgallop"){
 ############################
 # Load necessary files
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
-# load(paste0(pathResults, 'latDist_wIGO.rda')) 
-# latDistIGO = latDist # includes object called latDist
-# load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathResults, 'latDist_wIGO.rda')) 
+latDistIGO = latDist # includes object called latDist
 load(paste0(pathResults, 'latDist_idPt_sScore.rda')) # includes object called latDist 
+latDistIdPtSScore = latDist
+load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
 ############################
@@ -29,11 +30,11 @@ sScoreData = lapply(names(sL), function(x){
 ############################
 # Merge together
 # Add latent space strat interest measures
-# data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
-# data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
-# data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
-# data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
-data$sScoreIdPtDist = latDist$idPtSScoreMeanReplDist[match(data$id, latDist$dyadid)]
+data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
+data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
+data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
+data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
+data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
@@ -50,10 +51,10 @@ rm(list=c('latDist', 'idPt', 'sScoreData'))
 ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
-# kivs = c("unDefEntDist", "unAnyDist", 
-# 	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-# 	"idPtDist", "s2un", "s3un")
-kivs = c("sScoreIdPtDist", "idPtDist", 'sScore')
+kivs = c("unDefEntDist", "unAnyDist", 
+	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
+	'sScoreIdPtDist', "idPtDist", 'sScore'
+	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 
 # Add splines to count years since dyadic conflict (Carter & Signorino 2010)
@@ -109,6 +110,13 @@ lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] }) %>% do.cal
 
 ############################
 # Compare out of sample performance
+# Get AUCs
+lapply(mods, function(x){ 
+	tProb = predict(object=x, newdata=test, type='response')
+	tAct = test$mid %>% as.numeric()	
+	getAUC(tProb, tAct)
+	}) %>% unlist() %>% sort(.,decreasing=TRUE)
+
 # Roc Plot
 rocData = lapply(1:length(mods), function(ii){
 	tProb = predict(object=mods[[ii]], newdata=test, type='response')
@@ -118,13 +126,6 @@ rocData = lapply(1:length(mods), function(ii){
 	return(p) })
 rocData = do.call('rbind', rocData)
 rocPlot(rocData)
-
-# Get AUCs
-lapply(mods, function(x){ 
-	tProb = predict(object=x, newdata=test, type='response')
-	tAct = test$mid %>% as.numeric()	
-	getAUC(tProb, tAct)
-	}) %>% unlist()
 
 # Separation plots
 # loadPkg('separationplot')

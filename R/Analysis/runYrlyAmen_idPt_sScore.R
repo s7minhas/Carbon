@@ -15,7 +15,7 @@ dir.create(paste0(pathResults, 'ameLatSpace/'), showWarnings=FALSE)
 ############################
 # Run yearly amen models in parallel
 # Parallelize run for every year
-cl = makeCluster(8)
+cl = makeCluster(6)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {

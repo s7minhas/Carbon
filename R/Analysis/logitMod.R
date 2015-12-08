@@ -10,29 +10,39 @@ if(Sys.info()["user"]=="maxgallop"){
 ############################
 # Load necessary files
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
-load(paste0(pathResults, 'latDist_wIGO.rda')) 
-latDistIGO = latDist # includes object called latDist
-load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+# load(paste0(pathResults, 'latDist_wIGO.rda')) 
+# latDistIGO = latDist # includes object called latDist
+# load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathResults, 'latDist_idPt_sScore.rda')) # includes object called latDist 
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
+load(paste0(pathDataBin,'sScore.rda'))
+############################
+
+############################
+# make sScore long format
+sScoreData = lapply(names(sL), function(x){
+	tmp=sL[[x]]; tmp$year=x
+	tmp$id = paste(tmp$ccode1, tmp$ccode2, tmp$year, sep='_')
+	return(tmp) }) %>% do.call('rbind', .)
 ############################
 
 ############################
 # Merge together
 # Add latent space strat interest measures
-data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
-data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
-data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
-data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
+# data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
+# data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
+# data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
+# data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
+data$sScoreIdPtDist = latDist$idPtSScoreMeanReplDist[match(data$id, latDist$dyadid)]
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
-data$s2un = idPt$s2un[match(data$id, idPt$dyadidyr)]
-data$s3un = idPt$s3un[match(data$id, idPt$dyadidyr)]
+data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
 
 # id
 data$dyadid = paste0(data$ccode1, data$ccode2)
 
 # Drop extraneous datasets
-rm(list=c('latDist', 'idPt'))
+rm(list=c('latDist', 'idPt', 'sScoreData'))
 ############################
 
 ############################
@@ -40,9 +50,10 @@ rm(list=c('latDist', 'idPt'))
 ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
-kivs = c("unDefEntDist", "unAnyDist", 
-	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-	"idPtDist", "s2un", "s3un")
+# kivs = c("unDefEntDist", "unAnyDist", 
+# 	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
+# 	"idPtDist", "s2un", "s3un")
+kivs = c("sScoreIdPtDist", "idPtDist", 'sScore')
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 
 # Add splines to count years since dyadic conflict (Carter & Signorino 2010)
@@ -91,11 +102,6 @@ mods = lapply(modForms, function(x){
 names(mods) = gsub('lag1_','',kivs)
 ############################
 
-<<<<<<< HEAD
-tryspline = glm(mid ~ lag1_unDefEntIGODist + lag1_jointdemocB + lag1_caprat + lag1_noncontig + lag1_avdyadgrowth + lag1_peaceYrs + lag1_peaceYrs2 + lag1_peaceYrs3, data = train, family = "binomial")
-
-=======
->>>>>>> origin/master
 ############################
 # Check direction/sig of coefficient
 lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] }) %>% do.call('rbind',.)

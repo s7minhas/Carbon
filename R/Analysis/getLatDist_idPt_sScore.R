@@ -25,11 +25,11 @@ idPtSScoreMeanReplDist = lapply(yrs, function(yr){
 
 ############################
 # Merge
-# Add id variables to both datasets
+# Add id variable
 idPtSScoreMeanReplDist$dyadid = paste(idPtSScoreMeanReplDist$ccode1, idPtSScoreMeanReplDist$ccode2, idPtSScoreMeanReplDist$year, sep='_')
 
-# Merge together
-latDist_idPtSScore = idPtSScoreMeanReplDist
+# rename
+latDist = idPtSScoreMeanReplDist
 names(latDist)[3] = 'idPtSScoreMeanReplDist'
 
 # Remove i=j rows

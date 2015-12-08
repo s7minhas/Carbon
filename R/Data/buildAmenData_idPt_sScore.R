@@ -29,9 +29,9 @@ amData = lapply(yrs, function(yr){
 	fSl$idPt = idSl$idealpointdistance[match(fSl$ij, idSl$ij)]
 	fSl$sScore = sSl$sScore[match(fSl$ij, sSl$ij)]
 
-	# # Mean replacement of missing values
-	# fSl$idPt[is.na(fSl$idPt)] = mean(fSl$idPt, na.rm=TRUE)
-	# fSl$sScore[is.na(fSl$sScore)] = mean(fSl$sScore, na.rm=TRUE)
+	# Mean replacement of missing values
+	fSl$idPt[is.na(fSl$idPt)] = mean(fSl$idPt, na.rm=TRUE)
+	fSl$sScore[is.na(fSl$sScore)] = mean(fSl$sScore, na.rm=TRUE)
 
 	# Create empty array
 	cntries = c( fSl$i, fSl$j ) %>% unique() %>% char() %>% sort() 
@@ -50,6 +50,6 @@ names(amData) = yrs
 
 ############################s
 # Save
-save(amData, file=paste0(pathDataBin,'amenData_idPt_sScore_wMissing.rda'))
-# save(amData, file=paste0(pathDataBin,'amenData_idPt_sScore_wMeanRepl.rda'))
+# save(amData, file=paste0(pathDataBin,'amenData_idPt_sScore_wMissing.rda'))
+save(amData, file=paste0(pathDataBin,'amenData_idPt_sScore_wMeanRepl.rda'))
 ############################s

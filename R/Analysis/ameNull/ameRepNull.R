@@ -9,6 +9,26 @@ Xbeta = function (x, beta)
     XB
 }
 
+gofstats = function (y) 
+{
+    sd.rowmean <- sd(rowMeans(y, na.rm = TRUE), na.rm = TRUE)
+    sd.colmean <- sd(colMeans(y, na.rm = TRUE), na.rm = TRUE)
+    # Dyad dep should be 1, perfect dd, when symmetric, this is quick fix
+    chk = is.na(c(y)) | is.na(c(t(y)))
+    if( sum(chk) != length(c(y)) ){
+        dyad.dep <- suppressWarnings(cor(c(y), c(t(y)), use = "complete.obs"))
+        } else { dyad.dep = 1 }
+    E <- y - mean(y, na.rm = TRUE)
+    D <- 1 * (!is.na(E))
+    E[is.na(E)] <- 0
+    triad.dep <- sum(diag(E %*% E %*% E))/(sum(diag(D %*% D %*% 
+        D)) * sd(c(y), na.rm = TRUE)^3)
+    gof <- c(sd.rowmean, sd.colmean, dyad.dep, triad.dep)
+    gof[is.na(gof)] <- 0
+    names(gof) <- c("sd.rowmean", "sd.colmean", "dyad.dep", "triad.dep")
+    gof
+}
+
 #' AME model fitting routine for replicated relational data
 #' 
 #' An MCMC routine providing a fit to an additive and multiplicative effects

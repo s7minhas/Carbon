@@ -13,16 +13,10 @@ yrs=1946:2012
 source( paste0(gpth, 'R/Analysis/ameNull/latDistHelpers.R') )
 
 # Files to pull
-outNameMiss = '_idPt_sScore_Miss.rda'
 outNameMeanRepl = '_idPt_sScore_MeanRepl.rda'
 latRdas = paste0(pathResults, 'ameLatSpace') %>% list.files() %>% .[grepl('_idPt_sScore_', .)] %>% paste0(pathResults, 'ameLatSpace/', .)
-unDefEntFiles = paste0(pathResults, 'ameLatSpace/', yrs, outNameMiss)
-unAnyFiles = paste0(pathResults, 'ameLatSpace/', yrs, outNameMeanRepl)
-setdiff( c(unDefEntFiles, unAnyFiles), latRdas ) # Check to make sure all files exist
-
-idPtSScoreMissDist = lapply(yrs, function(yr){
-	file = paste0(pathResults, 'ameLatSpace/', yr, outNameMiss)
-	getLatDist(file, label=yr, labelName='year') }) %>% do.call('rbind', .)
+tmp = paste0(pathResults, 'ameLatSpace/', yrs, outNameMeanRepl)
+setdiff( tmp, latRdas ) # Check to make sure all files exist
 
 idPtSScoreMeanReplDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
@@ -32,13 +26,11 @@ idPtSScoreMeanReplDist = lapply(yrs, function(yr){
 ############################
 # Merge
 # Add id variables to both datasets
-idPtSScoreMissDist$dyadid = paste(idPtSScoreMissDist$ccode1, idPtSScoreMissDist$ccode2, idPtSScoreMissDist$year, sep='_')
 idPtSScoreMeanReplDist$dyadid = paste(idPtSScoreMeanReplDist$ccode1, idPtSScoreMeanReplDist$ccode2, idPtSScoreMeanReplDist$year, sep='_')
 
 # Merge together
-latDist_idPtSScore = idPtSScoreMissDist
-names(latDist)[3] = 'idPtSScoreMissDist'
-latDist$idPtSScoreMeanReplDist = idPtSScoreMeanReplDist$dist[match(latDist$dyadid, idPtSScoreMeanReplDist$dyadid)]
+latDist_idPtSScore = idPtSScoreMeanReplDist
+names(latDist)[3] = 'idPtSScoreMeanReplDist'
 
 # Remove i=j rows
 latDist = latDist[which(latDist$ccode1 != latDist$ccode2),]

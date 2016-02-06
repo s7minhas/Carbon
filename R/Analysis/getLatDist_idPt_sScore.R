@@ -21,6 +21,13 @@ setdiff( tmp, latRdas ) # Check to make sure all files exist
 idPtSScoreMeanReplDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
 	getLatDist(file, label=yr, labelName='year') }) %>% do.call('rbind', .)
+
+yr=yrs[10]
+file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
+label=yr
+labelName='year'
+load(file)
+
 ############################
 
 ############################

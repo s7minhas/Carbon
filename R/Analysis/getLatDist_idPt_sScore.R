@@ -22,12 +22,22 @@ idPtSScoreMeanReplDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
 	getLatDist(file, label=yr, labelName='year') }) %>% do.call('rbind', .)
 
-yr=yrs[10]
-file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
-label=yr
-labelName='year'
-load(file)
+# yr=yrs[10]
+# file = paste0(pathResults, 'ameLatSpace/', yr, outNameMeanRepl)
+# label=yr
+# labelName='year'
+# load(file)
+# latObject = latSpace
 
+# ULUPM = latObject[[length(latObject)]]$'ULUPM'
+# eULU = eigen(ULUPM)
+# eR<- which( rank(-abs(eULU$val),ties.method="first") <= 2 )
+# U<-eULU$vec[,seq(1,2,length=2),drop=FALSE]
+# L<-eULU$val[eR]   
+# rownames(U)<-dimnames(ULUPM)[[1]]
+# return(U)
+
+# ULUPM = proc.rr(ULUPM, U)
 ############################
 
 ############################

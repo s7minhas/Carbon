@@ -1,50 +1,3 @@
-############################
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-  source('~/Research/Carbon/R/setup.R') }
-for(script in list.files( paste0(gpth, 'R/Analysis/ameNull') )){ 
-  paste0(gpth, 'R/Analysis/ameNull/') %>% paste0(.,script) %>% source(.) }
-############################
-
-###########################
-# Load amen data
-load( paste0(pathDataBin,'amenData_idPt_sScore_wMeanRepl.rda') ); outName = '_idPt_sScore_MeanRepl.rda'
-# Create directory to save latent space results
-dir.create(paste0(pathResults, 'ameLatSpace/'), showWarnings=FALSE)
-###########################
-
-############################
-# Run yearly amen models in parallel
-# Parallelize run for every year
-# cl = makeCluster(6)
-# registerDoParallel(cl)
-yrs = names(amData)
-
-yr=yrs[10]
-imp = 10
-toBurn = 2
-
-Y=amData[[yr]]
-Xdyad = NULL
-Xrow = NULL
-Xcol = NULL,
-model='nrm'
-symmetric=TRUE
-R=2,
-seed=6886
-nscan=imp
-burn=toBurn
-odens=1,
-plot=FALSE
-print = FALSE
-rvar = !(model=="rrl")
-cvar = TRUE
-dcor = !symmetric
-nvar=TRUE
-model="nrm"
-intercept=!is.element(model, c("rrl","ord"))
-odmax=rep(max(apply(Y>0,c(1,3),sum,na.rm=TRUE)),nrow(Y[,,1]))
-gof=TRUE
-
 # Rewrote to handle case with no covariates
 Xbeta = function (x, beta) 
 {
@@ -156,17 +109,17 @@ gofstats = function (y)
 #' # you should run the Markov chain much longer than this
 #' 
 #' @export ame_rep 
-# ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL, 
-#            rvar = !(model=="rrl") , cvar = TRUE, dcor = !symmetric, 
-#            nvar=TRUE, 
-#            R = 0,
-#            model="nrm",
-#            intercept=!is.element(model,c("rrl","ord")), 
-#            symmetric=FALSE, 
-#            odmax=rep(max(apply(Y>0,c(1,3),sum,na.rm=TRUE)),nrow(Y[,,1])),
-#            seed = 1, nscan = 10000, burn = 500, odens = 25,
-#            plot=TRUE, print = TRUE, gof=TRUE)
-# { 
+ameRepNull<-function(Y, Xdyad=NULL, Xrow=NULL, Xcol=NULL, 
+           rvar = !(model=="rrl") , cvar = TRUE, dcor = !symmetric, 
+           nvar=TRUE, 
+           R = 0,
+           model="nrm",
+           intercept=!is.element(model,c("rrl","ord")), 
+           symmetric=FALSE, 
+           odmax=rep(max(apply(Y>0,c(1,3),sum,na.rm=TRUE)),nrow(Y[,,1])),
+           seed = 1, nscan = 10000, burn = 500, odens = 25,
+           plot=TRUE, print = TRUE, gof=TRUE)
+{ 
     
   # set random seed 
   set.seed(seed)

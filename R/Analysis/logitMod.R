@@ -34,7 +34,7 @@ data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
 data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
 data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
 data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
-data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
+# data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
@@ -53,7 +53,8 @@ splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
 kivs = c("unDefEntDist", "unAnyDist", 
 	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-	'sScoreIdPtDist', "idPtDist", 'sScore'
+	# 'sScoreIdPtDist', 
+	"idPtDist", 'sScore'
 	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 

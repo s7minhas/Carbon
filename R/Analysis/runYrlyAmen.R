@@ -20,8 +20,8 @@ cl = makeCluster(8)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	imp = 1000
-	toBurn = 501
+	imp = 10000
+	toBurn = 5001
 	# Run Amen model
 	fit = ameRepNull(
 		Y=amData[[yr]][,,1:2], # 2, specifies defensive-entente alliance
@@ -30,8 +30,10 @@ foreach(yr = yrs, .packages=c("amen")) %dopar% {
 		seed=6886, nscan=imp, burn=toBurn, odens=1,
 		plot=FALSE, print = FALSE )
 	# Save lat space
-	latSpace = fit$ulAll[toBurn:imp]
-	save(latSpace, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_defEntAlly.rda'))
+	out = list()
+	out$'ULUPM' = fit$'ULUPM'
+	out$'APM' = fit$'APM'
+	save(out, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_defEntAlly.rda'))
 }
 
 # Free my clusters

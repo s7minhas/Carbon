@@ -15,13 +15,12 @@ dir.create(paste0(pathResults, 'ameLatSpace/'), showWarnings=FALSE)
 ############################
 # Run yearly amen models in parallel
 # Parallelize run for every year
-# cl = makeCluster(6)
-# registerDoParallel(cl)
+cl = makeCluster(6)
+registerDoParallel(cl)
 yrs = names(amData)
-# foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	yr=yrs[10]
-	imp = 10
-	toBurn = 2
+foreach(yr = yrs, .packages=c("amen")) %dopar% {
+	imp = 10000
+	toBurn = 5001
 	# Run Amen model
 	fit = ameRepNull(
 		Y=amData[[yr]], 
@@ -30,18 +29,12 @@ yrs = names(amData)
 		seed=6886, nscan=imp, burn=toBurn, odens=1,
 		plot=FALSE, print = FALSE )
 	# Save lat space
-	latSpace = fit$ulAll[toBurn:imp]
-	# save(latSpace, file=paste0(pathResults, 'ameLatSpace/',yr,outName))
-# }
-
-fromFN = fit$'U'
-fullSet = lapply(latSpace, function(x) x$'U')
-tmp = array(unlist(fullSet), dim=c(65,2,9))
-head(fullSet[[6]])
-tmp[1:6,,6]
-apply(tmp,c(1,2),mean) %>% head()
-head(fit$'U')
+	out = list()
+	out$'ULUPM' = fit$'ULUPM'
+	out$'APM' = fit$'APM'
+	save(out, file=paste0(pathResults, 'ameLatSpace/',yr,outName))
+}
 
 # Free my clusters
-# stopCluster(cl)
+stopCluster(cl)
 ############################

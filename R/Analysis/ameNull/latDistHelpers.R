@@ -1,7 +1,7 @@
 # Wrapper for all the functions in script
 getLatDist = function(file, label, labelName, symmetric=TRUE){
 	load(file) # Loads object called latSpace
-	pzMu=getPosInSpace(latSpace)
+	pzMu=getPosInSpace(out[['ULUPM']])
 	latDist=getDyadDist(pzMu, ids=rownames(pzMu))
 	latDist=stdize(latDist, divMean=FALSE)
 	res = melt(latDist)
@@ -22,7 +22,8 @@ proc.rr = function(Y,X){
 
 # Get latent space positions
 getPosInSpace = function(latObject){
-ULUPM = latObject[[length(latObject)]]$'ULUPM'
+# ULUPM = latObject[[length(latObject)]]$'ULUPM'
+ULUPM = latObject
 eULU = eigen(ULUPM)
 eR<- which( rank(-abs(eULU$val),ties.method="first") <= 2 )
 U<-eULU$vec[,seq(1,2,length=2),drop=FALSE] %*% sqrt(diag(eULU$val[1:2]))

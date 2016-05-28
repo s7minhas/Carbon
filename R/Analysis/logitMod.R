@@ -10,8 +10,8 @@ if(Sys.info()["user"]=="maxgallop"){
 ############################
 # Load necessary files
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
-load(paste0(pathResults, 'latDist_wIGO.rda')) 
-latDistIGO = latDist # includes object called latDist
+# load(paste0(pathResults, 'latDist_wIGO.rda')) 
+# latDistIGO = latDist # includes object called latDist
 load(paste0(pathResults, 'latDist_idPt_sScore.rda')) # includes object called latDist 
 latDistIdPtSScore = latDist
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
@@ -30,11 +30,13 @@ sScoreData = lapply(names(sL), function(x){
 ############################
 # Merge together
 # Add latent space strat interest measures
-data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
-data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
-data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
-data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
-# data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
+# data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
+# data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
+# data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
+# data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
+data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
+data$apm1 = latDistIdPtSScore$apm1[match(data$id, latDistIdPtSScore$dyadid)]
+data$apm2 = latDistIdPtSScore$apm2[match(data$id, latDistIdPtSScore$dyadid)]
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
@@ -51,9 +53,10 @@ rm(list=c('latDist', 'idPt', 'sScoreData'))
 ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
-kivs = c("unDefEntDist", "unAnyDist", 
-	"unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-	# 'sScoreIdPtDist', 
+kivs = c(
+	# "unDefEntDist", "unAnyDist", 
+	# "unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
+	'sScoreIdPtDist', 'apm1', 'apm2',
 	"idPtDist", 'sScore'
 	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
@@ -97,11 +100,12 @@ test = modData[modData$year>=cutYear,]
 
 ############################
 # Create model specifications and run
-modForms = lapply(kivs, function(x){
+modForms = lapply(kivs[-(2:3)], function(x){
+	if(x=='lag1_sScoreIdPtDist'){ x = paste(c(x, 'lag1_apm1', 'lag1_apm2'), collapse=' + ')  }
 	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls, splines), collapse=' + '))) })
 mods = lapply(modForms, function(x){
 	glm(x, data=train, family='binomial' ) })
-names(mods) = gsub('lag1_','',kivs)
+names(mods) = gsub('lag1_','',kivs[-(2:3)])
 ############################
 
 ############################

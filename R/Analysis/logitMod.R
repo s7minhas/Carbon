@@ -30,13 +30,13 @@ sScoreData = lapply(names(sL), function(x){
 ############################
 # Merge together
 # Add latent space strat interest measures
-# data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
-# data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
+data$unDefEntDist = latDist$unDefEntDist[match(data$id, latDist$dyadid)]
+data$unAnyDist = latDist$unAnyDist[match(data$id, latDist$dyadid)]
 # data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
 # data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
 data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
-data$apm1 = latDistIdPtSScore$apm1[match(data$id, latDistIdPtSScore$dyadid)]
-data$apm2 = latDistIdPtSScore$apm2[match(data$id, latDistIdPtSScore$dyadid)]
+# data$apm1 = latDistIdPtSScore$apm1[match(data$id, latDistIdPtSScore$dyadid)]
+# data$apm2 = latDistIdPtSScore$apm2[match(data$id, latDistIdPtSScore$dyadid)]
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
@@ -54,9 +54,9 @@ ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
 kivs = c(
-	# "unDefEntDist", "unAnyDist", 
+	"unDefEntDist", "unAnyDist", 
 	# "unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-	'sScoreIdPtDist', 'apm1', 'apm2',
+	'sScoreIdPtDist', 
 	"idPtDist", 'sScore'
 	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
@@ -100,12 +100,11 @@ test = modData[modData$year>=cutYear,]
 
 ############################
 # Create model specifications and run
-modForms = lapply(kivs[-(2:3)], function(x){
-	if(x=='lag1_sScoreIdPtDist'){ x = paste(c(x, 'lag1_apm1', 'lag1_apm2'), collapse=' + ')  }
+modForms = lapply(kivs, function(x){
 	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls, splines), collapse=' + '))) })
 mods = lapply(modForms, function(x){
 	glm(x, data=train, family='binomial' ) })
-names(mods) = gsub('lag1_','',kivs[-(2:3)])
+names(mods) = gsub('lag1_','',kivs)
 ############################
 
 ############################

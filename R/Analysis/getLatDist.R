@@ -20,11 +20,13 @@ setdiff( c(unDefEntFiles, unAnyFiles), latRdas ) # Check to make sure all files 
 
 unDefEntDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, '_agree3un_defEntAlly.rda')
-	getLatDist(file, label=yr, labelName='year') }) %>% do.call('rbind', .)
+	getLatDist(file, label=yr, labelName='year') 
+	}) %>% do.call('rbind', .)
 
 unAnyDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, '_agree3un_anyAlly.rda')
-	getLatDist(file, label=yr, labelName='year') }) %>% do.call('rbind', .)
+	getLatDist(file, label=yr, labelName='year') 
+	}) %>% do.call('rbind', .)
 ############################
 
 ############################

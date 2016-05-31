@@ -16,12 +16,12 @@ for(script in list.files( paste0(gpth, 'R/Analysis/ameNull') )){
 dir.create(paste0(pathResults, 'ameLatSpace/'), showWarnings=FALSE)
 
 # Parallelize run for every year
-cl = makeCluster(8)
+cl = makeCluster(4)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	imp = 10000
-	toBurn = 5001
+	imp = 1000
+	toBurn = 501
 	# Run Amen model
 	fit = ameRepNull(
 		Y=amData[[yr]][,,1:2], # 2, specifies defensive-entente alliance
@@ -40,7 +40,7 @@ foreach(yr = yrs, .packages=c("amen")) %dopar% {
 stopCluster(cl)
 
 # Parallelize run for every year
-cl = makeCluster(8)
+cl = makeCluster(4)
 registerDoParallel(cl)
 yrs = names(amData)
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
@@ -54,8 +54,10 @@ foreach(yr = yrs, .packages=c("amen")) %dopar% {
 		seed=6886, nscan=imp, burn=toBurn, odens=1,
 		plot=FALSE, print = FALSE )
 	# Save lat space
-	latSpace = fit$ulAll[toBurn:imp]
-	save(latSpace, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_anyAlly.rda'))
+	out = list()
+	out$'ULUPM' = fit$'ULUPM'
+	out$'APM' = fit$'APM'
+	save(out, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_anyAlly.rda'))
 }
 
 # Free my clusters

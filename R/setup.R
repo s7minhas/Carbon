@@ -31,7 +31,7 @@ loadPkg=function(toLoad){
 	} }
 
 toLoad=c(
-	'foreign', # load foreign packages
+	'foreign', 'RMySQL', # load data
 	'cshapes', # R pkgs to get data
 	'countrycode', # Matching countries
 	'reshape2', 'dplyr', # Data manip

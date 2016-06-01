@@ -23,12 +23,10 @@ foreach(yr = yrs, .packages=c("amen")) %dopar% {
 	imp = 1000
 	toBurn = 501
 	# Run Amen model
-	fit = ameRepNull(
-		Y=amenData[,,,yr], 
-		Xdyad = NULL, Xrow = NULL, Xcol = NULL,
-		model='nrm', symmetric=FALSE, R=2,
-		seed=6886, nscan=imp, burn=toBurn, odens=1,
-		plot=FALSE, print = FALSE, intercept=FALSE )
+	fit = ame_rep(amenData[,,,yr], 
+		symmetric=FALSE, R=2, model='nrm', intercept=FALSE,
+		burn=toBurn, nscan=imp, odens=1, 
+		seed=6886, print=FALSE, plot=FALSE )
 	# Save lat space
 	save(fit, file=paste0(pathResults, 'ameLatSpace/',yr,'_icews.rda'))
 }

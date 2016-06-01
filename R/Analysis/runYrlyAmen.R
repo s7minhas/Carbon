@@ -18,46 +18,19 @@ dir.create(paste0(pathResults, 'ameLatSpace/'), showWarnings=FALSE)
 # Parallelize run for every year
 cl = makeCluster(4)
 registerDoParallel(cl)
-yrs = names(amData)
+yrs = dimnames(amenData)[[4]]
 foreach(yr = yrs, .packages=c("amen")) %dopar% {
 	imp = 1000
 	toBurn = 501
 	# Run Amen model
 	fit = ameRepNull(
-		Y=amData[[yr]][,,1:2], # 2, specifies defensive-entente alliance
+		Y=amenData[,,,yr], 
 		Xdyad = NULL, Xrow = NULL, Xcol = NULL,
-		model='nrm', symmetric=TRUE, R=2,
+		model='nrm', symmetric=FALSE, R=2,
 		seed=6886, nscan=imp, burn=toBurn, odens=1,
-		plot=FALSE, print = FALSE )
+		plot=FALSE, print = FALSE, intercept=FALSE )
 	# Save lat space
-	out = list()
-	out$'ULUPM' = fit$'ULUPM'
-	out$'APM' = fit$'APM'
-	save(out, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_defEntAlly.rda'))
-}
-
-# Free my clusters
-stopCluster(cl)
-
-# Parallelize run for every year
-cl = makeCluster(4)
-registerDoParallel(cl)
-yrs = names(amData)
-foreach(yr = yrs, .packages=c("amen")) %dopar% {
-	imp = 1000
-	toBurn = 501
-	# Run Amen model
-	fit = ameRepNull(
-		Y=amData[[yr]][,,c(1,3)], # 3, specifies any alliance
-		Xdyad = NULL, Xrow = NULL, Xcol = NULL,
-		model='nrm', symmetric=TRUE, R=2,
-		seed=6886, nscan=imp, burn=toBurn, odens=1,
-		plot=FALSE, print = FALSE )
-	# Save lat space
-	out = list()
-	out$'ULUPM' = fit$'ULUPM'
-	out$'APM' = fit$'APM'
-	save(out, file=paste0(pathResults, 'ameLatSpace/',yr,'_agree3un_anyAlly.rda'))
+	save(fit, file=paste0(pathResults, 'ameLatSpace/',yr,'_icews.rda'))
 }
 
 # Free my clusters

@@ -62,6 +62,12 @@ cname = function(x) { countrycode(x, 'country.name', 'country.name') }
 trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 stdz = function(x, na=TRUE){ (x - mean(x, na.rm=na))/sd(x, na.rm=na) }
+mysqlSetup = function(user=NULL, pw=NULL, db=NULL, host=NULL) {
+	tryCatch(conn <<- dbConnect(MySQL(), user=user, password=pw, 
+		dbname=db, host=host), 
+	error=function(e) warning("MySQL connection does not work") )
+}
+
 
 # Relational Data Helper Functions
 source(paste0(gpth, 'R/relDataHelpers.R'))

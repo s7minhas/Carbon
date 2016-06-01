@@ -11,6 +11,18 @@ on.exit(dbDisconnect(conn))
 ####
 
 ####
+# Find descriptions for event types
+rs = dbSendQuery(conn, 'select * from eventtypes')
+eTypes = fetch(rs, n=-1)
+dbClearResult(rs)
+
+ugh = c(41, 42, 47, 48, 58, 65, 66, 78, 79, 80, 82, 85, 43, 44, 45, 46, 49)
+slice = eTypes[which(eTypes$eventtype_ID %in% ugh),]
+slice[,c(2,7,3)]
+slice$code
+####
+
+####
 # Create tables
 genQuery = function(codes, varName, tableName){
 	paste0('CREATE TABLE ',tableName,' AS
@@ -26,26 +38,25 @@ genQuery = function(codes, varName, tableName){
 	WHERE t.code IN (',codes,')	
 	GROUP BY YEAR(e.event_date), MONTH(e.event_date), e.source_country_id, e.target_country_id')
 }
-# WHERE SUBSTRING(t.code, 1, 2) IN (',codes,')
 
 # Send queries
 codes = c(
-	"'01', '02', '03', '04', '05'", # verbCoop
-	"'06', '07', '08'", # matlCoop
-	"'09', '10', '11', '12', '13'", # verbConf
-	"'14', '15', '16', '17', '18', '19', '20'", # matlConf	
+	"'030', '031', '0311', '0312', '0313', '0314', '032', '033', '0331', '035', '036', '037', '050', '051', '052', '054', '057'",
 	"'060', '061', '062', '063', '064', '070', '071', '072', '073', '074'"
 	)
-varNames=c( 'verbCoop', 'matlCoop', 'verbConf', 'matlConf', 'matlCoop2' )
-tabNames = paste0('my_tables.',varNames,'_netEvolve')
+varNames=c( 'verbCoop', 'matlCoop' )
+tabNames = paste0('my_tables.',varNames,'_carbon')
 
 # get matl coop data
-dbSendQuery(conn, paste0('DROP TABLE ', tabNames[5]))
-dbSendQuery(conn, genQuery(codes[5], varNames[5], tabNames[5]))
-matlCoop = dbGetQuery(conn, paste0("SELECT * FROM ", tabNames[5],";") )	
+coopList = lapply(1:length(codes), function(ii){
+	dbSendQuery(conn, paste0('DROP TABLE ', tabNames[ii]))
+	dbSendQuery(conn, genQuery(codes[ii], varNames[ii], tabNames[ii]))
+	mat = dbGetQuery(conn, paste0("SELECT * FROM ", tabNames[ii],";") )	
+	return(mat)
+	} )
 ####
 
 ####
 # Save
-save(matlCoop, file=paste0(inPath, 'matlCoop_icews.rda'))
+save(coopList, file=paste0(pathDataBin, 'coop_icews.rda'))
 ####

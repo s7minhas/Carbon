@@ -89,7 +89,12 @@ modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls, splines))
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)
 splines = paste0("lag1_", splines)
+
+# remove missing data
 modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
+
+# impute missing data
+# modData = modData[which(modData$year %in% 2001:2012),]
 
 # Divide into train and test
 cutYear=2008
@@ -132,6 +137,14 @@ rocData = lapply(1:length(mods), function(ii){
 rocData = do.call('rbind', rocData)
 rocPlot(rocData)
 
+# area under precision-recall curves (Beger 2016 [arxiv])
+lapply(mods, function(x){
+	tProb = predict(object=x, newdata=test, type='response')
+	tAct = test$mid %>% as.numeric()
+	auc_pr(tAct, tProb)
+	}) %>% unlist() %>% sort(., decreasing=TRUE)
+
+
 # Separation plots
 # loadPkg('separationplot')
 # pdf(file=paste0(pathGraphics, 'quickPerfTest.pdf'))
@@ -141,77 +154,3 @@ rocPlot(rocData)
 # }
 # dev.off()
 ############################
-
-ids = c('ccode1','ccode2','dyadid','year')
-splines = c('peaceYrs','peaceYrs2','peaceYrs3')
-dv = 'mid'
-kivs = c(
-	"icewsDist.U", "icewsDist.V","icewsMean", 
-	# "unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
-	"idPtDist", 'sScore'
-	)
-cntrls = c("jointdemocB", "noncontig", "avdyadgrowth")
-
-# Add splines to count years since dyadic conflict (Carter & Signorino 2010)
-data$dyadid = num(data$dyadid)
-data$dyadidYr = paste0( data$dyadid, data$year ) %>% num()
-data = data[order(data$dyadidYr),]
-
-# functions to help calculate peace years
-# Subset data
-modData = data[,c(ids, splines, dv, kivs, cntrls)]
-
-# Create lags
-modData$dyadid = num( modData$dyadid )
-modData$dyadidYr = paste0( modData$dyadid, modData$year ) %>% num()
-modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls, splines))
-
-# Finalize data for modeling
-kivs = paste0('lag1_', kivs)
-cntrls = paste0('lag1_', cntrls)
-splines = paste0("lag1_", splines)
-modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
-
-# Divide into train and test
-cutYear=2010
-train = modData[modData$year<cutYear,]
-test = modData[modData$year>=cutYear,]
-############################
-
-############################
-# Create model specifications and run
-kivs.plus = c(kivs, "lag1_icewsDist.U + lag1_icewsDist.V", "")
-modForms = lapply(kivs.plus, function(x){
-	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls, splines), collapse=' + '))) })
-mods = lapply(modForms, function(x){
-	glm(x, data=train, family='binomial' ) })
-names(mods) = gsub('lag1_','',kivs)
-names(mods)[6] = "icewsDistBoth"
-names(mods)[7] = "NULL"
-
-############################
-
-############################
-# Check direction/sig of coefficient
-lapply(mods, function(x){ summary(x)$'coefficients'[2,,drop=FALSE] }) %>% do.call('rbind',.)
-############################s
-
-############################
-# Compare out of sample performance
-# Get AUCs
-lapply(mods, function(x){ 
-	tProb = predict(object=x, newdata=test, type='response')
-	tAct = test$mid %>% as.numeric()	
-	getAUC(tProb, tAct)
-	}) %>% unlist() %>% sort(.,decreasing=TRUE)
-
-# Roc Plot
-rocData = lapply(1:length(mods), function(ii){
-	tProb = predict(object=mods[[ii]], newdata=test, type='response')
-	tAct = test$mid %>% as.numeric()
-	r = roc(tProb, tAct)
-	p = cbind(r, model=names(mods)[ii])
-	return(p) })
-rocData = do.call('rbind', rocData)
-rocPlot(rocData)
-

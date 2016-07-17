@@ -186,13 +186,19 @@ aggDyad = function(data, year, name){
 }
 
 # Convert dyadic dataset to list and standardize value
-convToList = function(data, brks, brkVar, ids, var, standardize=TRUE){
+convToList = function(data, brks, brkVar, ids, var, standardize=TRUE, 
+	addDyadLabel=FALSE, dLab='ij', iLab = 'ccode1', jLab = 'ccode2'
+	){
 	# Convert to list by brks, retaining id and var
 	## also standardsize value within that year
 	dList = lapply(brks, function(ii){
 		slice = data[data[,brkVar]==ii,c(ids,var)]
 		slice[,var] = slice[,var] %>% num()
 		if(standardize){ slice[,var] = stdz( slice[,var] ) }
+		if(addDyadLabel){ 
+			slice$tmp = paste(slice[,iLab], slice[,jLab], sep='_')
+			names(slice)[ncol(slice)] = dLab
+		}
 		return(slice)
 		})
 	

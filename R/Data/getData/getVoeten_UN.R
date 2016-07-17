@@ -34,17 +34,6 @@ stopifnot( length( table(un$dyadidyr)[table(un$dyadidyr)>1] ) == 0 )
 ###############################################################
 
 ###############################################################
-# Create count of un agreements by dyad-yr
-un$agreeCnt = round( un$agree3un*un$jointvotes3 )
-###############################################################
-
-###############################################################
-# Convert into a list format for object per year
-yrs = un$year %>% unique() %>% sort()
-aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agreeCnt')
-###############################################################
-
-###############################################################
 # use UN data to set nodes for dyadic dataset
 yrs = un$year %>% unique() %>% sort()
 unFrame = lapply(yrs, function(yr){
@@ -61,8 +50,24 @@ names(unFrame) = yrs
 ###############################################################
 
 ###############################################################
+# Create count of un agreements by dyad-yr
+un$agreeCnt = round( un$agree3un*un$jointvotes3 )
+
+# Convert into a list format for object per year
+yrs = un$year %>% unique() %>% sort()
+aun3L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agree3un', standardize=FALSE)
+aun2L = convToList(un, yrs, 'year', c('ccode1','ccode2'), 'agree2un', standardize=FALSE)
+
 # Turn undirected un data into complete frame
 aun3Lfull = lapply(aun3L, function(unSl){
+	unDat=data.frame( rbind(
+		cbind( ij=paste(unSl$ccode1, unSl$ccode2, sep='_'), unSl ),
+		cbind( ij=paste(unSl$ccode2, unSl$ccode1, sep='_'), unSl ) ) )
+	unDat[,4] = num( unDat[,4] )
+	return(unDat)
+})
+
+aun2Lfull = lapply(aun2L, function(unSl){
 	unDat=data.frame( rbind(
 		cbind( ij=paste(unSl$ccode1, unSl$ccode2, sep='_'), unSl ),
 		cbind( ij=paste(unSl$ccode2, unSl$ccode1, sep='_'), unSl ) ) )
@@ -73,5 +78,5 @@ aun3Lfull = lapply(aun3L, function(unSl){
 
 ###############################################################
 # Save
-save(un, aun3Lfull, unFrame, file=paste0(pathDataBin, 'un.rda'))
+save(un, aun3Lfull, aun2Lfull, unFrame, file=paste0(pathDataBin, 'un.rda'))
 ###############################################################

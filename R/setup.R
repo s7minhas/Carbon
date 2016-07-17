@@ -67,6 +67,10 @@ mysqlSetup = function(user=NULL, pw=NULL, db=NULL, host=NULL) {
 		dbname=db, host=host), 
 	error=function(e) warning("MySQL connection does not work") )
 }
+# https://cran.r-project.org/doc/contrib/Lemon-kickstart/rescale.R
+rescale <- function(x,new_max,new_min){
+ xResc <- (new_max - new_min) / (max(x,na.rm=T) - min(x,na.rm=T))*(x - min(x,na.rm=T)) + new_min
+ xResc }
 
 
 # Relational Data Helper Functions

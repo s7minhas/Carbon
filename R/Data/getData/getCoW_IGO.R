@@ -10,9 +10,8 @@ if(!file.exists(igoName)) { download.file(igoURL, igoName) }
 igo = unzip(igoName, 
 	'IGO_dyadunit_stata_v2.3.dta') %>% read.dta()
 
-setwd(gpth)
-file.remove(paste0(gpth, 'IGO_dyadunit_stata_v2.3.dta'))
-unlink(paste0(gpth, 'version4.1_dta'), recursive=TRUE, force=TRUE)
+file.remove(paste0(getwd(), 'IGO_dyadunit_stata_v2.3.dta'))
+unlink(paste0(getwd(), 'version4.1_dta'), recursive=TRUE, force=TRUE)
 ############################
 
 ############################
@@ -114,7 +113,7 @@ igo = data.frame(apply(igoDataFINAL,2,num))
 ############################
 # Convert to list object
 yrs = 1965:2005
-igoL = convToList(igo, yrs, 'year', c('ccode1','ccode2'), 'igo')
+igoL = convToList(igo, yrs, 'year', c('ccode1','ccode2'), 'igo',standardize=FALSE)
 
 # Undirected so repeat observations 
 igoL = lapply(igoL, function(l){
@@ -124,6 +123,7 @@ igoL = lapply(igoL, function(l){
     l = rbind(l, revL)
     return(l)
 })
+igoL = lapply(igoL, function(x){ x$ij = paste(x$ccode1, x$ccode2, sep='_') ; return(x) })
 ############################
 
 ############################

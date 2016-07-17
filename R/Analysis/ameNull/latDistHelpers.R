@@ -2,6 +2,7 @@
 getLatDist = function(file, label, labelName, symmetric=TRUE){
 	if(symmetric){
 	load(file) # Loads object called latSpace
+	out = fit 
 	pzMu=getPosInSpace(out[['ULUPM']])
 	latDist=getDyadDist(pzMu, ids=rownames(pzMu))
 	latDist=stdize(latDist, divMean=FALSE)
@@ -41,51 +42,24 @@ proc.rr = function(Y,X){
 
 # Get latent space positions
 getPosInSpace = function(latObject, symmetric = TRUE){
-if(symmetric){
-# ULUPM = latObject[[length(latObject)]]$'ULUPM'
-ULUPM = latObject
-eULU = eigen(ULUPM)
-eR<- which( rank(-abs(eULU$val),ties.method="first") <= 2 )
-U<-eULU$vec[,seq(1,2,length=2),drop=FALSE] %*% sqrt(diag(eULU$val[1:2]))
-L<-eULU$val[eR]   
-rownames(U)<-dimnames(ULUPM)[[1]]
-return(U)}
-if(!symmetric){
-	UVPM = latObject
-	R = 2
-    UDV<-svd(UVPM)
-    U<-UDV$u[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
-    V<-UDV$v[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
-    rownames(U)<-rownames(V)<-dimnames(UVPM)[[1]]
-    return(list(U = U, V = V))
-}
-
-}
-
-	# # Convert to array format
-	# ## didn't do this earlier because arrays take up more space than lists
-	# U = lapply(latObject, function(x) x$'U')
-	# nss = length(U)
-	# n = dim(U[[1]])[1]
-	# k = dim(U[[1]])[2]
-	# ids = rownames(U[[1]])
-	# PZ = U %>% unlist() %>% array(., dim=c(n,k,nss))
-
-	# #find posterior mean of Z %*% t(Z)
-	# ZTZ=matrix(0,n,n)
-	# for(i in 1:dim(PZ)[3] ) { ZTZ=ZTZ+PZ[,,i]%*%t(PZ[,,i]) }
-	# ZTZ=ZTZ/dim(PZ)[3] 
-
-	# #a configuration that approximates posterior mean of ZTZ
-	# tmp=eigen(ZTZ)
-	# Z.pm=tmp$vec[,1:k]%*%sqrt(diag(tmp$val[1:k]))
-
-	# #now transform each sample Z to a common orientation
-	# for(i in 1:dim(PZ)[3] ) { PZ[,,i]=proc.rr(PZ[,,i],Z.pm) }
-
-	# # Find posterior mean of country positions
-	# pzMu=apply(PZ, c(1,2), mean); rownames(pzMu)=ids
-	# return(pzMu)
+	if(symmetric){
+		ULUPM = latObject
+		eULU = eigen(ULUPM)
+		eR<- which( rank(-abs(eULU$val),ties.method="first") <= 2 )
+		U<-eULU$vec[,seq(1,2,length=2),drop=FALSE] %*% sqrt(diag(eULU$val[1:2]))
+		L<-eULU$val[eR]   
+		rownames(U)<-dimnames(ULUPM)[[1]]
+		return(U)
+	}
+	if(!symmetric){
+		UVPM = latObject
+		R = 2
+	    UDV<-svd(UVPM)
+	    U<-UDV$u[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
+	    V<-UDV$v[,seq(1,R,length=R)]%*%diag(sqrt(UDV$d)[seq(1,R,length=R)],nrow=R)
+	    rownames(U)<-rownames(V)<-dimnames(UVPM)[[1]]
+	    return(list(U = U, V = V))
+	}
 }
 
 # Euclidean distance between two points

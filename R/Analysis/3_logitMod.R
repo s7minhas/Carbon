@@ -12,8 +12,6 @@ if(Sys.info()["user"]=="maxgallop"){
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
 # load(paste0(pathResults, 'latDist_wIGO.rda')) 
 # latDistIGO = latDist # includes object called latDist
-load(paste0(pathResults, 'latDist_idPt_sScore.rda')) # includes object called latDist 
-latDistIdPtSScore = latDist
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
@@ -28,24 +26,27 @@ sScoreData = lapply(names(sL), function(x){
 ############################
 
 ############################
+# with igo data 1965-2005
+data = data[which(data$year %in% 1965:2005),]
+############################
+
+############################
 # Merge together
 # Add latent space strat interest measures
-data$icewsDist.U = latDist$dist.U[match(data$id, latDist$dyadid)]
-data$icewsDist.V = latDist$dist.V[match(data$id, latDist$dyadid)]
-# data$unDefEntIGODist = latDistIGO$unDefEntDist[match(data$id, latDistIGO$dyadid)]
-# data$unAnyIGODist = latDistIGO$unAnyDist[match(data$id, latDistIGO$dyadid)]
-# data$sScoreIdPtDist = latDistIdPtSScore$idPtSScoreMeanReplDist[match(data$id, latDistIdPtSScore$dyadid)]
-# data$apm1 = latDistIdPtSScore$apm1[match(data$id, latDistIdPtSScore$dyadid)]
-# data$apm2 = latDistIdPtSScore$apm2[match(data$id, latDistIdPtSScore$dyadid)]
+data$latDist = latDist$dist[match(data$id, latDist$dyadid)]
+data$latDist = data$latDist + abs(min(data$latDist,na.rm=TRUE)) + 1
+
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
 data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
-data$icewsMean = (data$icewsDist.U + data$icewsDist.V)/2
+
 # id
 data$dyadid = paste0(data$ccode1, data$ccode2)
 
 # Drop extraneous datasets
 rm(list=c('latDist', 'idPt', 'sScoreData'))
+
+summary(data[,c('latDist','idPtDist','sScore')])
 ############################
 
 ############################
@@ -54,8 +55,7 @@ ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
 kivs = c(
-	"icewsDist.U", "icewsDist.V","icewsMean", 
-	# "unDefEntIGODist", "unAnyIGODist", # Including these limits sample to 1965-2005
+	"latDist", 
 	"idPtDist", 'sScore'
 	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
@@ -97,20 +97,20 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 # modData = modData[which(modData$year %in% 2001:2012),]
 
 # Divide into train and test
-cutYear=2008
+cutYear=2000
 train = modData[modData$year<cutYear,]
 test = modData[modData$year>=cutYear,]
 ############################
 
 ############################
 # Create model specifications and run
-kivs.plus = c(kivs, "lag1_icewsDist.U + lag1_icewsDist.V")
-modForms = lapply(kivs.plus, function(x){
-	formula( paste0(dv,' ~ ' ,paste(c(x, cntrls, splines), collapse=' + '))) })
+modForms = lapply(kivs, function(x){
+	formula( paste0(dv,' ~ ' , 
+		paste(c(x, cntrls, splines), collapse=' + '))) 
+	})
 mods = lapply(modForms, function(x){
 	glm(x, data=train, family='binomial' ) })
 names(mods) = gsub('lag1_','',kivs)
-names(mods)[6] = "icewsDistBoth"
 ############################
 
 ############################
@@ -125,24 +125,24 @@ lapply(mods, function(x){
 	tProb = predict(object=x, newdata=test, type='response')
 	tAct = test$mid %>% as.numeric()	
 	getAUC(tProb, tAct)
-	}) %>% unlist() %>% sort(.,decreasing=TRUE)
+	}) %>% unlist() %>% sort(.,decreasing=TRUE) %>% print()
 
-# Roc Plot
-rocData = lapply(1:length(mods), function(ii){
-	tProb = predict(object=mods[[ii]], newdata=test, type='response')
-	tAct = test$mid %>% as.numeric()
-	r = roc(tProb, tAct)
-	p = cbind(r, model=names(mods)[ii])
-	return(p) })
-rocData = do.call('rbind', rocData)
-rocPlot(rocData)
+# # Roc Plot
+# rocData = lapply(1:length(mods), function(ii){
+# 	tProb = predict(object=mods[[ii]], newdata=test, type='response')
+# 	tAct = test$mid %>% as.numeric()
+# 	r = roc(tProb, tAct)
+# 	p = cbind(r, model=names(mods)[ii])
+# 	return(p) })
+# rocData = do.call('rbind', rocData)
+# rocPlot(rocData)
 
 # area under precision-recall curves (Beger 2016 [arxiv])
 lapply(mods, function(x){
 	tProb = predict(object=x, newdata=test, type='response')
 	tAct = test$mid %>% as.numeric()
 	auc_pr(tAct, tProb)
-	}) %>% unlist() %>% sort(., decreasing=TRUE)
+	}) %>% unlist() %>% sort(., decreasing=TRUE) %>% print()
 
 
 # Separation plots

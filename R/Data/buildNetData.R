@@ -13,7 +13,7 @@ load( paste0(pathDataBin, 'igo.rda') )
 # n = # cntries, p = # vars, t = # pds
 
 # Years to loop through
-yrs = 1965:2005
+yrs = 1965:2012
 
 # Process data into list of arrays
 amData = lapply(yrs, function(yr){
@@ -22,25 +22,25 @@ amData = lapply(yrs, function(yr){
 	aun3Sl = aun3Lfull[[char(yr)]]
 	aun2Sl = aun2Lfull[[char(yr)]]
 
-	# Add id vectors into alliance dataset
+	# Pull yearly slice from alliance dataset
 	anyAllySl = anyAllyL[[char(yr)]]		
 	totAllySl = totAllyL[[char(yr)]]
 	defEntSl = defEntAllyL[[char(yr)]]
 	defEntSumAllySl = defEntSumAllyL[[char(yr)]]
 	defAllySl = defAllyL[[char(yr)]]
 
-	# Add id vectors into igo
-	igoSl = igoL[[char(yr)]]
+	# # Pull yearly slice from igo
+	# igoSl = igoL[[char(yr)]]
 
 	# Merge covariate data into frame slice
 	addVar = function(
 		fromVar, fromID, toID=fSl$ij, 
-		naZero=TRUE, rescale=TRUE, stdzVar=TRUE){
+		naZero=TRUE, rescale=TRUE, stdzVar=FALSE){
 		tmp = fromVar[match(toID, fromID)]
 		tmp = num(tmp)
 		if(naZero){ tmp[is.na(tmp)] = 0  }
 		if(rescale){ tmp = rescale(tmp, 10, 1) }
-		if(stdzVar){ tmp = stdz(stdzVar) }
+		if(stdzVar){ tmp = stdz(tmp) }
 		return(tmp)
 	}
 
@@ -52,7 +52,7 @@ amData = lapply(yrs, function(yr){
 	fSl$defEnt = addVar(defEntSl$defEnt, defEntSl$ij)
 	fSl$defEntSum = addVar(defEntSumAllySl$defEntSum, defEntSumAllySl$ij)
 	fSl$defense = addVar(defAllySl$defense, defAllySl$ij)
-	fSl$igo = addVar(igoSl$igo, igoSl$ij)
+	# fSl$igo = addVar(igoSl$igo, igoSl$ij)
 
 	# Create empty array
 	cntries = c( fSl$i, fSl$j ) %>% unique() %>% char() %>% sort() 

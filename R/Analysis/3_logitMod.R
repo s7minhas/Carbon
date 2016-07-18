@@ -27,7 +27,7 @@ sScoreData = lapply(names(sL), function(x){
 
 ############################
 # with igo data 1965-2005
-data = data[which(data$year %in% 1965:2005),]
+data = data[which(data$year %in% 1965:2012),]
 ############################
 
 ############################
@@ -97,7 +97,7 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 # modData = modData[which(modData$year %in% 2001:2012),]
 
 # Divide into train and test
-cutYear=2000
+cutYear=2008
 train = modData[modData$year<cutYear,]
 test = modData[modData$year>=cutYear,]
 ############################

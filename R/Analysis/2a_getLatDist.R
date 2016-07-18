@@ -4,7 +4,7 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 
 ############################
 # Get dyadic dist from each yrly latent space
-yrs=1965:2005
+yrs=1965:2012
 ############################
 
 ############################

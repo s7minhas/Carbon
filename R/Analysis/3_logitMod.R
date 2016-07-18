@@ -97,7 +97,7 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 # modData = modData[which(modData$year %in% 2001:2012),]
 
 # Divide into train and test
-cutYear=2008
+cutYear=2004
 train = modData[modData$year<cutYear,]
 test = modData[modData$year>=cutYear,]
 ############################
@@ -143,6 +143,14 @@ lapply(mods, function(x){
 	tAct = test$mid %>% as.numeric()
 	auc_pr(tAct, tProb)
 	}) %>% unlist() %>% sort(., decreasing=TRUE) %>% print()
+
+x = mods[[1]]
+lapply(mods, function(x){
+tProb = predict(object=x, newdata=test, type='response')
+tAct = test$mid %>% as.numeric()
+mean( tProb[tAct==1] )
+})
+
 
 
 # Separation plots

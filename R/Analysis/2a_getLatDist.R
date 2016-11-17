@@ -15,6 +15,10 @@ source( paste0(gpth, 'R/Analysis/ameNull/latDistHelpers.R') )
 # Files to pull
 latRdas = paste0(pathResults, 'ameLatSpace') %>% list.files() %>% .[grepl('_rescale.rda', .)] %>% paste0(pathResults, 'ameLatSpace/', .)
 
+ugh = ls()
+load(latRdas[40])
+setdiff(ls(), ugh)
+
 latDist = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, '_rescale.rda')
 	getLatDist(file, label=yr, labelName='year') 

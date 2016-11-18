@@ -10,8 +10,13 @@ if(Sys.info()["user"]=="maxgallop"){
 ############################
 # Load necessary files
 load(paste0(pathDataBin, 'repdata.RDA')) # includes object called data
-# load(paste0(pathResults, 'latDist_wIGO.rda')) 
-# latDistIGO = latDist # includes object called latDist
+# dedupe data
+id = data.frame(id=unique(data$id), stringsAsFactors=FALSE)
+for(v in names(data)[-which(names(data)=='id')]){
+	id$tmp = data[,v][match(id$id,data$id)] ; names(id)[ncol(id)] = v }
+data = id
+
+# pref measures
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
@@ -33,8 +38,11 @@ data = data[which(data$year %in% 1965:2012),]
 ############################
 # Merge together
 # Add latent space strat interest measures
-data$latDist = latDist$dist[match(data$id, latDist$dyadid)]
-data$latDist = data$latDist + abs(min(data$latDist,na.rm=TRUE)) + 1
+data$latRaw = latRaw$value[match(data$id, latRaw$dyadid)]
+data$latRaw = data$latRaw + abs(min(data$latRaw,na.rm=TRUE)) + 1
+data$latRawStdz = latRawStdz$value[match(data$id, latRawStdz$dyadid)]
+data$latRawStdz = data$latRawStdz + abs(min(data$latRawStdz,na.rm=TRUE)) + 1
+data$latAngle = latAngle$value[match(data$id, latAngle$dyadid)]
 
 # Add ideal point strat interest measures
 data$idPtDist = idPt$idealpointdistance[match(data$id, idPt$dyadidyr)]
@@ -44,9 +52,9 @@ data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
 data$dyadid = paste0(data$ccode1, data$ccode2)
 
 # Drop extraneous datasets
-rm(list=c('latDist', 'idPt', 'sScoreData'))
+rm(list=c('latRaw','latRawStdz','latAngle', 'idPt', 'sScoreData'))
 
-summary(data[,c('latDist','idPtDist','sScore')])
+summary(data[,c('latRaw','latRawStdz','latAngle','idPtDist','sScore')])
 ############################
 
 ############################
@@ -55,7 +63,7 @@ ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
 kivs = c(
-	"latDist", 
+	"latRaw", 'latRawStdz', 'latAngle',
 	"idPtDist", 'sScore'
 	)
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
@@ -97,7 +105,7 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 # modData = modData[which(modData$year %in% 2001:2012),]
 
 # Divide into train and test
-cutYear=2004
+cutYear=2007
 train = modData[modData$year<cutYear,]
 test = modData[modData$year>=cutYear,]
 ############################

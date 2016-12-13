@@ -35,7 +35,7 @@ toLoad=c(
 	'cshapes', # R pkgs to get data
 	'countrycode', # Matching countries
 	'reshape2', 'dplyr', 'doBy', # Data manip
-	'ggplot2', 'grid', 'xtable', 'tikzDevice',  # plotting/output
+	'ggplot2', 'grid', 'xtable', # plotting/output
 	'amen', 'MASS', # stat pkgs
 	'magrittr', # other
 	'foreach', 'doParallel', # Parallelization	

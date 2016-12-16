@@ -1,0 +1,21 @@
+\subsection{Current measures of preferences: UN voting data}
+An alternative way to measure preferences would be to look at behavioral indicators of these preferences. For most behavioral indicators this is impossible to do in a systematic measure as the contexts in which behaviors arrive differ between states, and it would be difficult to classify two behaviors as equivalent. However, we have a relatively large corpus of somewhat behavioral information in UN Voting Records. The cost of voting in the UN is low, and so, scholars have argued that measures of affinity based on UN voting are relatively representative of the underlying distribution of preferences \citep{gartzke:1998}. This is especially fortuitous because the methodology of inferring preferences from voting in a legislature is relatively advaced. \citet{voeten} classify different types of votes in the UN and use a model where both the type of vote, and states innate ideal points determine whether a state votes Yes, No, or Abstains on an issue. This spatial model leverages the fact that certain resolutions in the United Nations are voted on multiple times in order to identify situations where states change their ideal points.
+
+Voeten and his coauthors use an MCMC algorithm to iteratively estimate both the ideal points of each state as well as the cutpoints which would cause states with a certain ideal point to vote for, against, or abstain.
+
+The basic idea behind this model is that state voting behavior is determined by an unobserved ideal point, such that on a given vote, anyone who's ideal point is past a certain outpoint will vote in a particular way. In particular, we call the spatial of  state $i$ in year $t$  on vote $v$ $Z_{itv} $, and we assume that:
+
+\begin{equation}
+Z_{itv} = \beta_{iv}\theta_{it} + \epsilon_{iv}
+\end{equation}
+
+where $\theta_{it}$ is State $i$'s unidimensional ideal point in year $t$ and $\beta_{iv}$ is the effect of that ideal point on a given type of vote (some types of votes, high $\theta$ states will be inclined to vote yes, and so $\beta_{v}$ will be positive, whereas when it is negative states with high values of $\theta$ will be inclined to vote ``No". The magnitude of $\beta$ determines how well the vote distinguishes between states with different ideal points. The state then has vote $y_{itv} \in \{1,2,3\}$, where $y_{itv} = 1$ implies a no vote, $2$ implies an abstention, and $3$ implies a yes vote. The spatial preference than maps onto voting behavior, such that if $Z_{itv} < \gamma{1v}, ~y_{itv} = 1$, if $\gamma_{1v}<Z_{itv}<\gamma_{2v},~ y_{itv} = 2$, else $y_{itv} = 3$. 
+
+Thus the probability that a state has vote $k$ is:
+\begin{equation}
+P(y_{itv} = k) = \Phi(\gamma_{kv} - \beta_{v}\theta_{it}) - \Phi(\gamma_{k-1v} - \beta_{v}\theta_{it})
+\end{equation}
+
+The authors specifically fix the parameters $\gamma_{1v}$ and $\gamma_{2v}$ such that the same bill will have the same value in different years, and they standardize and normalize $\theta$. They also use $\theta_{it-1}$ as a prior on $\theta{it}$. With these constraints, they solve for the ideal points and outpoints using a Metropolis Hastings algorithm.
+
+The issues here are that the voting behavior, especially in the EU general assembly, is not well behaved in the way that voting in the US Congress is. We actually can get some sense of it by the existence of multiple identical resolutions: UN resolutions have no legal force, and so most votes are symbolic. Thus UN voting is rife with nearly unanimous voting and other super-majorities, which means that the requirements to distinguish between state preferences are more onerous. Another issue here, not necessarily with use of voting in general, but with this application, is the limitation to one dimension: it could be that two states which have very similar preferences on issues of trade -- say the United States and  Saudi Arabia -- might differ mightily on questions related to the Middle East, and in particular Israel.\footnote{You can see issues like this on legislative positions in the United States: during the post WW2 era, two democrats who might agree on the need to expand the social safety net might be diametrically opposed on issues of civil rights.} However, the dearth of contentious UN votes makes it difficult to add additional dimensions, and therefore ...

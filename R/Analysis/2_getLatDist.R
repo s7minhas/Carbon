@@ -1,5 +1,4 @@
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-	source('~/Research/Carbon/R/setup.R') }
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Carbon/R/setup.R') }
 ############################
 
 ############################
@@ -14,15 +13,6 @@ source( paste0(gpth, 'R/Analysis/ameNull/latDistHelpers.R') )
 
 # Files to pull
 latRdas = paste0(pathResults, 'ameLatSpace') %>% list.files() %>% .[grepl('_rescale.rda', .)] %>% paste0(pathResults, 'ameLatSpace/', .)
-
-getLatRaw = function(x, lab, stdz=FALSE){
-	load(x)
-	raw = fit$'ULUPM' ; diag(raw) = NA
-	rawDyad = melt(raw)
-	rawDyad$year = lab
-	if(stdz){ rawDyad$value = ( rawDyad$value - mean(rawDyad$value, na.rm=TRUE) ) / sd(rawDyad$value, na.rm=TRUE) }
-	return(rawDyad)
-}
 
 getLatAngle = function(x, lab){
 	load(x) ; U=getPosInSpace(fit$ULUPM)
@@ -41,16 +31,6 @@ getLatAngle = function(x, lab){
 	return(dists[,c('Var1','Var2','value','year')])
 }
 
-latRaw = lapply(yrs, function(yr){
-	file = paste0(pathResults, 'ameLatSpace/', yr, '_rescale.rda')
-	return( getLatRaw(file, lab=yr) )
-	}) %>% do.call('rbind', .)
-
-latRawStdz = lapply(yrs, function(yr){
-	file = paste0(pathResults, 'ameLatSpace/', yr, '_rescale.rda')
-	return( getLatRaw(file, lab=yr, stdz=TRUE) )
-	}) %>% do.call('rbind', .)
-
 latAngle = lapply(yrs, function(yr){
 	file = paste0(pathResults, 'ameLatSpace/', yr, '_rescale.rda')
 	return( getLatAngle(file, lab=yr) )
@@ -58,19 +38,14 @@ latAngle = lapply(yrs, function(yr){
 ############################
 
 ############################
-# Merge
 # Add id variables to both datasets
-latRaw$dyadid = with(latRaw, paste(Var1, Var2, year, sep='_'))
-latRawStdz$dyadid = with(latRawStdz, paste(Var1, Var2, year, sep='_'))
 latAngle$dyadid = with(latAngle, paste(Var1, Var2, year, sep='_'))
 
 # Remove i=j rows
-latRaw = with( latRaw, latRaw[which(Var1 != Var2),] )
-latRawStdz = with( latRawStdz, latRawStdz[which(Var1 != Var2),] )
 latAngle = with( latAngle, latAngle[which(Var1 != Var2),] )
 ############################
 
 ############################
 # Save
-save(latRaw, latRawStdz, latAngle, file=paste0(pathResults, 'latDist.rda'))
+save(latAngle, file=paste0(pathResults, 'latDist.rda'))
 ############################

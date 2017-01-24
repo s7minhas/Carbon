@@ -19,6 +19,8 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 modForms = lapply(kivs, function(x){
 	formula( paste0(dv,' ~ ' , 
 		paste(c(x, cntrls, splines), collapse=' + '))) })
+modForms[[length(modForms)+1]] = formula( paste0(dv, '~', 
+	paste(c(cntrls,splines), collapse = ' + ') ) )
 
 # create folds
 folds=100
@@ -27,17 +29,31 @@ set.seed(6886) ; modData$fold = sample(1:folds, size=nrow(modData), replace=TRUE
 
 ############################
 # run model by fold
-modResults = do.call('rbind', lapply(modForms, function(x){
-	tmp = do.call('rbind', lapply(1:folds, function(k){
+outPerf = lapply(modForms, function(x){
+	outByForm=lapply(1:folds, function(k){
 		trainData = modData[modData$fold!=k,]
-		testData = modData[modData$fold==k,]
+		testData = modData[modData$fold!=k,]
 		mod = glm(x, data=trainData, family='binomial' )
 		outProb = predict(object=mod, newdata=testData, type='response')
-		outAUC = getAUC(outProb, testData$mid)
-		return(cbind(kivCoef=coef(mod)[2], auc=outAUC))
-	}) )
-	df = data.frame(tmp) ; df$model = rownames(tmp)[1] ; return(df)
-}) )
+		rocAUC = getAUC(outProb, testData$mid)
+		prAUC = auc_pr(testData$mid, outProb)
+		summ = cbind(
+			kivCoef=coef(mod)[2], kivStdError=sqrt(diag(vcov(mod)))[2], 
+			rocAUC=rocAUC, prAUC=prAUC )
+		rocPrRes = cbind(prob=outProb, actual=testData$mid, fold=k)
+		return(list(summ=summ, rocPrRes=rocPrRes))
+	})
+	tmp = do.call('rbind', lapply(outByForm, function(x){x$summ}))
+	df = data.frame(tmp) ; df$model = rownames(tmp)[1]
+	tmp2 = do.call('rbind', lapply(outByForm, function(x){x$rocPrRes}))
+	rocPR = data.frame(tmp2) ; rocPR$model = rownames(tmp)[1]
+	list(df=df, rocPR=rocPR)
+})
 
-tapply(modResults$auc, modResults$model, mean)
+# org
+modSumm = do.call('rbind', lapply(outPerf, function(x){ x$df } ) )
+rocPrData = do.call('rbind', lapply(outPerf, function(x){ x$rocPR } ) )
+
+# save
+save(modSumm, rocPrData, file=paste0(pathResults, 'crossValResults.rda'))
 ############################

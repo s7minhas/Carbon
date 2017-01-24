@@ -34,11 +34,7 @@ data = data[which(data$year %in% 1965:2012),]
 
 ############################
 # Merge together
-# Add latent space strat interest measures
-data$latRaw = latRaw$value[match(data$id, latRaw$dyadid)]
-data$latRaw = data$latRaw + abs(min(data$latRaw,na.rm=TRUE)) + 1
-data$latRawStdz = latRawStdz$value[match(data$id, latRawStdz$dyadid)]
-data$latRawStdz = data$latRawStdz + abs(min(data$latRawStdz,na.rm=TRUE)) + 1
+# Add latent space strat interest measure
 data$latAngle = latAngle$value[match(data$id, latAngle$dyadid)]
 
 # Add ideal point strat interest measures
@@ -49,7 +45,7 @@ data$sScore = sScoreData$sScore[match(data$id, sScoreData$id)]
 data$dyadid = paste0(data$ccode1, data$ccode2)
 
 # Drop extraneous datasets
-rm(list=c('latRaw','latRawStdz','latAngle', 'idPt', 'sScoreData'))
+rm(list=c('latAngle', 'idPt', 'sScoreData'))
 ############################
 
 ############################
@@ -57,10 +53,7 @@ rm(list=c('latRaw','latRawStdz','latAngle', 'idPt', 'sScoreData'))
 ids = c('ccode1','ccode2','dyadid','year')
 splines = c('peaceYrs','peaceYrs2','peaceYrs3')
 dv = 'mid'
-kivs = c(
-	"latRaw", 'latRawStdz', 'latAngle',
-	"idPtDist", 'sScore'
-	)
+kivs = c( 'latAngle', "idPtDist", 'sScore' )
 cntrls = c("jointdemocB", "caprat", "noncontig", "avdyadgrowth")
 
 # Add splines to count years since dyadic conflict (Carter & Signorino 2010)

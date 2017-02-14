@@ -1,14 +1,17 @@
 \subsection{Sources of Preference Measures: Alliance Portfolios and UN Voting}
+
 Given that we cannot directly observe state preferences, scholars have attempted to ascertain it using two main behavioral indicators: who states choose to ally with, and how states vote at the United Nations. The idea behind alliance portfolio measures is that we can infer a state's foreign policy by looking at the states they choose to align with. In the extreme case, if two states have all of the same allies, it is likely that their foreign policy goals are quite similar. Conversely, if all allies of one state are not allied to another, and vice versa, our best guess is that these states would have different aims and desires in foreign policy. \citet{altman:bdm:1979} encapsulate the logic when they note that "alliance commitments reflect a nation's position on major international issues." Measures of alliance behavior also suffer from the relatively glacial movement and sparsity in these relationships. Formal alliances are relatively constant over time, whereas in many cases state preferences will be more fluid, and therefore these scores will be at best a lagging indicator of preferences. Furthermore, as \citet{hage:2011} points out, the fact that links are so rare creates artificial similarity of alliance portfolios.
 
 We also have a relatively large corpus of somewhat behavioral information in UN Voting Records. The cost of voting in the UN is low, and so, scholars have argued that measures of affinity based on UN voting are relatively representative of the underlying distribution of preferences \citep{gartzke:1998}. This is especially fortuitous because the methodology of inferring preferences from voting in a legislature is relatively advanced. A few issues with these measures are that the potential benefit of winning UN votes is low, and so states might have incentives to vote against their preference as they are not costly signals, and the distribution of UN voting is weird and prone to large supermajorities of the type rarely seen in ``ordinary" legislatures.
 
 \subsection{Current measures of preferences: S-Scores}
+
  The initial measures used to measure preference similarity based on alliance portfolios was Kendall's $\tau_{B}$ \citet{altman:bdm:1979}. This measure is:
  
  \begin{equation}
- \tau_{B} = \frac{n_{c} - n_{d}}{\sqrt{(n_{0} - n_{1})(n_{0} - n_{2})}}
+	 \tau_{B} = \frac{n_{c} - n_{d}}{\sqrt{(n_{0} - n_{1})(n_{0} - n_{2})}}
  \end{equation}
+ 
  where $n_{c}$ is the number of pairs where both actor $i$ and $j$ have the same rank ordering (for example both the UK and the US are more closely allied to Israel than to Iran), $n_{d}$ is the number of pairs where they have discordant rankings (the US is more closely allied to Saudi Arabia than to Russia, Syria is more closely allied to Russia than to Saudi Arabia). The denominator attempts to adjust the total number of pairs with the number of ties: $n_{0}$ is the total number of pairs ($n(n-1)/2$), $n_{1}, n_{2}$ are measures for ties in both $i$ and $j$'s rankings respectively.
  
 \citet{signorino:ritter:1999} convincingly pointed to flaws in this measure, notably its focus on rank-ordering as applied to a context where we instead care mostly about the presence or absence of an alliance. In addition, if we add additional strategically irrelevant states, we will create artificially high $\tau_{B}$ statistics. Thus, Signorino and Ritter introduce the S score, which has since been the most widely used alliance similarity measure.\footnote{\citep{bennett:rupert:2003} also find a stronger relationship between theoretical predictions and results when using S-scores than when using $\tau_{B}$}
@@ -16,12 +19,13 @@ We also have a relatively large corpus of somewhat behavioral information in UN 
 The equation for the S score is:
 
 \begin{equation}
-S(P^i, P^j, W, L) = 1 - 2w_k \frac{d(P^i, P^j, W, L)}{d^{\text{max}}(W,L)}
+	S(P^i, P^j, W, L) = 1 - 2w_k \frac{d(P^i, P^j, W, L)}{d^{\text{max}}(W,L)}
 \end{equation}
 
 Where:
+
 \begin{equation}
-d(P^i, P^j, W, L) = \sum_{k = 1}^N \frac{w_k}{\Delta^\text{max}_{k}} |p^i_k - p^j_k|
+	d(P^i, P^j, W, L) = \sum_{k = 1}^N \frac{w_k}{\Delta^\text{max}_{k}} |p^i_k - p^j_k|
 \end{equation}
 
 Where $w_k$ is the k'th element of a weight matrix, $d^\text{max}(W,L)$ is the maximal distance on a given dimension, and $\Delta$ is a normalizing constant. For the weight matrix, generally analysis has used S scores calculated with a weight matrix of ones--giving each potential ally equal weight--though the other plausible choice would be to weight states by import, for example using their share of world military capability, as calculated by \citet{cinc}.
@@ -31,8 +35,9 @@ One important distinction for these scores is that they are purely dyadic. One c
 One advantage, however, of using UN General Assembly Voting, is that it allows you to take advantage of methodological advances in the study of legislatures. \citet{voeten} do so by using an Item Response Theory model on UNGA voting. This model seeks to place states on a unidimensional latent preference space using their voting behavior. The assumption of this model is that states' votes on a resolution are a function of states' ideal points, characteristics of the vote, and random error. In particular, for each bill $v$, a states vote will be based on the latent variable $Z_{itv}$
 
 \begin{equation}
-Z_{itv} = \beta_{iv}\theta_{it} + \epsilon_{iv}
+	Z_{itv} = \beta_{iv}\theta_{it} + \epsilon_{iv}
 \end{equation}
+
 such that the state will vote yes if $Z_{itv} < \gamma_{1v}$, no if $Z_{itv} > \gamma_{2v}$ and otherwise abstain. Here, $\theta_{it}$ is state $i$'s ideal point at time $t$, and $\beta_{iv}$ is the discrimination parameter of a particular bill $v$. When $\beta_{v}$ is positive, states with high ideal points will be more likely to vote no. When it is negative, they will be more likely to vote yes.
 
 The authors specifically fix the parameters $\gamma_{1v}$ and $\gamma_{2v}$ such that the same bill will have the same value in different years, and they standardize and normalize $\theta$. They also use $\theta_{it-1}$ as a prior on $\theta{it}$. With these constraints, they solve for the ideal points and outpoints using a Metropolis Hastings MCMC.

@@ -1,21 +1,25 @@
 \subsection{Synthesizing Measures of State Preference}
+
 We propose that preferences and ideal points can be better measured by combining multiple proxies, and accounting for network interdependencies. Obviously, the idea of using multiple metrics to get a better handle on preferences is not new, in fact Signorino and Ritter suggested it in introducing S scores, which were designed to allow for aggregation of similarity on multiple dimensions (such as alliances and UN voting). What we propose, is to combine the dyadic measures of state similarity created using S-scores for alliances, and using voting models for UN data, in a manner that is both principled, and allows us to account for interdependencies. In particular, we use these two measures of state preference in a network model, in order to ascertain the state positions that best explain not only states dyadic similarity and dissimilarity on both measures, but also why states form the clusters they form. Our hope, is that by combining different measures of state preferences, and better accounting for spatial dependencies, we are able to generate a measure for preference that maintains the insights of both UN voting scores and S-scores, but which can also yield some new insights, in particular, when it comes to predicting and explaining interstate conflict.
 
 \section{Methodology}
+
 \subsection{AME, Why Network stuff matters}
+
 We want a model that takes a set of actions between countries, and infers each countries position in a latent preference space, such that those countries close to each other are likely to have similar preferences and therefore have similar alliances and UN voting records. We would like this methodology to be able to, in a principled way combine different sources of data, for example imputing ideal points based on both alliance behavior and behavior at the UN. Finally, and importantly, this method should be able to account for interdependencies: similarity in preferences should be transitive (if the US has similar preferences to the UK, and the UK to France, the US's preferences should be relatively close to France's) and should allow for clusters of states with similar preferences.
 
 The Additive and Multiplicative Effects model (AME) model is a relatively new technique that is a generalization of the Generalized Bilinear Mixed-Effects model from \citet{hoff:2005}. The model is an extension of the Social Relations Model: 
 
 \begin{equation}
-f(Y_{i,j}) =  \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \epsilon_{i,j}
+	f(Y_{i,j}) =  \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \epsilon_{i,j}
 \end{equation}
 
 where $f(.)$ is a general link function corresponding to the distribution of Y, $\beta^{'}\mathbf{x_{i,j}}$ is the standard regression term for dyadic and nodal fixed effects,  $\alpha_{i}, b_{j}$ are sender and receiver random effects, and $\epsilon_{i,j}$ is an IID error term. The AME model further decomposes the  error term as follows. If we assume the matrix representation of deviation from the linear predictors and random effects is $\mathbf{Z}$, then $\mathbf{Z} = \mathbf{M} + \mathbf{E}$ such that the matrix $\mathbf{E}$ represents noise, and $\mathbf{M}$ is systematic effects. By matrix theory, we can decompose $\mathbf{M} = \mathbf{UDV^{'}}$ such that $\mathbf{U}$ and $\mathbf{V}$ are are n x n matrices with othonormal columns, and $\mathbf{D}$ is an n x n diagonal matrix. This is called the singular value decomposition of $\mathbf{M}$. 
 
 We then write the AME model for a given value $Y_{i,j} \in \{0,1\}$:
+
 \begin{equation}
-\text{logit}(P(Y_{i,j} == 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
+	\text{logit}(P(Y_{i,j} == 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
 \end{equation}
 
 In estimating preference models, we abstain from using fixed effects save an intercept.
@@ -23,10 +27,11 @@ In estimating preference models, we abstain from using fixed effects save an int
 An important innovation with the AME, as compared to previous network estimates is the ability to handle replicated datasets -- here we use the replicated dataset to incorporate multiple measures of similarity into a single ideal point estimation.  The AME with dyadic data treats each different slice of data as independent, save for those dependencies captured by the nodal and multiplicative random effects, as well as those controlled for by fixed effects. The final estimating equation we use is:
 
 \begin{equation}
-\text{logit}(P(Y_{i,j_j} == 1) = \mu + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
+	\text{logit}(P(Y_{i,j_j} == 1) = \mu + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
 \end{equation}
 
 What is particularly useful here is the eponymous multiplicative effect $\mathbf{u_{i}Dv^{'}_{j}}$. This effect not only helps to account for homophily and stochastic equivalence, it also places each state in a latent space. What is key to understand about this latent space is that it is non-euclidian. Rather than have states behave similar to the states which are close to them, this latent space is a two dimensional representation of a hypersphere, and thus states are apt to behave similarly to the states that are placed in the same direction on said sphere. Thus, if two states vectors (from the center of the space) are in the same direction, they are apt to send and receive both alliances and co-voting to similar targets. The way we measure this similarity in dimension is by looking at the absolute distance of the angles created by each states position and the center of the latent space. 
+
 % \section{Our Approach: Using Event Data}
 % We propose that one can get a useful proxy of state preferences is a more fluid and behavioral approach--using event data on cooperation and conflict to measure amity and enmity between states. Event data is (generally) machine coded data which uses news articles to capture the type and tenor of relationships between actors. The goal would be to take a measure of cooperative actions, and conflictual actions, and use these two counts to estimate each state's position in a two dimensional latent space in a given year. 
 

@@ -25,6 +25,7 @@ modForms = lapply(kivs, function(x){
 kivs = c(kivs, 'lag1_idPtDist_sScore')
 modData$lag1_idPtDist_sScore = modData$lag1_idPtDist 
 modForms[[4]] = formula(paste0(dv, ' ~ ', paste(c(kivs[c(4,3)],cntrls,splines), collapse = ' + ')))
+modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines), collapse = ' + ') ) )
 
 # Run model
 sdz = function(x){ (x-mean(x,na.rm=TRUE))/sd(x,na.rm=TRUE)  }
@@ -44,7 +45,7 @@ coefData = lapply(mods, function(x){
 
 # clean up vars
 modKey = data.frame(dirty=unique(coefData$mod))
-modKey$clean = c('Latent Angle\nDistance', 'Ideal Point\nDistance', 'S-Score', 'Ideal Point &\nS-Score')
+modKey$clean = c('Latent Angle\nDistance', 'Ideal Point\nDistance', 'S-Score', 'Ideal Point &\nS-Score',' Base\nModel')
 coefData$modClean = modKey$clean[match(coefData$mod,modKey$dirty)]
 coefData$modClean = factor(coefData$modClean, levels=modKey$clean)
 varKey = data.frame(dirty=unique(coefData$var))

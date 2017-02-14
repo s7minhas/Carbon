@@ -23,8 +23,7 @@ modForms = lapply(kivs, function(x){
 kivs = c(kivs, 'lag1_idPtDist_sScore')
 modData$lag1_idPtDist_sScore = modData$lag1_idPtDist 
 modForms[[4]] = formula(paste0(dv, ' ~ ', paste(c(kivs[c(4,3)],cntrls,splines), collapse = ' + ')))
-modForms[[length(modForms)+1]] = formula( paste0(dv, '~', 
-	paste(c(cntrls,splines), collapse = ' + ') ) )
+modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines), collapse = ' + ') ) )
 
 # create folds
 folds=100

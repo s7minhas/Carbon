@@ -49,11 +49,11 @@ ggLty = c('dashed', 'dotted', 'twodash', 'solid')
 loadPkg('png')
 sepPngList = lapply(1:length(predDfs), function(ii){
 	fSepPath = paste0(pathGraphics,'sep_',names(predDfs)[ii],'_outSample.png')
-	# save as pngs for potential use outside of roc
-	tmp = data.frame(act=predDfs[[ii]]$actual, proba=predDfs[[ii]]$'prob')
-	tmp = unique(round(tmp,4))
-	ggSep(actual=tmp$act, proba=tmp$proba, 
-		color=ggCols[ii], lty=ggLty[ii], fPath=fSepPath, save=TRUE )
+	# # save as pngs for potential use outside of roc
+	# tmp = data.frame(act=predDfs[[ii]]$actual, proba=predDfs[[ii]]$'prob')
+	# # tmp = unique(round(tmp,4))
+	# ggSep(actual=tmp$act, proba=tmp$proba, 
+	# 	color=ggCols[ii], lty=ggLty[ii], fPath=fSepPath, save=TRUE )
 	sepG = rasterGrob(readPNG(fSepPath), interpolate=TRUE)
 	return(sepG)
 })

@@ -28,7 +28,7 @@ foreach(yr = yrs, .packages=c("amen")) %dopar% {
 	# Run Amen model
 	fit = ame_rep(amData[[yr]], 
 		symmetric=TRUE, R=2, model='nrm', intercept=FALSE,
-		burn=toBurn, nscan=imp, odens=1, 
+		burn=toBurn, nscan=imp, odens=1, rvar=FALSE,cvar=FALSE,
 		seed=6886, print=FALSE, plot=FALSE )
 	# Save lat space
 	save(fit, file=paste0(pathResults, 'ameLatSpace/',yr,'_rescale.rda'))

@@ -12,7 +12,7 @@ yrs=1965:2012
 source( paste0(gpth, 'R/Analysis/ameNull/latDistHelpers.R') )
 
 # Files to pull
-latRdas = paste0(pathResults, 'ameLatSpace') %>% list.files() %>% .[grepl('_rescale.rda', .)] %>% paste0(pathResults, 'ameLatSpace/', .)
+latRdas = paste0(pathResults, 'ameLatSpace') %>% list.files() %>% .[grepl('_rescale_noABeffects.rda', .)] %>% paste0(pathResults, 'ameLatSpace/', .)
 
 getLatAngle = function(x, lab){
 	load(x) ; U=getPosInSpace(fit$ULUPM)

@@ -26,7 +26,7 @@ modForms[[4]] = formula(paste0(dv, ' ~ ', paste(c(kivs[c(4,3)],cntrls,splines), 
 modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines), collapse = ' + ') ) )
 
 # create folds
-folds=100
+folds=5
 set.seed(6886) ; modData$fold = sample(1:folds, size=nrow(modData), replace=TRUE)
 ############################
 
@@ -56,7 +56,26 @@ outPerf = lapply(modForms, function(x){
 # org
 modSumm = do.call('rbind', lapply(outPerf, function(x){ x$df } ) )
 rocPrData = do.call('rbind', lapply(outPerf, function(x){ x$rocPR } ) )
+predDfs = split(rocPrData,rocPrData$model)
+
+# tabular data
+aucSumm=do.call('rbind', lapply(predDfs,function(x){
+	aucROC=getAUC(x$prob,x$actual) ; aucPR=auc_pr(x$actual,x$prob)
+	return( c('AUC'=aucROC,'AUC (PR)'=aucPR) ) }) )
+aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
+aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
+aucSumm
+# roc data
+rocData=do.call('rbind', 
+	lapply(predDfs, function(x){
+		y=roc(x$prob,x$actual);y$model=unique(x$model);return(y) }))
+
+# precision recall curve data
+prData=do.call('rbind', 
+	lapply(predDfs, function(x){
+		y=rocdf(x$prob,x$actual,type='pr');y$model=unique(x$model);return(y) }))
 
 # save
-save(modSumm, rocPrData, file=paste0(pathResults, 'crossValResults.rda'))
+save(modSumm, rocPrData, predDfs, aucSumm, rocData, prData, 
+	file=paste0(pathResults, 'crossValResults.rda'))
 ############################

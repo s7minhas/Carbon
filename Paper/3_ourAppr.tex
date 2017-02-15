@@ -6,6 +6,14 @@ We propose that preferences and ideal points can be better measured by combining
 
 \subsection{AME, Why Network stuff matters}
 
+% needs to be modified
+\begin{figure}[ht]
+	\centering
+	\resizebox{.5\textwidth}{!}{\input{tensorViz.tex}}
+	\caption{Tensor representation of longitudinal dyadic, representational measures. The green and blue colors represent different relational measures and darker shading indicates later time periods. Specifically, we show a tensor with dimensions of $4 \times 4 \times 2 \times 3$, where 4 represents the number of actors, 2 the number of relational measures, and 3 the number of time points.}
+	\label{fig:tensViz}
+\end{figure}
+
 We want a model that takes a set of actions between countries, and infers each countries position in a latent preference space, such that those countries close to each other are likely to have similar preferences and therefore have similar alliances and UN voting records. We would like this methodology to be able to, in a principled way combine different sources of data, for example imputing ideal points based on both alliance behavior and behavior at the UN. Finally, and importantly, this method should be able to account for interdependencies: similarity in preferences should be transitive (if the US has similar preferences to the UK, and the UK to France, the US's preferences should be relatively close to France's) and should allow for clusters of states with similar preferences.
 
 The Additive and Multiplicative Effects model (AME) model is a relatively new technique that is a generalization of the Generalized Bilinear Mixed-Effects model from \citet{hoff:2005}. The model is an extension of the Social Relations Model: 

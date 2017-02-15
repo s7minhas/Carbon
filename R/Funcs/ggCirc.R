@@ -49,7 +49,7 @@ ggCirc = function(
 	
 	# org df for gg
 	uG = data.frame(u*1.2)
-	uG$actor = rownames(yArrSumm)
+	uG$actor = row.names
 	uG$tPch = 0 ; uG$tPch[rsum>0] = (mu[rsum>0])^3
 	uG = uG[uG$tPch>0,]
 	uG$tPch = uG$tPch
@@ -57,7 +57,7 @@ ggCirc = function(
 	# add v if supplied
 	if(!is.null(V)){
 		vG = data.frame(v*1.2)
-		vG$actor = rownames(yArrSumm)
+		vG$actor = row.names
 		vG$tPch = 0 ; vG$tPch[csum>0] = (mv[csum>0])^3
 		vG = vG[vG$tPch>0,]
 		vG$tPch = vG$tPch

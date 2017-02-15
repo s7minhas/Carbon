@@ -6,11 +6,14 @@ Another important question is the amount of temporal aggregation used. In our ba
 
 With this data, we run an AME model with a Gaussian link, and in particular we use the uDv term to estimate each states position in a two-dimensional latent space. We then evaluate whether their is additional utility gained from using this latent position, as compared to the component measures of similarity of alliance portfolio and UN ideal point distance.
 
-\begin{itemize}
-	\item Functional Form
-\end{itemize}
+\section{Constructing Latent Angle Measure}
 
-\section{Exploratory Tests}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.7\textwidth]{latPlot}
+	\caption{Latent factor plot.}
+	\label{fig:latPlot}
+\end{figure}
 
 \subsection{Face Plausibility}
 
@@ -38,4 +41,15 @@ Are coeffs starry and in right direction
 
 \subsection{Out of sample prediction}
 
-Are we right?
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{cc}
+	\includegraphics[width=.5\textwidth]{roc_outSample} & 
+	\includegraphics[width=.5\textwidth]{rocPr_outSample}	
+	\end{tabular}
+	\caption{Assessments of out-of-sample predictive performance using ROC curves and PR curves. AUC statistics are provided as well for both curves.}
+	\label{fig:roc}
+\end{figure}
+\FloatBarrier
+
+Are we right? Yes.

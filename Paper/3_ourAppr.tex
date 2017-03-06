@@ -27,7 +27,7 @@ where $f(.)$ is a general link function corresponding to the distribution of Y, 
 We then write the AME model for a given value $Y_{i,j} \in \{0,1\}$:
 
 \begin{equation}
-	\text{logit}(P(Y_{i,j} == 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
+	\text{logit}(P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
 \end{equation}
 
 In estimating preference models, we abstain from using fixed effects save an intercept.
@@ -35,7 +35,7 @@ In estimating preference models, we abstain from using fixed effects save an int
 An important innovation with the AME, as compared to previous network estimates is the ability to handle replicated datasets -- here we use the replicated dataset to incorporate multiple measures of similarity into a single ideal point estimation.  The AME with dyadic data treats each different slice of data as independent, save for those dependencies captured by the nodal and multiplicative random effects, as well as those controlled for by fixed effects. The final estimating equation we use is:
 
 \begin{equation}
-	\text{logit}(P(Y_{i,j_j} == 1) = \mu + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
+	\text{logit}(P(Y_{i,j_j} = 1) = \mu + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
 \end{equation}
 
 What is particularly useful here is the eponymous multiplicative effect $\mathbf{u_{i}Dv^{'}_{j}}$. This effect not only helps to account for homophily and stochastic equivalence, it also places each state in a latent space. What is key to understand about this latent space is that it is non-euclidian. Rather than have states behave similar to the states which are close to them, this latent space is a two dimensional representation of a hypersphere, and thus states are apt to behave similarly to the states that are placed in the same direction on said sphere. Thus, if two states vectors (from the center of the space) are in the same direction, they are apt to send and receive both alliances and co-voting to similar targets. The way we measure this similarity in dimension is by looking at the absolute distance of the angles created by each states position and the center of the latent space. 

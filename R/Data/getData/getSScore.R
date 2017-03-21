@@ -98,9 +98,8 @@ names(allyList) = yrs
 	
 # Calculate s score	and reformat into set of long dfs
 sL = lapply(allyList, function(mat){
-	tmp = 1-  matrixS(mat); rownames(tmp)=colnames(tmp)=rownames(mat)
+	tmp = matrixS(mat); rownames(tmp)=colnames(tmp)=rownames(mat)
 	diag(tmp) = NA
-	tmp = ( tmp - mean(tmp, na.rm=TRUE) ) / sd(tmp, na.rm=TRUE)
 	diag(tmp) = 0
 	tmpL=melt(tmp); colnames(tmpL)=c('ccode1','ccode2','sScore')
 	tmpL = tmpL[tmpL$ccode1 != tmpL$ccode2,]

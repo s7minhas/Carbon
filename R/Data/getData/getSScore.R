@@ -1,5 +1,7 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
+if(Sys.info()["user"]=="maxgallop" ){
+  source('~/Documents/Carbon/R/setup.R') }
 
 ###############################################################
 # Download file from ICOW site
@@ -37,8 +39,8 @@ cntries$cname[cntries$cntry=="Yugoslavia"] = 'SERBIA'
 cntries$cname[cntries$cntry=="Czechoslovakia"] = 'CZECH REPUBLIC'
 
 # Add ccode
-cntries$ccode = panel$ccode[match(cntries$cname,panel$cname)]
-
+cntries$ccode = panel$ccode[match(toupper(cntries$cname),panel$cname)]
+cntries$ccode[is.na(cntries$ccode)] = countrycode(cntries[is.na(cntries$ccode),"cname"], "country.name", "cown")
 # Merge updated cname and ccode to un
 ally$cname1 = cntries$cname[match(ally$state_name1, cntries$cntry)]
 ally$cname2 = cntries$cname[match(ally$state_name2, cntries$cntry)]
@@ -63,8 +65,8 @@ twoS = function(mat, i, j, wvec){
 	r2 = mat[j,]
 	dmax = sum(wvec)
 	deltmax = max(mat) - min(mat)
-	d = abs(r1 - r2) %*% wvec/dmax
-	return(1 - 2*d/dmax)
+	d = abs(r1 - r2) %*% wvec/dmax/deltmax
+	return(1 - 2*d)
 }
 
 rowS = function(i, mat, wvec){
@@ -80,6 +82,7 @@ matrixS = function(mat){
 	return(smat)	
 	}
 
+ally = ally[!is.na(ally$ccode1) & !is.na(ally$ccode2),]
 # Create list of matrices with allyweighted in cross-sections
 allyList = lapply(yrs, function(yr){
 	slice = ally[ally$year==yr,c('ccode1','ccode2','allyweighted')] %>% cbind(., c12=paste0(.[,1], '_',.[,2]))
@@ -88,13 +91,14 @@ allyList = lapply(yrs, function(yr){
 	full$allyweighted = 0
 	full$allyweighted[match(slice$c12, full$c12)] = slice$allyweighted
 	mat = acast(full, ccode1~ccode2, value.var='allyweighted')
+	diag(mat) = 3
 	return( mat )
 	})
 names(allyList) = yrs
 	
 # Calculate s score	and reformat into set of long dfs
 sL = lapply(allyList, function(mat){
-	tmp = 1 - matrixS(mat); rownames(tmp)=colnames(tmp)=rownames(mat)
+	tmp = 1-  matrixS(mat); rownames(tmp)=colnames(tmp)=rownames(mat)
 	diag(tmp) = NA
 	tmp = ( tmp - mean(tmp, na.rm=TRUE) ) / sd(tmp, na.rm=TRUE)
 	diag(tmp) = 0

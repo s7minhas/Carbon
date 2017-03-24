@@ -6,7 +6,6 @@ source(paste0(gpth, 'R/Funcs/postHelpers.R'))
 ############################
 library(magrittr)
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
-head(latAngle)
 
 
 library(countrycode)
@@ -39,55 +38,76 @@ sScoreData = lapply(names(sL), function(x){
 
 latAngle = merge(latAngle, sScoreData, by.x = "dyadid", by.y = "id", all.x = T)
 latAngle = merge(latAngle, idPt, by.x = "dyadid", by.y = "dyadidyr" , all.x = T)
-max(latAngle$sScore)
-max(latAngle$idealpointdistance)
-names(latAngle)
+latAngle$sOld = latAngle$sScore
+latAngle$sScore = 1 - latAngle$sScore
 #US China
+pdf(file = paste0(pathGraphics, "DyadViz/USChina.pdf"))
 plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$country2 == "China"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-1, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
-
+dev.off()
 #France Germany
+pdf(file = paste0(pathGraphics, "DyadViz/FranceGermany.pdf"))
 plotData = latAngle[which(latAngle$country1 == "France" & latAngle$Var2 == 260),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
+dev.off()
 
 #US Russia
+pdf(file = paste0(pathGraphics, "DyadViz/USRussia.pdf"))
 plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$Var2 == 365),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
+dev.off()
 
 #US Israel
+pdf(file = paste0(pathGraphics, "DyadViz/USIsrael.pdf"))
 plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$country2 == "Israel"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
-
+dev.off()
 #Iran Iraq
+pdf(file = paste0(pathGraphics, "DyadViz/IranIraq.pdf"))
+
 plotData = latAngle[which(latAngle$country1 == "Iraq" & latAngle$Var2 == "630"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(sScore~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
-
+dev.off()
 #North Korea China
+
+pdf(file = paste0(pathGraphics, "DyadViz/NoKoChina.pdf"))
 plotData = latAngle[which(latAngle$country1 == "China" & latAngle$Var2 == "731"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
-
+dev.off()
 #North Korea South Korea
+pdf(file = paste0(pathGraphics, "DyadViz/NoKoSoKo.pdf"))
+
 plotData = latAngle[which(latAngle$Var1 == "732" & latAngle$Var2 == "731"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(sScore~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
-
+dev.off()
 
 #US Iraq
+pdf(file = paste0(pathGraphics, "DyadViz/USIraq.pdf"))
+
 plotData = latAngle[which(latAngle$Var1 == "2" & latAngle$Var2 == "645"),]
 plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
 lines(idealpointdistance~year.x, data = plotData, col = "blue")
 lines(sScore~year.x, data = plotData, col = "red")
+dev.off()
 
+pdf(file = paste0(pathGraphics, "DyadViz/USIraq.pdf"))
+
+plotData = latAngle[which(latAngle$country1 == "Djibouti" & latAngle$country2 == "Australia"),]
+plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
+lines(idealpointdistance~year.x, data = plotData, col = "blue")
+lines(sScore~year.x, data = plotData, col = "red")
+dev.off()

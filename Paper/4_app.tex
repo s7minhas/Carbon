@@ -8,20 +8,42 @@ With this data, we run an AME model with a Gaussian link, and in particular we u
 
 \section{Constructing Latent Angle Measure}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=.7\textwidth]{latPlot}
-	\caption{Latent factor plot.}
-	\label{fig:latPlot}
+\subsection{Face Plausibility}
+An important question for these different measures of preferences, are whether they give results that ``make sense" for certain prominent pairs of countries. In particular we would hope that the measures both give sensible levels to relationships -- sorting states into friends and foes effectively -- but also that when these measures change, they do so in sensible ways, and in ways that correspond to changes in the world. We thus present all three measures' accounts of eight dyadic relationships over time.\footnote{For the sake of having each measure operate in the same direction, we transform the S-score such that the value shown is 1 - S. Thus for all three variables, $0$ implies perfect symmetry of preferences.} A note is that each of these measures is on a different scale, and so just because one measure has a higher value, does not necessarily mean that it posits more dissimilarity of preferences.
+
+We first look at three close relationships where we'd expect to see similar preferences: as depicted in figure \ref{friendly:dyads} the relationships between France and Germany, the US and Israel, and North Korea and China. In all three cases our measure using Latent Angle distance has consistently low values -- nearly $0$ in the case of France and German, and China and North Korea, and low but less stable values for the US/Israel relationship. Alliance S-Scores correctly classify Franco-German and Sino-North Korean friendship, while the US/Israel relationship is characterized as being relatively neutral. The measure based on UN voting is most out of step in terms of characterizing these relationships, with notable divergence in the preferences of many of these pairs.
+
+\begin{figure}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/FranceGermany}}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/USIsrael}}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/NoKoChina}}
+\caption{Dyadic relationships between 3 pairs of countries according to the different preference measures. Latent angle distance is in black, ideal point distance based on UN voting is in blue. S-score has been rescaled such that it works in the same direction as the other measures (1-S-score, so that the best score is 0), and is in red.}
+\label{friendly:dyads}
 \end{figure}
 
-\subsection{Face Plausibility}
+In figure \ref{unfriendly:dyads} we look at the United States' relationship with three countries that are characterized by change and major events. The biggest difference between the measures is that alliance S-scores are the only measure that does not detect a marked improvement in the US/Russian relationship at the end of the Cold War. Both the UN ideal points and Latent Angle space find significant improvements followed by a drift toward enmity, whereas S-scores have a constant (though slightly improving) neutral relationship. For the US and Iraq no measure depicts more similar preferences following the US occupation, though only Latent Angle distance finds an increase in enmity in the run-up to the US's invasion. Finally, for the US and China, the S-score has a consistent neutral relationship, while both UN ideal points and Latent Angles have more both more negative relationships, and more variance, with Latent Angles finding particularly large spikes at the beginning of the Bush and Obama administrations.
 
-Are states close to who we'd expect them to be?
+\begin{figure}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/USChina}}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/USRussia}}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/USIraq}}
+\caption{Dyadic relationships between 3 pairs of countries according to the different preference measures. Latent angle distance is in black, ideal point distance based on UN voting is in blue. S-score has been rescaled such that it works in the same direction as the other measures (1-S-score, so that the best score is 0), and is in red.}
+\label{unfriendly:dyads}
+\end{figure}
 
-\subsection{Temporal Reliability}
+One big difference between these measures is that Latent Angle distance has a more full time series than the other two measures, this is particularly relevant when looking at the preferences of certain rogue states, as we do in figure \ref{missing:dyads}. In both the case of Iran/Iraq and North Korea/South Korea there is no data for UN voting (and for Iran/Iraq missing data for S-scores). For the Korean relationship, Latent Angle distance better characterizes  the relationship as enmity, while S-scores treat the two as having very similar preferences. Whereas for Iran and Iraq's relationship S-scores give a consistent close preferences (where data exists), while Latent Angles show more instability, and notable elevation (though not as large as we would expect) during their war.
 
-Are our measures consistent?
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/NoKoSoKo}}
+\subfigure{\includegraphics[height = 6cm, width = 5cm]{DyadViz/IranIraq}}
+\caption{Dyadic relationships between 2 pairs of countries according to the different preference measures. Latent angle distance is in black, ideal point distance based on UN voting is in blue. S-score has been rescaled such that it works in the same direction as the other measures (1-S-score, so that the best score is 0), and is in red.}
+\label{missing:dyads}
+\end{figure}
+
+As can be seen from these relationships, the measure of preferences based on Latent Angle distance is in many cases as plausible or more than incumbent measures of preferences. While the measure has more temporal instability than S-scores or UN ideal points, in these 8 cases it often does better, and rarely worse than the other measures at conforming to our expectations of the relationships. Of course, this could just be a case of us picking particularly propitious cases. These 8 dyads show the plausibility of our measure of state preferences, but the real test is in the large-N analysis of conflict in the next section.
+
 
 \section{Model Competition}
 To evaluate different measures of state preferences, we compare them in a model of interstate disputes. Here we look at four non-nested models: a model using no measures of state preferences, one using an S-Score based on similarity in alliance portfolio (as in \ref{signorino:ritter:year}, one using the ideal points determined by UN voting (as in \ref{bailey:strezhnev:voeten:year}), a model using both UN ideal points and alliance S-scores, and finally, a model using our latent angle approach to combine data from UN voting and alliances. We evaluate the models on two criteria: whether state preferences have a consistent effect in the predicted direction, and how well each model does at predicting disputes on out of sample data.
@@ -32,7 +54,7 @@ In each of these models, we look at a logistic regression of Militarized Interst
 \subsection{In sample explanation}
 As detailed in figure \ref{fig:coefP}, each measure of state preferences performs as we would expect them to. Our measure of state preference using latent angle difference is highly significant and positive: states with more dissimilar preferences will have greater difference in their latent angles, and this is highly associated with a greater risk of conflict. Similarly, both incumbent measures of preferences pass this test. The measure using UN voting ideal points is positive and clearly distinct from $0$, indicating that states with more distant ideal points, and thus more dissimilar preferences, are more likely to find themselves in conflict. Similarly, higher alliance S-scores are consistently associated with lower probabilities of conflict -- so states with more similar preferences as measured using alliance portfolios are less likely to quarrel. These results hold when the measure of preferences is used in isolation, or in tandem.
 
-The models have one major difference in terms of the controls: in the model using latent angle distance, joint democracy is indistinguishable from $0$. This is particularly interesting because of one of the major criticisms of democratic peace theory is that, for one reason or another, democracies have similar preferences, and this is what actually causes peace among democracies.  Despite this dispute, most attempts to include preferences in the standard democratic peace regressions still found a consistent pacifying effect of demoh cracy.
+The models have one major difference in terms of the controls: in the model using latent angle distance, joint democracy is indistinguishable from $0$. This is particularly interesting because of one of the major criticisms of democratic peace theory is that, for one reason or another, democracies have similar preferences, and this is what actually causes peace among democracies.  Despite this dispute, most attempts to include preferences in the standard democratic peace regressions still found a consistent pacifying effect of democracy.
 (as do those models with UN voting and S-scores presented here). With our measure of preferences, however, democracy's effect is negligible.
 
 

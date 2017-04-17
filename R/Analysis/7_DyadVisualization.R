@@ -3,17 +3,20 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 if(Sys.info()["user"]=="maxgallop"){
 	source("/Users/maxgallop/Documents/Carbon/R/setup.R") }
 source(paste0(gpth, 'R/Funcs/postHelpers.R'))
+
+loadPkg(c('magrittr','countrycode','doBy'))
 ############################
-library(magrittr)
+
+############################
 load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
+load(paste0(pathDataBin,'sScore.rda'))
+############################
 
-
-library(countrycode)
-
-latAngle$country1 = countrycode(latAngle$Var1, "cown", "country.name")
-latAngle$country2 = countrycode(latAngle$Var2, "cown", "country.name")
-latAngle$dyad = paste(latAngle$Var1, latAngle$Var2)
-library(doBy)
+############################
+latAngle$country1 = panel$cname[match(latAngle$Var1,panel$ccode)]
+latAngle$country2 = panel$cname[match(latAngle$Var2,panel$ccode)]
+latAngle$dyad = paste(latAngle$Var1, latAngle$Var2, sep='_')
 
 avLatAngle = summaryBy(value~dyad,data = latAngle, FUN = mean)
 avLatAngleNames = summaryBy(country1 + country2~dyad, data = latAngle, FUN = unique)
@@ -21,15 +24,6 @@ avLatAngle2 = cbind(avLatAngle, avLatAngleNames[,2:3])
 avLatAngle2 = avLatAngle2[order(avLatAngle2$value.mean, decreasing = F),]
 avLatAngle2 = avLatAngle2[seq(1, dim(avLatAngle2)[1], 2),]
 names(avLatAngle2) = c("dyad", "AngleDifference", "country1", "country2")
-dim(avLatAngle2)
-
-
-avLatAngle2[1:10,]
-avLatAngle2[18966:18975,]
-head(avLatAngle2[which(avLatAngle2$country1 == "Israel" | avLatAngle2$country2 == "Israel" ),], 20)
-
-load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
-load(paste0(pathDataBin,'sScore.rda'))
 
 sScoreData = lapply(names(sL), function(x){
   tmp=sL[[x]]; tmp$year=x
@@ -40,74 +34,57 @@ latAngle = merge(latAngle, sScoreData, by.x = "dyadid", by.y = "id", all.x = T)
 latAngle = merge(latAngle, idPt, by.x = "dyadid", by.y = "dyadidyr" , all.x = T)
 latAngle$sOld = latAngle$sScore
 latAngle$sScore = 1 - latAngle$sScore
-#US China
-pdf(file = paste0(pathGraphics, "DyadViz/USChina.pdf"))
-plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$country2 == "China"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-1, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-#France Germany
-pdf(file = paste0(pathGraphics, "DyadViz/FranceGermany.pdf"))
-plotData = latAngle[which(latAngle$country1 == "France" & latAngle$Var2 == 260),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
+############################
 
-#US Russia
-pdf(file = paste0(pathGraphics, "DyadViz/USRussia.pdf"))
-plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$Var2 == 365),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
+############################
+plausPlot = function(dyadIds, dyadLabs, pW=12, pH=4, fName){
+	fig1Plaus = latAngle[
+		which( latAngle$dyad %in% dyadIds ),
+		c('country1','country2','dyad','year.x','value','idealpointdistance','sScore')] 
+	names(fig1Plaus)[5:7] = c('Latent Angle\nDistance', 'Ideal Point\nDistance', 'S-Score')
+	fig1Plaus$dyadAbb = NA
+	for(i in 1:length(dyadIds)){ fig1Plaus$dyadAbb[fig1Plaus$dyad==dyadIds[i]]=dyadLabs[i] }
+	ggFig1 = reshape2::melt(fig1Plaus[,4:8], id=c('dyadAbb','year.x'))
+	ggFig1$dyadAbb = factor(ggFig1$dyadAbb, levels=dyadLabs)
 
-#US Israel
-pdf(file = paste0(pathGraphics, "DyadViz/USIsrael.pdf"))
-plotData = latAngle[which(latAngle$country1 == "United States of America" & latAngle$country2 == "Israel"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-#Iran Iraq
-pdf(file = paste0(pathGraphics, "DyadViz/IranIraq.pdf"))
+	ggPlaus = ggplot(ggFig1, aes(x=year.x, y=value, group=variable, color=variable)) +
+		geom_line(size=.8) + geom_point(aes(shape=variable), size=1.5) +
+		scale_color_brewer(palette='Set1') + 
+		facet_wrap(~dyadAbb, ncol=length(dyadIds), scales='free') +
+		labs(color='', shape='') + ylab('') + xlab('') +
+		theme(
+			axis.ticks=element_blank(),
+			panel.border=element_blank(),
+			legend.text=element_text(family="Source Sans Pro Light"),
+			legend.position='top',
+			axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
+			axis.text.y=element_text(family="Source Sans Pro Light"),
+			strip.text.x = element_text(color='white',
+				family="Source Sans Pro Semibold"),
+			strip.background = element_rect(fill = "#525252", color='#525252')				
+		)
+	ggsave(ggPlaus, file=fName, width=pW, height=pH, device=cairo_pdf)
+}
 
-plotData = latAngle[which(latAngle$country1 == "Iraq" & latAngle$Var2 == "630"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(sScore~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-#North Korea China
+# France-Germany | US-Israel | China-NoKo 
+plausPlot(
+	dyadIds=c('220_260', '2_666', '710_731'),
+	dyadLabs=c('France-Germany', 'USA-Israel', 'China-North Korea'),
+	fName=paste0(pathGraphics, 'plausPlot_1.pdf')
+	)
 
-pdf(file = paste0(pathGraphics, "DyadViz/NoKoChina.pdf"))
-plotData = latAngle[which(latAngle$country1 == "China" & latAngle$Var2 == "731"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-#North Korea South Korea
-pdf(file = paste0(pathGraphics, "DyadViz/NoKoSoKo.pdf"))
+# SoKo-NoKo | Iraq-Iran
+plausPlot(
+	dyadIds=c('2_710', '2_365', '2_645'),
+	dyadLabs=c('USA-China', 'USA-Russia', 'USA-Iraq'),
+	fName=paste0(pathGraphics, 'plausPlot_2.pdf')
+	)
 
-plotData = latAngle[which(latAngle$Var1 == "732" & latAngle$Var2 == "731"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(sScore~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-
-#US Iraq
-pdf(file = paste0(pathGraphics, "DyadViz/USIraq.pdf"))
-
-plotData = latAngle[which(latAngle$Var1 == "2" & latAngle$Var2 == "645"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
-
-pdf(file = paste0(pathGraphics, "DyadViz/USIraq.pdf"))
-
-plotData = latAngle[which(latAngle$country1 == "Djibouti" & latAngle$country2 == "Australia"),]
-plot(value~year.x,type = "l", data = plotData, ylim = c(-2, 5), main = paste(plotData$country1[1], plotData$country2[1], sep = "-"))
-lines(idealpointdistance~year.x, data = plotData, col = "blue")
-lines(sScore~year.x, data = plotData, col = "red")
-dev.off()
+# SoKo-NoKo | Iraq-Iran
+plausPlot(
+	dyadIds=c('732_731', '645_630'),
+	dyadLabs=c('South Korea-North Korea', 'Iraq-Iran'),
+	pW=8, pH=4,
+	fName=paste0(pathGraphics, 'plausPlot_3.pdf')
+	)
+############################

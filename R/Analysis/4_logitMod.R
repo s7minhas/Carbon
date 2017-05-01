@@ -69,7 +69,7 @@ coefData$varClean = factor(coefData$varClean, levels=rev(varKey$clean[-2]))
 coefData = coefData[which(!coefData$varClean %in% varKey$clean[8:12]),]
 
 # plot
-posDodge = .5
+posDodge = .7
 ggCoef=ggplot(coefData, aes(x=varClean, y=mean, color=sig, group=modClean)) + 
 	geom_hline(aes(yintercept=0), linetype=2, color = "black") + 
 	geom_point(aes(shape=modClean), size=4, position=position_dodge(width = posDodge)) + 

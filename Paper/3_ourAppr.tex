@@ -1,6 +1,6 @@
 \subsection*{Synthesizing Measures of State Preference}
 
-We propose that preferences and ideal points can be better measured by combining multiple proxies. However, the idea of using multiple metrics to get a better handle on preferences is not new, in fact, Signorino and Ritter suggested it in introducing S scores, which were designed to allow for aggregation of similarity on multiple dimensions (such as alliances and UN voting). What we propose, is to combine the dyadic measures of state similarity created using S-scores for alliances, and using voting models for UN data, in a manner that is both principled, and allows us to account for network level patterns that we argue can be used to better explain state preferences.
+We propose that preferences and ideal points can be better measured by combining multiple proxies. However, the idea of using multiple metrics to get a better handle on preferences is not new, in fact, Signorino and Ritter suggested it in introducing S scores, which were designed to allow for aggregation of similarity on multiple dimensions (such as alliances and UN voting). What we propose, is to combine the dyadic measures of state similarity created using S-scores for alliances, and using voting models for UN data, in a manner that is both principled, and allows us to account for network level patterns that we argue can be used to better explain state preferences. 
 
 In particular, we use these two measures of state preference in a network model, in order to ascertain the state positions that best explain not only states dyadic similarity and dissimilarity on both measures, but also why states form the clusters they form. Our hope, is that by combining different measures of state preferences, and better accounting for spatial dependencies, we are able to generate a measure for preference that maintains the insights of both UN voting scores and S-scores, but which can also yield some new insights, in particular, when it comes to predicting and explaining interstate conflict.
 
@@ -16,7 +16,7 @@ In particular, we use these two measures of state preference in a network model,
 
 \section*{Methodology}
 
-\subsection*{Latent Factor Model, Why Network stuff matters}
+\subsection*{Latent Factor Model}
 
 [Many options available to begin working with multirelational networks. a notable corpus of literature has been developed using community detection approaches that have their origins in the latent class models developed by \citet{nowicki:snijders:2001}. ]
 
@@ -24,7 +24,7 @@ In particular, we use these two measures of state preference in a network model,
 
 We want a model that takes a set of actions between countries, and infers each countries position in a latent preference space, such that those countries close to each other are likely to have similar preferences and therefore have similar alliances and UN voting records. We would like this methodology to be able to, in a principled way combine different sources of data, for example imputing ideal points based on both alliance behavior and behavior at the UN. Finally, and importantly, this method should be able to account for interdependencies: similarity in preferences should be transitive (if the US has similar preferences to the UK, and the UK to France, the US's preferences should be relatively close to France's) and should allow for clusters of states with similar preferences.
 
-The latent factor model is a relatively new technique that is a generalization of the Generalized Bilinear Mixed-Effects model from \citet{hoff:2005}. The model is an extension of the Social Relations Model: 
+The latent factor model is a relatively new technique that is a recent generalization of the Generalized Bilinear Mixed-Effects model from \citet{hoff:2005}. 
 
 \begin{equation}
 	f(Y_{i,j}) =  \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \epsilon_{i,j}
@@ -32,10 +32,10 @@ The latent factor model is a relatively new technique that is a generalization o
 
 where $f(.)$ is a general link function corresponding to the distribution of Y, $\beta^{'}\mathbf{x_{i,j}}$ is the standard regression term for dyadic and nodal fixed effects,  $\alpha_{i}, b_{j}$ are sender and receiver random effects, and $\epsilon_{i,j}$ is an IID error term. The AME model further decomposes the  error term as follows. If we assume the matrix representation of deviation from the linear predictors and random effects is $\mathbf{Z}$, then $\mathbf{Z} = \mathbf{M} + \mathbf{E}$ such that the matrix $\mathbf{E}$ represents noise, and $\mathbf{M}$ is systematic effects. By matrix theory, we can decompose $\mathbf{M} = \mathbf{UDV^{'}}$ such that $\mathbf{U}$ and $\mathbf{V}$ are are n x n matrices with othonormal columns, and $\mathbf{D}$ is an n x n diagonal matrix. This is called the singular value decomposition of $\mathbf{M}$. 
 
-We then write the AME model for a given value $Y_{i,j} \in \{0,1\}$:
+We then write the AME model for a given value $Y_{i,j} \in \{0,1\}$:\footnote{An alternative formulation of this model includes nodal sender and receiver random effects along with an error covariance structure based on the social relations model: $P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}$. }
 
 \begin{equation}
-	\text{logit}(P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
+	P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
 \end{equation}
 
 In estimating preference models, we abstain from using fixed effects save an intercept.
@@ -43,7 +43,7 @@ In estimating preference models, we abstain from using fixed effects save an int
 An important innovation with the AME, as compared to previous network estimates is the ability to handle replicated datasets -- here we use the replicated dataset to incorporate multiple measures of similarity into a single ideal point estimation.  The AME with dyadic data treats each different slice of data as independent, save for those dependencies captured by the nodal and multiplicative random effects, as well as those controlled for by fixed effects. The final estimating equation we use is:
 
 \begin{equation}
-	\text{logit}(P(Y_{i,j_j} = 1) = \mu + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
+	P(Y_{i,j_j} = 1) = \mu + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j,t}
 \end{equation}
 
 [Describe how to intepret SVD stuff based off cosine similarity]

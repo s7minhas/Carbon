@@ -1,4 +1,4 @@
-\subsection*{Synthesizing Measures of State Preference}
+\section*{Synthesizing Measures of State Preference}
 
 The approach that we introduce here to measuring state preferences starts by assuming that both UN voting and alliance relationships are sources of information on how states relate to one another in the international stage. By accounting for the multiple layers upon which states interact with one another we can synthesize a better measure of state preferences than if we relied on any one measure alone. The idea of using multiple metrics to get a better handle on preferences is not new, in fact, Signorino and Ritter suggested it in introducing S scores, which were designed to allow for aggregation of similarity on multiple dimensions (such as alliances and UN voting). The downside of this extant approach, however, is that it does not account for structural patterns that we often see in relational data. 
 
@@ -13,11 +13,13 @@ Relational data is composed of observations between pairs of actors, or dyads. F
 	\label{fig:tensViz}
 \end{figure}
 
-To do this, we employ a latent factor model, in order to ascertain the state positions that best explain not only states dyadic similarity and dissimilarity on the two measures, but also why some states cluster into communities. We will show that by combining different measures of state preferences, and better accounting for network dependencies, we are able to generate a measure for preference that: maintains the insights of both UN voting scores and S-scores; and which can yield new insights, in particular, when it comes to predicting and explaining interstate conflict.
+We generate these predictions through a matrix decomposition technique that estimates a latent Gaussian score for each country pair. We will show that by combining different measures of state preferences, and better accounting for network dependencies through our approach, we are able to generate a measure for preference that: maintains the insights of both UN voting scores and S-scores; and which can yield new insights, in particular, when it comes to predicting and explaining interstate conflict.
 
-\section*{Methodology}
+\section*{Latent Factor Model}
 
-% \subsection*{Latent Factor Model}
+A number of techniques have been developed in recent years to estimate low-dimensional representations of network structures.\footnote{For a literature review of these approaches see \citet{goldenberg:etal:2010}.} For many of these approaches the goal is to account for higher order dependence pattern such as stochastic equivalence. Stochastic equivalence refers to the idea that there are communities of nodes in a network, and actors within a community act similarly towards those in other communities. Thus the community membership of an actor provides us with information on how that actor will act towards others in the network. Put more concretely, a pair of actors $ij$ are stochastically equivalent if the probability of $i$ relating to, and being related to, by every other actor is the same as the probability for $j$ \citep{anderson:etal:1992}. An additional dependence pattern that often manifests in networks is homophily. The presence of homophily in a network implies that actors may cluster together because they share some latent attribute. In the context of clustering in alliance relationships, we are likely to find that states like the United States, United Kingdom, and Germany may cluster together because they share some latent state level attribute. Ignoring these patterns when generating a measure of state preferences is likely to paint an incomplete picture of the preferences that states share with one another.
+
+We account for higher order dependence patterns using a model based singular value decomposition approach that has been shown to account for both homophily and stochastic equivalence \citep{hoff:2007}. Specifically, 
 
 % [Many options available to begin working with multirelational networks. a notable corpus of literature has been developed using community detection approaches that have their origins in the latent class models developed by \citet{nowicki:snijders:2001}. ]
 

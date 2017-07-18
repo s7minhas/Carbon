@@ -21,34 +21,32 @@ A number of techniques have been developed in recent years to estimate low-dimen
 
 We account for higher order dependence patterns using a latent factor model (LFM) that allows us to capture both concepts discussed above: the tendency of actors to assort themselves into groups and to form transitive links \citep{hoff:2007,minhas:etal:2016:arxiv}. Using the LFM ensures that similarity in preferences are likely to be transitive, for example, if the US has similar preferences to the UK, and the UK to France, the US's preferences should be relatively close to France's. The most useful feature of the LFM for our purpose is that it provides a visual interpretation of those interdependencies by inferring actor positions in a k-dimensional latent vector space. Actors that have vectors pointing in similar directions are more likely to have similar state preferences based on their alliances and UN voting records. The angle between the vectors for actors $i$ and $j$ provides an estimate of how similar the state preferences of $i$ are to $j$. 
 
-To generate this measure we begin by constructing $T$ $n_{t} \times n_{t} \times p$ arrays, where $T$ represents the number of periods, $n_{t}$ represents the number of actors in period $t$, and $p$ the number of observed variables used to synthesize a measure of state preference. We denote each of these arrays as
+To generate this measure we begin by constructing $T$ $n_{t} \times n_{t} \times p$ arrays ($Y_{t}$), where $T$ represents the number of periods, $n_{t}$ represents the number of actors in period $t$, and $p$ the number of observed variables used to synthesize a measure of state preference. Obtaining a lower-dimension relational measure of state preferences that captures network dependence patterns, we use the LFM to decompose each array: 
 
 \begin{align*}
-	Y &= f(\theta) \\
-	\theta &= \beta^{\top} X + Z
+	Y_{t} &= f(\theta_{t})\\
+	\theta_{t} &= \beta^{\top} X_{t} + Z_{t}
 \end{align*}
 
+where $f(.)$ is a general link function corresponding to the distribution of $Y_{t}$ and $\beta^{\top}\mathbf{X_{t}}$ is the standard regression term for dyadic and nodal fixed effects, and $Z_{t}$ represents any additional patterns in data unrelated to the specified dyadic and nodal fixed effects. In this application, for the sake of parsimony we abstain from using fixed effects. However, if one was interested in estimating a measure of preference that factored out the effect of distance, for example, than this could be accomplished within the context of this framework. 
+
+The key part of this model lies in the decomposition of $Z_{t}$. \citet{hoff:2009} notes that we can write $Z_{t} = M + E$ such that the matrix $\mathbf{E}$ represents noise, and $\mathbf{M}$ is systematic effects. By matrix theory, we can factorize $M$ into the product of two simpler matrices: $\mathbf{M} = \mathbf{UDU^{\top}}$. $\mathbf{U}$ is a $n_{t} \times k$ and $\mathbf{D}$ is a $k \times k$ diagonal matrix -- $k$ is determined by the researcher. This is called the eigenvalue decomposition of $\mathbf{M}$. A Bayesian based procedure to determining the eigenvalue decomposition is available in the \pkg{amen} \textt{R} package \citep{amenpkg}. 
+
+For the latent vector model, sample each ui from its (multivariate normal) full con- ditional distribution, sample the mean of the ui’s from their (normal) full conditional distributions, and then sample Λ from its (multivariate normal) full conditional distri- bution.
+
+An inter- pretation of the latent eigenmodel is that each node i has a vector of unobserved characteristics ui = {ui,1 , . . . , ui,K }, and that similar values of ui,k and uj,k will contribute positively or nega- tively to the relationship between i and j, depending on whether λk > 0 or λk < 0. In this way, the model can represent both positive or negative homophily in varying degrees, and stochastically equivalent nodes (nodes with the same or similar latent vectors) may or may not have strong rela- tionships with one another.
 
 
-% Let Z be an n × n random matrix of effects representing deviations of the log-odds θi,j from the linear predictor β′xi,j. We can write Z = M+E, where the mean matrix M represents systematic patterns in the effects and E represents noise. A basic result from matrix theory is that every n × n matrix M has the representation
-
-% The appeal of the singular value decomposition is partly due to its interpretation as a multi- plicative model based on row and column factors. Given a model of the form Y = M + E, the elements of Y can be written yi,j = u′iDvj +ei,j, where ui and vj are the ith and jth rows of U and V respectively. This model thus provides a representation of the systematic variation among the entries of Y by row and column factors. Models of this type play a role in the analysis of relational data (Harshman et al., 1982), biplots (Gabriel 1971, Gower and Hand 1996) and in reduced-rank interaction models for factorial designs (Gabriel 1978, 1998).
-
-% The latent factor model is a relatively new technique that is a recent generalization of the Generalized Bilinear Mixed-Effects model from \citet{hoff:2005}. 
-
-% \begin{equation}
-% 	f(Y_{i,j}) =  \beta^{'}\mathbf{x_{i,j}} + \epsilon_{i,j}
-% \end{equation}
-
-% where $f(.)$ is a general link function corresponding to the distribution of Y, $\beta^{'}\mathbf{x_{i,j}}$ is the standard regression term for dyadic and nodal fixed effects, and $\epsilon_{i,j}$ is an IID error term. The AME model further decomposes the  error term as follows. If we assume the matrix representation of deviation from the linear predictors and random effects is $\mathbf{Z}$, then $\mathbf{Z} = \mathbf{M} + \mathbf{E}$ such that the matrix $\mathbf{E}$ represents noise, and $\mathbf{M}$ is systematic effects. By matrix theory, we can decompose $\mathbf{M} = \mathbf{UDV^{'}}$ such that $\mathbf{U}$ and $\mathbf{V}$ are are n x n matrices with othonormal columns, and $\mathbf{D}$ is an n x n diagonal matrix. This is called the singular value decomposition of $\mathbf{M}$. 
-
-% We then write the AME model for a given value $Y_{i,j} \in \{0,1\}$:\footnote{An alternative formulation of this model includes nodal sender and receiver random effects along with an error covariance structure based on the social relations model: $P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \alpha_{i} + b_{j} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}$. }
 
 % \begin{equation}
 % 	P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
 % \end{equation}
 
-% In estimating preference models, we abstain from using fixed effects save an intercept.
+% The appeal of the singular value decomposition is partly due to its interpretation as a multi- plicative model based on row and column factors. Given a model of the form Y = M + E, the elements of Y can be written yi,j = u′iDvj +ei,j, where ui and vj are the ith and jth rows of U and V respectively. This model thus provides a representation of the systematic variation among the entries of Y by row and column factors. Models of this type play a role in the analysis of relational data (Harshman et al., 1982), biplots (Gabriel 1971, Gower and Hand 1996) and in reduced-rank interaction models for factorial designs (Gabriel 1978, 1998).
+
+% \begin{equation}
+% 	P(Y_{i,j} = 1| x_{i,j}) = \beta^{'}\mathbf{x_{i,j}} + \mathbf{u_{i}Dv^{'}_{j}} + \epsilon_{i,j}
+% \end{equation}
 
 % An important innovation with the AME, as compared to previous network estimates is the ability to handle replicated datasets -- here we use the replicated dataset to incorporate multiple measures of similarity into a single ideal point estimation.  The AME with dyadic data treats each different slice of data as independent, save for those dependencies captured by the multiplicative random effects. The final estimating equation we use is:
 

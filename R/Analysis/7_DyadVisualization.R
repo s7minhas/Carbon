@@ -37,7 +37,7 @@ latAngle$sScore = 1 - latAngle$sScore
 ############################
 
 ############################
-plausPlot = function(dyadIds, dyadLabs, pW=12, pH=4, fName){
+plausPlot = function(dyadIds, dyadLabs, pW=12, pH=5, fName, fck=FALSE){
 	fig1Plaus = latAngle[
 		which( latAngle$dyad %in% dyadIds ),
 		c('country1','country2','dyad','year.x','value','idealpointdistance','sScore')] 
@@ -47,10 +47,12 @@ plausPlot = function(dyadIds, dyadLabs, pW=12, pH=4, fName){
 	ggFig1 = reshape2::melt(fig1Plaus[,4:8], id=c('dyadAbb','year.x'))
 	ggFig1$dyadAbb = factor(ggFig1$dyadAbb, levels=dyadLabs)
 
+	if(fck){ggFig1 = ggFig1[ggFig1$variable!='Ideal Point\nDistance',]}
+
 	ggPlaus = ggplot(ggFig1, aes(x=year.x, y=value, group=variable, color=variable)) +
 		geom_line(size=.8) + geom_point(aes(shape=variable), size=1.5) +
 		scale_color_brewer(palette='Set1') + 
-		facet_wrap(~dyadAbb, ncol=length(dyadIds), scales='free') +
+		facet_grid(variable~dyadAbb, scales='free') +
 		labs(color='', shape='') + ylab('') + xlab('') +
 		theme(
 			axis.ticks=element_blank(),
@@ -61,6 +63,8 @@ plausPlot = function(dyadIds, dyadLabs, pW=12, pH=4, fName){
 			axis.text.y=element_text(family="Source Sans Pro Light"),
 			strip.text.x = element_text(color='white',
 				family="Source Sans Pro Semibold"),
+			strip.text.y = element_text(color='white',
+				family="Source Sans Pro Semibold"),			
 			strip.background = element_rect(fill = "#525252", color='#525252')				
 		)
 	ggsave(ggPlaus, file=fName, width=pW, height=pH, device=cairo_pdf)
@@ -84,7 +88,7 @@ plausPlot(
 plausPlot(
 	dyadIds=c('732_731', '645_630'),
 	dyadLabs=c('South Korea-North Korea', 'Iraq-Iran'),
-	pW=8, pH=4,
+	pW=8, pH=5,fck=TRUE,
 	fName=paste0(pathGraphics, 'plausPlot_3.pdf')
 	)
 ############################

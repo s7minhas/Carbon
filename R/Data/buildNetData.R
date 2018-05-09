@@ -77,3 +77,29 @@ names(amData) = yrs
 save(amData, file=paste0(pathDataBin,'amenData_all_rescaled.rda'))
 # save(amData, file=paste0(pathDataBin,'amenData_all_stdz.rda'))
 ############################
+
+defAlly = melt(defAllyL, id=c('ccode1','ccode2','ij','defense'))
+names(defAlly) = c(names(defAlly)[1:3], 'defAlly', 'year')
+defAlly$year = num(defAlly$year)
+
+
+defAlly = defAlly[defAlly$year == 2012,]
+all = intersect(defAlly$ccode1, defAlly$ccode2)
+
+defAlly = defAlly[which(defAlly$ccode1 %in% all & defAlly$ccode2 %in% all),]
+defAlly$defAlly = ifelse(defAlly$defAlly>1, 1, 0)
+
+defAlly$defAlly[defAlly$ij=='640_2'] = 1
+defAlly$defAlly[defAlly$ij=='395_390'] = 1
+
+# defAlly = rbind(defAlly, 
+# 	c(640,2,'640_2',1,2012),
+# 	c(395,390,'395_390',1,2012)
+# 	)
+rownames(defAlly) = NULL
+
+for(i in c(1,2,4,5)){
+	defAlly[,i] = num(defAlly[,i])
+}
+
+save(defAlly, file='~/Teaching/msu/pls900_prog/lectures/week_11/defAlly.rda')

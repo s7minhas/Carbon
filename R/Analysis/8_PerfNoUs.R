@@ -27,13 +27,19 @@ prData$model = key$clean[match(prData$model, key$dirty)]
 ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')
 ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')
 
-tmp = rocPlot(rocData, linetypes=ggLty, legPos=c(.7, .23), legText=7, legSpace=1.75) + 
+rocData$model = char(rocData$model)
+sliceRoc = rocData[rocData$model != "Latent Angle\nDistance",]
+sliceRoc$model = factor(sliceRoc$model)
+
+sliceCols = brewer.pal(length(unique(rocPrData$model)), 'Set1')[-1]
+names(sliceCols) = unique(sliceRoc$model)
+tmp = rocPlot(sliceRoc, linetypes=ggLty, legPos=c(.7, .23), legText=7, legSpace=1.75, colorManual=sliceCols) + 
 	annotate('text', hjust=0, x=.88, y=.43, 
 		label='AUC (ROC)', family='Source Sans Pro Black', size=2.85) + 
-	annotate('text', hjust=0, x=.9, y=seq(.01, .4, .09), 
-		label=rev(aucSumm[,1]),
+	annotate('text', hjust=0, x=.9, y=seq(.1, .4, .09), 
+		label=rev(aucSumm[-1,1]),
 		family='Source Sans Pro Light', size=2.7)	
-ggsave(tmp, file=paste0(pathGraphics, 'roc_outSample.pdf'), width=5, height=5, device=cairo_pdf)
+ggsave(tmp, file=paste0(pathGraphics, 'roc_outSample_notUs.pdf'), width=5, height=5, device=cairo_pdf)
 
 # area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){

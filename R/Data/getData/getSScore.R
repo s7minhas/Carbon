@@ -64,7 +64,7 @@ twoS = function(mat, i, j, wvec){
 	r1 = mat[i,]
 	r2 = mat[j,]
 	dmax = sum(wvec)
-	deltmax = max(mat) - min(mat)
+	deltmax = 3
 	d = abs(r1 - r2) %*% wvec/dmax/deltmax
 	return(1 - 2*d)
 }

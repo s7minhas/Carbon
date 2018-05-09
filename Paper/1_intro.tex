@@ -9,4 +9,17 @@ A substantive theoretical reason for why we need a good measure of preferences i
 
 %To provide this more accurate measure we take a multilayer network based approaches to estimating state preferences. Much of the extant literature has employed spatial weighting models \citep{signorino:ritter:1999,bailey:etal:2015} on relational data such as alliance behavior and UN voting scores. We make  
 
-Much of the extant literature has focused on estimating state preferences by utilizing spatial weighting models on either alliance behavior or United Nations (UN) voting scores. These approaches have proven to be useful but they ignore the fact that the interactions occurring between states within the alliance or UN voting system are examples of networks. A bevy of research has shown that accounting for network structure necessitates an approach that can account for higher-order dependence patterns such as homophily and stochastic equivalence. As such, we make two contributions to the existing literature on state preferences. First, we introduce a latent factor model that accounts for higher-order dependence patterns across multiple layers. Second, we show that our revised approach of measuring state preferences enhances our ability to predict instances of conflict between countries when compared to existing measures.
+Much of the extant literature has focused on estimating state preferences by utilizing spatial weighting models on either alliance behavior or United Nations (UN) voting scores. These approaches have proven to be useful but there are two reasons to desire a different approach. First, alliances are rare and voting together in the UN is very common, so, by only focusing on the direct dyadic behavior, we risk mischaracterizing important relationships. Second, we would expect a better understanding of state preferences to help us predict state behavior, but as we show in figure \ref{perf:notus} adding measures of state preferences to a traditional model of interstate disputes yields relatively scant increases in our predictive ability.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{cc}
+	\includegraphics[width=.5\textwidth]{roc_outSampleNotUs} & 
+	\includegraphics[width=.5\textwidth]{rocPr_outSampleNotUs}	
+	\end{tabular}
+	\caption{Assessments of out-of-sample predictive performance of Militarized Interstate Disputes using ROC curves and PR curves. AUC statistics are provided as well for both curves.}
+	\label{fig:roc}
+\end{figure}
+
+
+We argue that we can improve on these measures of preferences using the same raw material by acknowledging that both alliance membership and UN voting are examples of relational data that takes place in a network. A bevy of research has shown that accounting for network structure necessitates an approach that can account for higher-order dependence patterns such as homophily and stochastic equivalence. As such, we make two contributions to the existing literature on state preferences. We introduce a latent factor model that accounts for higher-order dependence patterns across multiple layers. We show that our revised approach of measuring state preferences both better characterizes relationships that have counterintuitive results using existing measures of preferences, and this measure greatly enhances our ability to predict instances of conflict between countries when compared to existing measures.

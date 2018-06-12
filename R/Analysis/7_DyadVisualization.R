@@ -90,11 +90,17 @@ plausPlot(
 	)
 
 # SoKo-NoKo | Iraq-Iran
+paste0('731_732_',1965:2012)
 
-latAngle$tmp = with(latAngle, paste(Var2, Var1, year, sep='_'))
-latAngle$idealpointdistance = latAngle$idealpointdistance[
-	match(latAngle$tmp, latAngle$dyadid)
-	]
+toReplace = latAngle$idealpointdistance[
+	latAngle$dyadid %in% paste0('731_732_',1965:2012)]
+latAngle$idealpointdistance[
+	latAngle$dyadid %in% paste0('732_731_',1965:2012)] = toReplace
+toReplace = latAngle$idealpointdistance[
+	latAngle$dyadid %in% paste0('630_645_',1965:2012)]
+latAngle$idealpointdistance[
+	latAngle$dyadid %in% paste0('645_630_',1965:2012)] = toReplace
+
 plausPlot(
 	dyadIds=c('732_731', '645_630'),
 	dyadLabs=c('South Korea-North Korea', 'Iraq-Iran'),

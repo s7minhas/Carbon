@@ -90,10 +90,15 @@ plausPlot(
 	)
 
 # SoKo-NoKo | Iraq-Iran
+
+latAngle$tmp = with(latAngle, paste(Var2, Var1, year, sep='_'))
+latAngle$idealpointdistance = latAngle$idealpointdistance[
+	match(latAngle$tmp, latAngle$dyadid)
+	]
 plausPlot(
 	dyadIds=c('732_731', '645_630'),
 	dyadLabs=c('South Korea-North Korea', 'Iraq-Iran'),
-	pW=8, pH=5,fck=TRUE,
+	pW=8, pH=5, #fck=TRUE,
 	fName=paste0(pathGraphics, 'plausPlot_3.pdf')
 	)
 ############################

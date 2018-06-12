@@ -12,7 +12,7 @@ We also have a relatively large corpus of behavioral information in UN Voting Re
 	 \tau_{B} = \frac{n_{c} - n_{d}}{\sqrt{(n_{0} - n_{1})(n_{0} - n_{2})}}
  \end{equation}
  
- where $n_{c}$ is the number of pairs where both actor $i$ and $j$ have the same rank ordering (for example both the UK and the US are more closely allied to Israel than to Iran), $n_{d}$ is the number of pairs where they have discordant rankings (the US is more closely allied to Saudi Arabia than to Russia, Syria is more closely allied to Russia than to Saudi Arabia). The denominator attempts to adjust the total number of pairs with the number of ties: $n_{0}$ is the total number of pairs ($n(n-1)/2$), $n_{1}, n_{2}$ are measures for ties in both $i$ and $j$'s rankings respectively.
+ where $n_{c}$ is the number of pairs where both actor $i$ and $j$ have the same rank ordering (for example both the United Kingdom and the United States are more closely allied to Israel than to Iran), $n_{d}$ is the number of pairs where they have discordant rankings (the United States is more closely allied to Saudi Arabia than to Russia, Syria is more closely allied to Russia than to Saudi Arabia). The denominator attempts to adjust the total number of pairs with the number of ties: $n_{0}$ is the total number of pairs ($n(n-1)/2$), $n_{1}, n_{2}$ are measures for ties in both $i$ and $j$'s rankings respectively.
  
 \citet{signorino:ritter:1999} convincingly pointed to flaws in this measure, notably its focus on rank-ordering as applied to a context where we instead care mostly about the presence or absence of an alliance. In addition, if we add additional strategically irrelevant states, we will create artificially high $\tau_{B}$ statistics. Thus, Signorino and Ritter introduce the S score, which has since been the most widely used alliance similarity measure.\footnote{\citet{bennett:rupert:2003} also find a stronger relationship between theoretical predictions and results when using S-scores than when using $\tau_{B}$.}
 
@@ -44,22 +44,29 @@ The authors specifically fix the parameters $\gamma_{1v}$ and $\gamma_{2v}$ such
 
 Both methods relying on UN data, and those relying on alliances have difficulties distinguishing within '0's and '1's. For example, if we know two states are allies, we have reason to believe they have similar preferences, but if we know they are not allies, it is not clear whether they are enemies or they are indifferent -- the United States is ``not-allies" with both Bhutan and North Korea for example. As of 2012, using the Correlates of War projects alliance data, only about 1/8th of all dyads were between countries with any sort of alliance. Similarly, with UN voting, so many UN votes contain super-majorities and states vote together a huge proportion of the time. If we only look at yes and no votes in the UN general assembly, the median pair of states has voted together about 96\% of the time. If we include abstentions,  they have voted together 86\% of the time. So when two states vote together it is hard to distinguish between states voting together because of similar preferences, or just preferences that are not radically dissimilar. Both S-scores and Item Response theory succeed in adding granularity and nuance to these rough measures, but they are both limited by focusing only on a relationship between two states. 
 
-We can see the danger of focusing only on direct relations when we view how these two measures of preference treat relations over the Korean peninsula. If we take China, North Korea, South Korea, and the United States, we would expect the US and South Korea to have preferences that are similar to each-other and dissimilar from China and North Korea (and vice versa). Yet, if we look at extant measuresof preferences (as of 2012), as depicted in SOMETHING \ref{korean:prefs}, they do not seem to effectively characterize this relationship. S-scores based on alliance portfolios posit that China and the two Koreas are closely clustered, with the US distant from all three, while ideal point distances put South Korea as equidistant between the US and the North. Now it could be that these measures are producing a novel, counterintuitive, result, but given the failures of extant preference measures to add much to our predictive models of conflict, one might be skeptical.
+We can see the danger of focusing only on direct relations when we view how these two measures of preference treat relations over the Korean peninsula. If we take China, North Korea, South Korea, and the United States, we would expect the United States and South Korea to have preferences that are similar to each other and dissimilar from China and North Korea (and vice versa). Yet, if we look at extant measures of preferences (as of 2012), as depicted in Figure \ref{korean:prefs}, they do not seem to effectively characterize this relationship. S-scores based on alliance portfolios posit that China and the two Koreas are closely clustered, with the United States distant from all three, while ideal point distances put South Korea as equidistant between the United States and North Korea. Now it could be that these measures are producing a novel, counterintuitive, result, but given the failures of extant preference measures to add much to our predictive models of conflict, one might be skeptical.
 
-\begin{table}[ht]
+\begin{figure}[ht]
 \centering
-\begin{tabular}{rrrrrrr}
-  \hline
- & US/ROK & DPRK/ROK & US/DPRK & China/ROK & US/China & China/DPRK \\ 
-  \hline
-idPtDist & 1.95 & 2.69 & 4.65 & 1.58 & 3.53 & 1.11 \\ 
-  sScore & 0.22 & 0.95 & 0.17 & 0.94 & 0.16 & 0.99 \\ 
-   \hline
-\end{tabular}
-\end{table}
+\includegraphics[width=1\textwidth]{idPtScoreViz.pdf}
+\caption{Visualization of ideal point distance and S-score relationships between China (CHN), North Korea (DPRK), South Korea (ROK), and the United States (USA).}
+\label{korean:prefs}
+\end{figure}
 
-The sources of these surprising results become more clear when looking at the raw data on which they are based. In 2012, according to the correlates of war, North Korea only had 3 alliances -- a non-aggression pact with the South, and alliances with Russia and China. Similarly, South Korea's only alliances were that non-aggression pact, and an alliance with the United States. Given the US's many other allies, there was much more divergence between their alliance portfolio and South Korea's, than there was between the two Koreas' portfolios. Similarly, when looking at voting patterns at the UN, South Korea voted 50\% of the time with the US, 63\% of the time with North Korea, and 70\% of the tie with China.
+% \begin{table}[ht]
+% \centering
+% \begin{tabular}{rrrrrrr}
+%   \hline
+%  & US/ROK & DPRK/ROK & US/DPRK & China/ROK & US/China & China/DPRK \\ 
+%   \hline
+% idPtDist & 1.95 & 2.69 & 4.65 & 1.58 & 3.53 & 1.11 \\ 
+%   sScore & 0.22 & 0.95 & 0.17 & 0.94 & 0.16 & 0.99 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
-Even using this data, we can do better at measuring state preferences when we treat alliances and UN voting as relational data. When it comes to alliance behavior, the fact that North Korea was allies with China and Russia, and South Korea with the United States could give us additional information, because the alliance behaviors of the US on the one hand, and Russia and China on the other hand, are so divergent. Similarly, while South Korea only voted with the US 50\% of the time at the UN, this was in the top 15\% of all countries in terms of voting with the US, whereas South Korea was in the bottom 20\% in terms of the proportion of time voting with China.
+The sources of these surprising results become more clear when looking at the raw data on which they are based. In 2012, according to the correlates of war, North Korea only had 3 alliances -- a non-aggression pact with the South, and alliances with Russia and China. Similarly, South Korea's only alliances were that non-aggression pact, and an alliance with the United States. Given the United States' many other allies, there was much more divergence between their alliance portfolio and South Korea's, than there was between the two Koreas' portfolios. Similarly, when looking at voting patterns at the UN, South Korea voted 50\% of the time with the US, 63\% of the time with North Korea, and 70\% of the time with China.
+
+Even using this data, we can do better at measuring state preferences when we treat alliances and UN voting as relational data. When it comes to alliance behavior, the fact that North Korea was allies with China and Russia, and South Korea with the United States could give us additional information, because the alliance behaviors of countries such as the United States and China are so divergent. Similarly, while South Korea only voted with the United States 50\% of the time at the UN, this was in the top 15\% of all countries in terms of voting with the US, whereas South Korea was in the bottom 20\% in terms of the proportion of time voting with China.
 
 We thus argue that two changes can substantially improve our measures of state preferences. First, both alliances and UN voting contain information about state foreign policy preferences, and given the limits of this information, we should find a way to use both. Second, by using network techniques and treating this data as relational data, we can wring more information from the stone, and get both a more nuanced, and more accurate view of state affinity and state preferences.

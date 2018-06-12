@@ -38,6 +38,7 @@ idPt = idPt[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	idPt$id),c('id','idealpointdistance')]
+idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
 
 sScore = sL$'2012'
 sScore = sScore[
@@ -53,6 +54,9 @@ sScore = sScore[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	sScore$id),c('id','sScore')]
+sScore$sScore = 1-sScore$sScore 
+sScore$sScore = rescale(sScore$sScore, 1, 0)
+
 
 # latDist
 latAngle = latAngle[match(
@@ -62,7 +66,7 @@ latAngle = latAngle[match(
 		'2_710_2012', '710_731_2012'
 		),
 	latAngle$dyadid),c('dyadid','value')]
-latAngle$value = rescale(latAngle$value,1,-1)
+latAngle$value = rescale(latAngle$value, 1, 0)
 ############################	
 
 ############################	
@@ -123,7 +127,7 @@ ggData$variable = factor(ggData$variable,
 
 g=ggplot(ggData, aes(x=id, y=value)) + 
 	geom_linerange(aes(ymin=0,ymax=value)) +
-	geom_hline(aes(yintercept=0),linetype='dashed',color='grey') +
+	# geom_hline(aes(yintercept=0),linetype='dashed',color='grey') +
 	geom_point() +
 	facet_wrap(~variable, scales='free_y', nrow=3) +
 	labs(y='',x='') +

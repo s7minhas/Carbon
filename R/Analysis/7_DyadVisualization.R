@@ -34,6 +34,11 @@ latAngle = merge(latAngle, sScoreData, by.x = "dyadid", by.y = "id", all.x = T)
 latAngle = merge(latAngle, idPt, by.x = "dyadid", by.y = "dyadidyr" , all.x = T)
 latAngle$sOld = latAngle$sScore
 latAngle$sScore = 1 - latAngle$sScore
+
+# rescale each to between 0 and 1
+latAngle$value = rescale(latAngle$value, 1, 0)
+latAngle$sScore = rescale(latAngle$sScore, 1, 0)
+latAngle$idealpointdistance = rescale(latAngle$idealpointdistance, 1, 0)
 ############################
 
 ############################

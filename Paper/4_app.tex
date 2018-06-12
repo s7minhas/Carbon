@@ -1,6 +1,6 @@
 \section*{Data Sources, Modeling choices}
 
-We use the LFM with $k=2$ on the two aforementioned measures of state amity to generate a combined measure of state preference similarity which accounts for network effects. As inputs, we use the UN voting similarity index \citep{voeten:2013}\footnote{Specifically, the ``agree3un'' variable.} and number of alliance relationships between states by time $t$ \citep{gibler:sarkees:2004}. However, to facilitate comparison between the metrics, we first standardize and normalize these two measures. This gives us an $n \times n \times T \times 2$ array, where the first two dimensions represent countries, the third dimension is the year, and the fourth is the particular measure of similarity. So the item at index (1,2,1,1) would be the transformed value of the S-score for countries $i$ and $j$ at the first year of our data, similarly (1,2,1,2) would be the UN ideal point distance measure.
+We use the LFM with $k=2$ to generate a combined measure of state preference similarity that accounts for network effects. As inputs, we use the UN voting similarity index \citep{voeten:2013}\footnote{Specifically, the ``agree3un'' variable.} and number of alliance relationships between states by time $t$ \citep{gibler:sarkees:2004}. However, to facilitate comparison between the metrics, we first standardize and normalize these two measures. This gives us an $n \times n \times T \times 2$ array, where the first two dimensions represent countries, the third dimension is the year, and the fourth is the particular measure of similarity. The item at index (1,2,1,1) would be the transformed value of the number of alliance relationships for countries $i$ and $j$ at the first year of our data, similarly (1,2,1,2) would be the UN voting similarity index.
 
 % Another important question is the amount of temporal aggregation used. In our baseline model, we treat each year as separate and gain a unique observation of each states ideal point in each year. However, this raises a real risk of temporal inconsistency in the values. An alternative approach would be to have a rolling average for the measures of similarity over a number of years. This would allow us to infer a country's relative position not just by their behavior in a given year, but also their behavior in the past few years. The risk if we use too much temporal aggregation is that we are including data which is no longer relevant to a country's relative preferences. For instance, Turkey and Russia's relationship looks a lot more positive when we look at 2013 and 2014 then when we look at 2015. To that end, in addition to our baseline model where years are seen as independent, we also evaluate models where ... 
 
@@ -8,8 +8,7 @@ With this data, we run an LFM with a Gaussian link, and in particular we use the
 
 \subsection*{Face Plausibility}
 
-An important question for these different measures of preferences, are whether they give results that ``make sense" for prominent pairs of countries. In particular we would hope that the measure both provides plausible levels to relationships -- sorting states into friends and foes effectively -- and that when these measures change, they do so in ways that correspond to changes in the world. One of our principle critiques of both alliance portfolio S-scores and UN voting based ideal points is that, based on eccentricities in the raw data, they describe certain important relationships, notably on the Korean Peninsula in a way we find implausible. When we return to our example of relationships in East Asia in 2012, we find that our latent angle measure depicted in figure \ref{korea:withus}, while using the same inputs as extant measures, corresponds much better to our understanding of interstate politics.
-
+An important question for these different measures of preferences, are whether they give results that ``make sense." In particular, we would hope that the measure both provides plausible levels to relationships -- sorting states into friends and foes effectively -- and that when these measures change, they do so in ways that correspond to changes in the world. One of our principle critiques of both alliance portfolio S-scores and UN voting based ideal points is that they describe certain important relationships in a way that some may find implausible. Using our measure we return to the example of relationships in East Asia in 2012. We find that our latent angle measure, depicted in figure \ref{korea:withus}, corresponds much better to conventional understanding of the relations between these states.
 
 \begin{figure}[ht]
 \includegraphics[width=1\textwidth]{idPtScoreLatAngleViz}
@@ -17,14 +16,14 @@ An important question for these different measures of preferences, are whether t
 \label{korea:withus}
 \end{figure}
 
- To generalize this test of face plausibility, we present all three measures' accounts of eight dyadic relationships over time.\footnote{For the sake of having each measure operate in the same direction, we transform the S-score such that the value shown is 1 - S. Thus for all three variables, $0$ implies perfect symmetry of preferences.} Additionally, note that each of these measures is on a different scale, and so just because one measure has a higher value, does not necessarily mean that it posits more dissimilarity of preferences.
+To generalize this test of face plausibility, we present all three measures' accounts of eight dyadic relationships over time.\footnote{For the sake of having each measure operate in the same direction, we transform the S-score such that the value shown is 1 - S. Thus for all three variables, $0$ implies perfect symmetry of preferences.} Additionally, we rescale each of these measures to be between 0 and 1 for comparability, where a 1 indicates that states are farther apart and a 0 that states are closer together.
 
 We first look at three close relationships where we would expect to see similar preferences. Figure \ref{friendly:dyads} depicts the relationships between France and Germany, the US and Israel, and North Korea and China. In all three cases our measure using latent angle distance has consistently low values -- nearly $0$ in the case of France and Germany, and China and North Korea, and low but less stable values for the US/Israel relationship. Alliance S-Scores correctly classifies Franco-German and Sino-North Korean friendship, while the US/Israel relationship is characterized as being relatively neutral. The measure based on UN voting is most out of step in terms of characterizing these relationships, with notable divergence in the preferences of many of these pairs.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=1\textwidth]{plausPlot_1}
-	\caption{Dyadic relationships between 3 pairs of countries according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles and ideal point distance based on UN voting in blue triangles. S-score values have been rescaled such that they works in the same direction as the other measures (1-S-score, so that the best score is 0), and are depicted by green squares.}
+	\caption{Dyadic relationships between France-Germany, United States-Israel, and China-North Korea according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles, ideal point distance based on UN voting in blue triangles, and S-scores by green squares. Note that we have rescale each of these measures to between 0 and 1, where a 1 indicates that states are farther apart and a 0 that states are closer together.}
 	\label{friendly:dyads}
 \end{figure}
 
@@ -33,7 +32,7 @@ In figure \ref{unfriendly:dyads} we look at the United States' relationship with
 \begin{figure}
 	\centering
 	\includegraphics[width=1\textwidth]{plausPlot_2}
-	\caption{Dyadic relationships between 3 pairs of countries according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles and ideal point distance based on UN voting in blue triangles. S-score values have been rescaled such that they works in the same direction as the other measures (1-S-score, so that the best score is 0), and are depicted by green squares.}
+	\caption{Dyadic relationships between United States-China, United States-Russia, and United States-Iraq according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles, ideal point distance based on UN voting in blue triangles, and S-scores by green squares. Note that we have rescale each of these measures to between 0 and 1, where a 1 indicates that states are farther apart and a 0 that states are closer together.}
 	\label{unfriendly:dyads}
 \end{figure}
 
@@ -43,7 +42,7 @@ A big difference between these measures is that latent angle distance has a full
 \begin{figure}
 	\centering
 	\includegraphics[width=.67\textwidth]{plausPlot_3}
-	\caption{Dyadic relationships between 2 pairs of countries according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles and ideal point distance based on UN voting in blue triangles. S-score values have been rescaled such that they works in the same direction as the other measures (1-S-score, so that the best score is 0), and are depicted by green squares.}
+	\caption{Dyadic relationships between South Korea-North Korea and Iraq-Iran according to the different preference measures. Yearly latent angle distances between dyads are denoted by red circles, ideal point distance based on UN voting in blue triangles, and S-scores by green squares. Note that we have rescale each of these measures to between 0 and 1, where a 1 indicates that states are farther apart and a 0 that states are closer together.}
 	\label{missing:dyads}
 \end{figure}
 

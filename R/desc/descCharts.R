@@ -8,7 +8,7 @@ loadPkg(c('magrittr','countrycode','doBy'))
 ############################
 
 ############################
-load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathResults, 'latDist.rda')) # includes object called latAngle
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
 ############################
@@ -53,6 +53,16 @@ sScore = sScore[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	sScore$id),c('id','sScore')]
+
+# latDist
+latAngle = latAngle[match(
+	c(
+		'2_732_2012', '731_732_2012',
+		'2_731_2012', '710_732_2012',
+		'2_710_2012', '710_731_2012'
+		),
+	latAngle$dyadid),c('dyadid','value')]
+latAngle$value = rescale(latAngle$value,1,-1)
 ############################	
 
 ############################	
@@ -85,5 +95,43 @@ g=ggplot(ggData, aes(x=id, y=value)) +
 		)
 ggsave(g, height=3, width=7,
 	file=paste0(pathGraphics, 'idPtScoreViz.pdf')
+	)
+############################	
+
+############################	
+# viz
+ggData = cbind(idPt, 
+	sScore=sScore[,'sScore'], latAngle=latAngle[,'value'])
+ggData = melt(ggData, id='id')
+ggData$id = factor(ggData$id, 
+	levels=sScore$id[order(latAngle$value)]
+	)
+
+# clean up facet labels
+ggData$variable = char(ggData$variable)
+ggData$variable[
+	ggData$variable=='idealpointdistance'
+	] = 'Ideal Point Distance'
+ggData$variable[
+	ggData$variable=='sScore'
+	] = 'S-Score'	
+ggData$variable[
+	ggData$variable=='latAngle'
+	] = 'Latent Angle Distance'		
+ggData$variable = factor(ggData$variable,
+	levels=c('Latent Angle Distance','S-Score','Ideal Point Distance'))
+
+g=ggplot(ggData, aes(x=id, y=value)) + 
+	geom_linerange(aes(ymin=0,ymax=value)) +
+	geom_hline(aes(yintercept=0),linetype='dashed',color='grey') +
+	geom_point() +
+	facet_wrap(~variable, scales='free_y', nrow=3) +
+	labs(y='',x='') +
+	theme(
+		panel.border=element_blank(),
+		axis.ticks=element_blank()
+		)
+ggsave(g, height=5, width=7,
+	file=paste0(pathGraphics, 'idPtScoreLatAngleViz.pdf')
 	)
 ############################	

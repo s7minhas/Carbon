@@ -1,0 +1,168 @@
+\begin{thebibliography}{36}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Anderson et~al.(1992)Anderson, Wasserman, and
+  Faust}]{anderson:etal:1992}
+Anderson, C.~J., Wasserman, S., Faust, K., 1992. Building stochastic
+  blockmodels. Social Networks 14~(1), 137--161.
+
+\bibitem[{Bailey et~al.(2017)Bailey, Strezhnev, and Voeten}]{bailey:etal:2015}
+Bailey, M.~A., Strezhnev, A., Voeten, E., 2017. Estimating dynamic state
+  preferences from {U}nited {N}ations voting data. Journal of Conflict
+  Resolution 61~(2), 430--456.
+
+\bibitem[{Bennett and Rupert(2003)}]{bennett:rupert:2003}
+Bennett, D.~S., Rupert, M.~C., June 2003. Comparing measures of political
+  similarity: {A}n empirical comparison of {$S$} versus $\tau_b$ in the study
+  of international conflict. Journal of Conflict Resolution 47~(3), 367--393.
+
+\bibitem[{Braumoeller(2008)}]{braumoeller:2008}
+Braumoeller, B.~F., 2008. Systemic politics and the origins of great power
+  conflict. American Political Science Review 102~(1), 77--93.
+
+\bibitem[{{Bueno de Mesquita}(1983)}]{buenodemesquita:1983}
+{Bueno de Mesquita}, B., 1983. The War Trap. Yale University Press, New Haven,
+  CT.
+
+\bibitem[{{Bueno De Mesquita} and Lalman(2008)}]{buenodemesquita:lalman:2008}
+{Bueno De Mesquita}, B., Lalman, D., 2008. War and reason: {D}omestic and
+  international imperatives. Yale University Press.
+
+\bibitem[{Carter and Signorino(2010)}]{carter:signorino:2010}
+Carter, D.~B., Signorino, C.~S., 2010. Back to the future: {M}odeling time
+  dependence in binary data. Political Analysis 18~(3), 271--292.
+
+\bibitem[{Clinton et~al.(2004)Clinton, Jackman, and Rivers}]{clinton:etal:2004}
+Clinton, J., Jackman, S., Rivers, D., May 2004. The statistical analysis of
+  roll call data. American Political Science Review 98~(2), 355--370.
+
+\bibitem[{DeRouen and Heo(2004)}]{derouen:heo:2004}
+DeRouen, K., Heo, U., 2004. Reward, punishment or inducement? {US} economic and
+  military aid, 1946--1996. Defence and Peace Economics 15~(5), 453--470.
+
+\bibitem[{Farber and Gowa(1995)}]{farber:gowa:1995}
+Farber, H., Gowa, J., 1995. Politics and peace. International Security 20~(2),
+  123--146.
+
+\bibitem[{Fariss(2014)}]{fariss:2014}
+Fariss, C.~J., 2014. Respect for human rights has improved over time:
+  {M}odeling the changing standard of accountability. American Political
+  Science Review 108~(2), 297--318.
+
+\bibitem[{Gallop(2017)}]{gallop:2017}
+Gallop, M., 2017. More dangerous than dyads: {H}ow a third party enables
+  rationalist explanations for war. Journal of Peace Research.
+
+\bibitem[{Gartzke(1998)}]{gartzke:1998}
+Gartzke, E., 1998. {K}ant we all just get along? {O}pportunity, willingness,
+  and the origins of the democratic peace. American Journal of Political
+  Science 42~(1), 1--27.
+
+\bibitem[{Gartzke(2000)}]{gartzke:2000}
+Gartzke, E., 2000. Preferences and the democratic peace. International Studies
+  Quarterly 44, 191--212.
+
+\bibitem[{Gartzke(2007)}]{gartzke:2007}
+Gartzke, E., 2007. The capitalist peace. American Journal of Political Science
+  51~(1), 166--191.
+
+\bibitem[{Gibler and Sarkees(2004)}]{gibler:sarkees:2004}
+Gibler, D.~M., Sarkees, M., March 2004. Measuring alliances: {T}he correlates
+  of war formal interstate alliance data set, 1816-2000. Journal of Peace
+  Research 41~(2), 211--222.
+
+\bibitem[{H{\"a}ge(2011)}]{hage:2011}
+H{\"a}ge, F.~M., 2011. Choice or circumstance? {A}djusting measures of foreign
+  policy similarity for chance agreement. Political Analysis, 287--305.
+
+\bibitem[{Hoff(2005)}]{hoff:2005}
+Hoff, P.~D., 2005. Bilinear mixed-effects models for dyadic data. Journal of
+  the American Statistical Association 100~(4690), 286--295.
+
+\bibitem[{Hoff et~al.(2013)Hoff, Fosdick, Volfovsky, and
+  Stovel}]{hoff:etal:2013}
+Hoff, P.~D., Fosdick, B., Volfovsky, A., Stovel, K., 2013. Likelihoods for
+  fixed rank nomination networks. Network Science 1~(3), 253--277.
+
+\bibitem[{Kastner(2007)}]{kastner:2007}
+Kastner, S.~L., 2007. When do conflicting political relations affect
+  international trade? Journal of Conflict Resolution 51~(4), 664--688.
+
+\bibitem[{K{\"o}nig et~al.(2013)K{\"o}nig, Marbach, and
+  Osnabr{\"u}gge}]{konig:etal:2013}
+K{\"o}nig, T., Marbach, M., Osnabr{\"u}gge, M., 2013. Estimating party
+  positions across countries and time---a dynamic latent variable model for
+  manifesto data. Political Analysis 21~(4), 468--491.
+
+\bibitem[{Kydd(2003)}]{kydd:2003}
+Kydd, A., 2003. Which side are you on? {B}ias, {C}redibility, and {M}ediation.
+  American Journal of Political Science 47~(4), 597--611.
+
+\bibitem[{Linzer and Staton(2015)}]{linzer:staton:2015}
+Linzer, D.~A., Staton, J.~K., 2015. A global measure of judicial independence,
+  1948--2012. Journal of Law and Courts 3~(2), 223--256.
+
+\bibitem[{Martin and Quinn(2002)}]{martin:quinn:2002}
+Martin, A.~D., Quinn, K.~M., 2002. Dynamic ideal point estimation via markov
+  chain, monte carlo for the {U.S.} {S}upreme {C}ourt, 1953-1999. Political
+  Analysis 10~(2), 134--153.
+
+\bibitem[{Minhas et~al.(2018)Minhas, Hoff, and Ward}]{minhas:etal:2018}
+Minhas, S., Hoff, P.~D., Ward, M.~D., October 2018. Inferential approaches for
+  network analysis: {AMEN} for latent factor models. Political AnalysisWorking
+  paper available at \url{https://arxiv.org/abs/1611.00460}.
+\newline\urlprefix\url{https://arxiv.org/abs/1611.00460}
+
+\bibitem[{Oneal and Russett(1999)}]{oneal:russett:1999e}
+Oneal, J., Russett, B.~M., 1999. Is the liberal peace just an artifact of cold
+  war interests? {A}ssessing recent critiques. International Interactions
+  25~(3), 213--241.
+
+\bibitem[{Oneal and Russett(1997)}]{oneal:russett:1997}
+Oneal, J.~R., Russett, B.~M., 1997. The classical liberals were right:
+  {D}emocracy, interdependence, and conflict, 1950-1985. International Studies
+  Quarterly 41~(2), 267--293.
+
+\bibitem[{Poole and Rosenthal(1985)}]{poole:rosenthal:1985}
+Poole, K.~T., Rosenthal, H., 1985. A spatial model for legislative roll call
+  analysis. American Journal of Political Science 29~(2), 357--384.
+
+\bibitem[{Signorino and Ritter(1999)}]{signorino:ritter:1999}
+Signorino, C., Ritter, J., 1999. Tau-b or not tau-b. International Studies
+  Quarterly 43~(1), 115--144.
+
+\bibitem[{Singer and Small(1995)}]{singer:small:1995}
+Singer, J.~D., Small, M., 1995. National Military Capabilities Data. Correlates
+  of War Project, Ann Arbor, MI.
+
+\bibitem[{Snijders and Nowicki(1997)}]{snijders:nowicki:1997}
+Snijders, T.~A., Nowicki, K., 1997. Estimation and prediction for stochastic
+  blockmodels for graphs with latent block structure. Journal of Classification
+  14~(1), 75--100.
+
+\bibitem[{Stone(2004)}]{stone:2004}
+Stone, R.~W., 2004. The political economy of {IMF} lending in {A}frica.
+  American Political Science Review 98~(4), 577--591.
+
+\bibitem[{Voeten(2013)}]{voeten:2013}
+Voeten, E., 2013. Data and analyses of voting in the {U}nited {N}ations.
+  Routledge, Ch.~4.
+
+\bibitem[{Wasserman and Faust(1994)}]{wasserman:faust:1994}
+Wasserman, S., Faust, K., 1994. Social Network Analysis: {M}ethods and
+  Applications. Cambridge University Press, Cambridge.
+
+\bibitem[{Wolford(2014)}]{wolford:2014}
+Wolford, S., 2014. Showing restraint, signaling resolve: {C}oalitions,
+  cooperation, and crisis bargaining. American Journal of Political Science
+  58~(1), 144--156.
+
+\bibitem[{Xavier~Amatriain and Pujo(2015)}]{amatriain:etal:2015}
+Xavier~Amatriain, Alejandro~Jaimes, N.~O., Pujo, J.~M., 2015. Data mining
+  methods for recommender systems. In: Recommender Systems Handbook. Springer,
+  pp. 227--262.
+
+\end{thebibliography}

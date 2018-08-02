@@ -35,7 +35,7 @@ set.seed(6886) ; modData$fold = sample(1:folds, size=nrow(modData), replace=TRUE
 outPerf = lapply(modForms, function(x){
 	outByForm=lapply(1:folds, function(k){
 		trainData = modData[modData$fold!=k,]
-		testData = modData[modData$fold!=k,]
+		testData = modData[modData$fold==k,]
 		mod = glm(x, data=trainData, family='binomial' )
 		outProb = predict(object=mod, newdata=testData, type='response')
 		rocAUC = getAUC(outProb, testData$mid)

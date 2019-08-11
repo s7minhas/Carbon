@@ -4,13 +4,15 @@ rm(list=ls())
 ####################################
 # Set up paths
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-	# dpth='~/Dropbox/Research/Carbon/'
-	dpth='/Volumes/Samsung_X5/Dropbox/Research/Carbon/'
+	dpth='~/Dropbox/Research/Carbon/'
+	# dpth='/Volumes/Samsung_X5/Dropbox/Research/Carbon/'
 	gpth='~/Research/Carbon/'
 	pathDataRaw=paste0(dpth, 'data/components/')
 	pathDataBin=paste0(dpth, 'data/binaries/')
 	pathGraphics=paste0(dpth, 'graphics/')
-	pathResults=paste0(dpth, 'results/') }
+	pathResults=paste0(dpth, 'results/')
+	mltrFuncs=paste0(gpth, 'R/Funcs/mltrFuncs/')
+}
 
  if(Sys.info()["user"]=="maxgallop" ){
 	 dpth='~/Dropbox/Carbon/'

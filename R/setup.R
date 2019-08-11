@@ -11,7 +11,7 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	pathDataBin=paste0(dpth, 'data/binaries/')
 	pathGraphics=paste0(dpth, 'graphics/')
 	pathResults=paste0(dpth, 'results/')
-	mltrFuncs=paste0(gpth, 'R/Funcs/mltrFuncs/')
+	mltrFuncs=paste0(gpth, 'R/funcs/mltrFuncs/')
 }
 
  if(Sys.info()["user"]=="maxgallop" ){

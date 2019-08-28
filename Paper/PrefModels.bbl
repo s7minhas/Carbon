@@ -1,8 +1,14 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{47}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Airoldi et~al.(2008)Airoldi, Blei, Fienberg, and
+  Xing}]{airoldi:etal:2008}
+Airoldi, E.~M., Blei, D.~M., Fienberg, S.~E., Xing, E.~P., 2008. Mixed
+  membership stochastic blockmodels. Journal of Machine Learning Research
+  9~(September), 1981--2014.
 
 \bibitem[{Anderson et~al.(1992)Anderson, Wasserman, and
   Faust}]{anderson:etal:1992}
@@ -13,6 +19,12 @@ Anderson, C.~J., Wasserman, S., Faust, K., 1992. Building stochastic
 Bailey, M.~A., Strezhnev, A., Voeten, E., 2017. Estimating dynamic state
   preferences from {U}nited {N}ations voting data. Journal of Conflict
   Resolution 61~(2), 430--456.
+
+\bibitem[{Beardsley et~al.(2018)Beardsley, Liu, Mucha, Siegel, and
+  Tellez}]{beardsley:etal:2018}
+Beardsley, K., Liu, H., Mucha, P.~J., Siegel, D.~A., Tellez, J., 2018.
+  Hierarchy and the provision of order in international politics. Tech. rep.,
+  Working paper, Duke University.
 
 \bibitem[{Bennett and Rupert(2003)}]{bennett:rupert:2003}
 Bennett, D.~S., Rupert, M.~C., June 2003. Comparing measures of political
@@ -38,6 +50,18 @@ Carter, D.~B., Signorino, C.~S., 2010. Back to the future: {M}odeling time
 \bibitem[{Clinton et~al.(2004)Clinton, Jackman, and Rivers}]{clinton:etal:2004}
 Clinton, J., Jackman, S., Rivers, D., May 2004. The statistical analysis of
   roll call data. American Political Science Review 98~(2), 355--370.
+
+\bibitem[{Cranmer et~al.(2012{\natexlab{a}})Cranmer, Desmarais, and
+  Kirkland}]{cranmer:etal:2012}
+Cranmer, S.~J., Desmarais, B.~A., Kirkland, J.~H., 2012{\natexlab{a}}. Toward a
+  network theory of alliance formation. International Interactions 38~(3),
+  295--324.
+
+\bibitem[{Cranmer et~al.(2012{\natexlab{b}})Cranmer, Desmarais, and
+  Menninga}]{cranmer:etal:2015}
+Cranmer, S.~J., Desmarais, B.~A., Menninga, E.~J., 2012{\natexlab{b}}. Complex
+  dependencies in the alliance network. Conflict Management and Peace Science
+  29~(3), 279--313.
 
 \bibitem[{DeRouen and Heo(2004)}]{derouen:heo:2004}
 DeRouen, K., Heo, U., 2004. Reward, punishment or inducement? {US} economic and
@@ -74,9 +98,22 @@ Gibler, D.~M., Sarkees, M., March 2004. Measuring alliances: {T}he correlates
   of war formal interstate alliance data set, 1816-2000. Journal of Peace
   Research 41~(2), 211--222.
 
+\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg, Airoldi,
+  et~al.}]{goldenberg:etal:2010}
+Goldenberg, A., Zheng, A.~X., Fienberg, S.~E., Airoldi, E.~M., et~al., 2010. A
+  survey of statistical network models. Foundations and Trends{\textregistered}
+  in Machine Learning 2~(2), 129--233.
+
 \bibitem[{H{\"a}ge(2011)}]{hage:2011}
 H{\"a}ge, F.~M., 2011. Choice or circumstance? {A}djusting measures of foreign
   policy similarity for chance agreement. Political Analysis, 287--305.
+
+\bibitem[{Handcock et~al.(2008)Handcock, Hunter, Butts, Goodreau, and
+  Morris}]{handcock:etal:2008}
+Handcock, M.~S., Hunter, D.~R., Butts, C.~T., Goodreau, S.~M., Morris, M.,
+  2008. \texttt{statnet}: {Software} tools for the representation,
+  visualization, analysis and simulation of network data. Journal of
+  Statistical Software 24~(1), 1548.
 
 \bibitem[{Hoff(2005)}]{hoff:2005}
 Hoff, P.~D., 2005. Bilinear mixed-effects models for dyadic data. Journal of
@@ -90,6 +127,11 @@ Hoff, P.~D., Fosdick, B., Volfovsky, A., Stovel, K., 2013. Likelihoods for
 \bibitem[{Kastner(2007)}]{kastner:2007}
 Kastner, S.~L., 2007. When do conflicting political relations affect
   international trade? Journal of Conflict Resolution 51~(4), 664--688.
+
+\bibitem[{Kinne and Bunte(2018)}]{kinne:bunte:2018}
+Kinne, B.~J., Bunte, J.~B., 2018. Guns or money? defense co-operation and
+  bilateral lending as coevolving networks. British Journal of Political
+  Science, 1--22.
 
 \bibitem[{K{\"o}nig et~al.(2013)K{\"o}nig, Marbach, and
   Osnabr{\"u}gge}]{konig:etal:2013}
@@ -111,10 +153,13 @@ Martin, A.~D., Quinn, K.~M., 2002. Dynamic ideal point estimation via markov
   Analysis 10~(2), 134--153.
 
 \bibitem[{Minhas et~al.(2018)Minhas, Hoff, and Ward}]{minhas:etal:2018}
-Minhas, S., Hoff, P.~D., Ward, M.~D., October 2018. Inferential approaches for
-  network analysis: {AMEN} for latent factor models. Political AnalysisWorking
-  paper available at \url{https://arxiv.org/abs/1611.00460}.
-\newline\urlprefix\url{https://arxiv.org/abs/1611.00460}
+Minhas, S., Hoff, P.~D., Ward, M.~D., 2018. Inferential approaches for network
+  analysis: {AMEN} for latent factor models. Political Analysis.
+
+\bibitem[{Moody and White(2003)}]{moody:white:2003}
+Moody, J., White, D.~R., 2003. Structural cohesion and embeddedness: A
+  hierarchical concept of social groups. American sociological review,
+  103--127.
 
 \bibitem[{Oneal and Russett(1999)}]{oneal:russett:1999e}
 Oneal, J., Russett, B.~M., 1999. Is the liberal peace just an artifact of cold
@@ -129,6 +174,9 @@ Oneal, J.~R., Russett, B.~M., 1997. The classical liberals were right:
 \bibitem[{Poole and Rosenthal(1985)}]{poole:rosenthal:1985}
 Poole, K.~T., Rosenthal, H., 1985. A spatial model for legislative roll call
   analysis. American Journal of Political Science 29~(2), 357--384.
+
+\bibitem[{Rubin(1976)}]{rubin:1976}
+Rubin, D.~B., 1976. Inference and missing data. Biometrika 63~(3), 581--592.
 
 \bibitem[{Signorino and Ritter(1999)}]{signorino:ritter:1999}
 Signorino, C., Ritter, J., 1999. Tau-b or not tau-b. International Studies
@@ -150,6 +198,15 @@ Stone, R.~W., 2004. The political economy of {IMF} lending in {A}frica.
 \bibitem[{Voeten(2013)}]{voeten:2013}
 Voeten, E., 2013. Data and analyses of voting in the {U}nited {N}ations.
   Routledge, Ch.~4.
+
+\bibitem[{Warren(2010)}]{warren:2010}
+Warren, T.~C., 2010. The geometry of security: {M}odeling interstate alliances
+  as evolving networks. Journal of Peace Research 47~(6), 697--709.
+
+\bibitem[{Warren(2016)}]{warren:2016}
+Warren, T.~C., 2016. Modeling the co-evolution of international and domestic
+  institutions: {A}lliances, democracy, and the complex path to peace. Journal
+  of Peace Research 53, tbd.
 
 \bibitem[{Wasserman and Faust(1994)}]{wasserman:faust:1994}
 Wasserman, S., Faust, K., 1994. Social Network Analysis: {M}ethods and

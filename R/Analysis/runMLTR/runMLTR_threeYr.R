@@ -21,9 +21,9 @@ amData = lapply(amData, function(x){
 	})
 
 # break up into year chunks
-yrs = (min(num(names(amData)))+4):max(num(names(amData)))
+yrs = (min(num(names(amData)))+2):max(num(names(amData)))
 yrBuck = lapply(yrs, function(t){
-	return( (t-4):t ) })
+	return( (t-2):t ) })
 names(yrBuck) = yrs
 
 # create smaller versions of mltr
@@ -52,7 +52,7 @@ registerDoParalle(cl)
 foreach(t in names(amDataBuck)) %dopar% {
 	# mcmc function parameters
 	# Create directory to save latent space results
-	outPath=paste0(pathResults, 'mltrDep_fiveYr/')
+	outPath=paste0(pathResults, 'mltrDep_threeYr/')
 	dir.create(outPath, showWarnings=FALSE)
 
 	NS = 7500 ; NB = 500 ; sdens = 100 ; plot = FALSE

@@ -46,7 +46,7 @@ X = array(
 #### MCMC 
 # parallelize
 loadPkg(c('foreach','doParallel'))
-cores = 32
+cores = length(amDataBuck)
 cl = makeCluster(cl)
 registerDoParalle(cl)
 foreach(t in names(amDataBuck)) %dopar% {

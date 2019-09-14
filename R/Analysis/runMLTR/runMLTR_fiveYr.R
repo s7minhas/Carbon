@@ -40,6 +40,13 @@ dimnames(Y) = list(
 	names(amData)
 	)
 
+loadPkg('gdata')
+for(t in 1:dim(Y)[4]){
+	y = Y[,,2,t]
+	lowerTriangle(y) = upperTriangle(y, byrow=TRUE)
+	Y[,,2,t] = y
+}
+
 # random c val
 X = array(
 	rnorm(length(c(Y))), 

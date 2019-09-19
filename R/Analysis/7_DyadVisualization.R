@@ -8,7 +8,7 @@ loadPkg(c('magrittr','countrycode','doBy'))
 ############################
 
 ############################
-load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathResults, 'mltrDep.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
 ############################
@@ -33,26 +33,32 @@ sScoreData = lapply(names(sL), function(x){
 latAngle = merge(latAngle, sScoreData, by.x = "dyadid", by.y = "id", all.x = T)
 latAngle = merge(latAngle, idPt, by.x = "dyadid", by.y = "dyadidyr" , all.x = T)
 latAngle$sOld = latAngle$sScore
-latAngle$sScore = 1 - latAngle$sScore
+# latAngle$sScore = 1 - latAngle$sScore
 
-# rescale each to between 0 and 1
-latAngle$value = rescale(latAngle$value, 1, 0)
-latAngle$sScore = rescale(latAngle$sScore, 1, 0)
-latAngle$idealpointdistance = rescale(latAngle$idealpointdistance, 1, 0)
+# # rescale each to between 0 and 1
+# latAngle$value = rescale(latAngle$value, 1, 0)
+# latAngle$sScore = rescale(latAngle$sScore, 1, 0)
+# latAngle$idealpointdistance = rescale(latAngle$idealpointdistance, 1, 0)
+latAngle$idealpointdistance = rescale(
+	latAngle$idealpointdistance, 
+	min(latAngle$idealpointdistance),
+	max(latAngle$idealpointdistance)	
+	)
 ############################
 
 ############################
 plausPlot = function(dyadIds, dyadLabs, pW=12, pH=5, fName, fck=FALSE){
 	fig1Plaus = latAngle[
 		which( latAngle$dyad %in% dyadIds ),
-		c('country1','country2','dyad','year.x','value','idealpointdistance','sScore')] 
-	names(fig1Plaus)[5:7] = c('Latent Angle\nDistance', 'Ideal Point\nDistance', 'S-Score')
+		c('country1','country2','dyad','year.x','value','sScore','idealpointdistance')] 
+	names(fig1Plaus)[5:7] = c('Tensor\nDependence', 'S-Score','Ideal Point\nSimilarity')
 	fig1Plaus$dyadAbb = NA
 	for(i in 1:length(dyadIds)){ fig1Plaus$dyadAbb[fig1Plaus$dyad==dyadIds[i]]=dyadLabs[i] }
 	ggFig1 = reshape2::melt(fig1Plaus[,4:8], id=c('dyadAbb','year.x'))
 	ggFig1$dyadAbb = factor(ggFig1$dyadAbb, levels=dyadLabs)
+	ggFig1$variable = factor(ggFig1$variable, levels=names(fig1Plaus)[5:7])
 
-	if(fck){ggFig1 = ggFig1[ggFig1$variable!='Ideal Point\nDistance',]}
+	if(fck){ggFig1 = ggFig1[ggFig1$variable!='Ideal Point\nSimilarity',]}
 
 	ggPlaus = ggplot(ggFig1, aes(x=year.x, y=value, group=variable, color=variable)) +
 		geom_line(size=.8) + geom_point(aes(shape=variable), size=1.5) +

@@ -8,7 +8,7 @@ loadPkg(c('magrittr','countrycode','doBy'))
 ############################
 
 ############################
-load(paste0(pathResults, 'latDist.rda')) # includes object called latAngle
+load(paste0(pathResults, 'mltrDep.rda')) # includes object called latAngle
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
 ############################
@@ -23,6 +23,11 @@ cntryKey <- data.frame(cbind(
 	))
 
 # focus on relevant dyads and time period
+idPt$idealpointdistance = rescale(
+	idPt$idealpointdistance, 
+	min(idPt$idealpointdistance),
+	max(idPt$idealpointdistance)	
+	)
 idPt = idPt[
 	idPt$year==2012 & 
 	idPt$ccode1 %in% cntries & 
@@ -38,7 +43,8 @@ idPt = idPt[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	idPt$id),c('id','idealpointdistance')]
-idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
+idPt$idealpointdistance = 1-idPt$idealpointdistance
+# idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
 
 sScore = sL$'2012'
 sScore = sScore[
@@ -54,8 +60,8 @@ sScore = sScore[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	sScore$id),c('id','sScore')]
-sScore$sScore = 1-sScore$sScore 
-sScore$sScore = rescale(sScore$sScore, 1, 0)
+# sScore$sScore = 1-sScore$sScore 
+# sScore$sScore = rescale(sScore$sScore, 1, 0)
 
 
 # latDist
@@ -66,7 +72,7 @@ latAngle = latAngle[match(
 		'2_710_2012', '710_731_2012'
 		),
 	latAngle$dyadid),c('dyadid','value')]
-latAngle$value = rescale(latAngle$value, 1, 0)
+# latAngle$value = rescale(latAngle$value, 1, 0)
 ############################	
 
 ############################	
@@ -81,24 +87,35 @@ ggData$id = factor(ggData$id,
 ggData$variable = char(ggData$variable)
 ggData$variable[
 	ggData$variable=='idealpointdistance'
-	] = 'Ideal Point Distance'
+	] = 'Ideal Point Similarity'
 ggData$variable[
 	ggData$variable=='sScore'
 	] = 'S-Score'	
 ggData$variable = factor(ggData$variable,
-	levels=c('S-Score','Ideal Point Distance'))
+	levels=c('S-Score','Ideal Point Similarity'))
 
-g=ggplot(ggData, aes(x=id, y=value)) + 
+g=ggplot(ggData, aes(x=id, y=value,color=variable)) + 
 	geom_linerange(aes(ymin=0,ymax=value)) +
-	geom_point() +
+	geom_point(aes(shape=variable), size=1.5) +
 	facet_wrap(~variable, scales='free_y', nrow=2) +
-	labs(y='',x='') +
+	labs(color='', shape='') + ylab('') + xlab('') +
+	scale_color_brewer(palette='Set1') + 
 	theme(
+		axis.ticks=element_blank(),
 		panel.border=element_blank(),
-		axis.ticks=element_blank()
+		legend.text=element_text(family="Source Sans Pro Light"),
+		legend.position='top',
+		axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
+		axis.text.y=element_text(family="Source Sans Pro Light"),
+		strip.text.x = element_text(color='white',
+			family="Source Sans Pro Semibold"),		
+		strip.text.y = element_text(color='white',
+			family="Source Sans Pro Semibold"),			
+		strip.background = element_rect(fill = "#525252", color='#525252')				
 		)
 ggsave(g, height=3, width=7,
-	file=paste0(pathGraphics, 'idPtScoreViz.pdf')
+	file=paste0(pathGraphics, 'idPtScoreViz.pdf'),
+	device=cairo_pdf
 	)
 ############################	
 
@@ -108,34 +125,45 @@ ggData = cbind(idPt,
 	sScore=sScore[,'sScore'], latAngle=latAngle[,'value'])
 ggData = melt(ggData, id='id')
 ggData$id = factor(ggData$id, 
-	levels=sScore$id[order(latAngle$value)]
+	levels=sScore$id[order(sScore$sScore)]
 	)
 
 # clean up facet labels
 ggData$variable = char(ggData$variable)
 ggData$variable[
 	ggData$variable=='idealpointdistance'
-	] = 'Ideal Point Distance'
+	] = 'Ideal Point Similarity'
 ggData$variable[
 	ggData$variable=='sScore'
 	] = 'S-Score'	
 ggData$variable[
 	ggData$variable=='latAngle'
-	] = 'Latent Angle Distance'		
+	] = 'Tensor Dependence'		
 ggData$variable = factor(ggData$variable,
-	levels=c('Latent Angle Distance','S-Score','Ideal Point Distance'))
+	levels=c('Tensor Dependence','S-Score','Ideal Point Similarity'))
 
-g=ggplot(ggData, aes(x=id, y=value)) + 
+g=ggplot(ggData, aes(x=id, y=value,color=variable)) + 
 	geom_linerange(aes(ymin=0,ymax=value)) +
-	# geom_hline(aes(yintercept=0),linetype='dashed',color='grey') +
-	geom_point() +
+	geom_hline(aes(yintercept=0),linetype='dashed',color='grey') +
+	geom_point(aes(shape=variable), size=1.5) +
 	facet_wrap(~variable, scales='free_y', nrow=3) +
-	labs(y='',x='') +
+	labs(color='', shape='') + ylab('') + xlab('') +
+	scale_color_brewer(palette='Set1') + 
 	theme(
+		axis.ticks=element_blank(),
 		panel.border=element_blank(),
-		axis.ticks=element_blank()
+		legend.text=element_text(family="Source Sans Pro Light"),
+		legend.position='top',
+		axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
+		axis.text.y=element_text(family="Source Sans Pro Light"),
+		strip.text.x = element_text(color='white',
+			family="Source Sans Pro Semibold"),
+		strip.text.y = element_text(color='white',
+			family="Source Sans Pro Semibold"),			
+		strip.background = element_rect(fill = "#525252", color='#525252')				
 		)
 ggsave(g, height=5, width=7,
-	file=paste0(pathGraphics, 'idPtScoreLatAngleViz.pdf')
+	file=paste0(pathGraphics, 'idPtScoreLatAngleViz.pdf'),
+	device=cairo_pdf
 	)
 ############################	

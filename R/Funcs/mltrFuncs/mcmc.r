@@ -84,5 +84,5 @@ for(s in 1:(NS+NB))
 }
 ####
 
-save.image(file=fname)
+save(BPS, file=fname)
 

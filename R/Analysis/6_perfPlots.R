@@ -10,7 +10,7 @@ load(paste0(pathResults, 'crossValResults.rda')) # adds modSumm, rocPrData
 
 # rename
 key = data.frame(dirty=unique(rocData$model),stringsAsFactors=FALSE)
-key$clean = c('Ideal Point\nDistance', 'Ideal Point &\nS-Score', 'Base\nModel', 'Latent Angle\nDistance', 'S-Score')
+key$clean = c('Ideal Point\nSimilarity', 'Ideal Point &\nS-Score', 'Base\nModel', 'Tensor\nDependence', 'S-Score')
 key$clean = factor(key$clean,levels=key$clean[c(4,2,1,5,3)])
 
 # cleanup names
@@ -43,17 +43,10 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 rocPrData = do.call('rbind', rocPrData)
 rocPrData$model = factor(rocPrData$model, levels=levels(rocData$model))
 
-rocPrData$model = char(rocPrData$model)
-slice = rocPrData[rocPrData$model != "Latent Angle\nDistance",]
-slice$model = factor(slice$model)
-
-sliceCols = brewer.pal(length(unique(rocPrData$model)), 'Set1')[-1]
-tmp=rocPlot(
-  slice, type='pr', linetypes=ggLty[-1], 
-  legPos=c(.7,.7), legText=7, legSpace=1.75, colorManual = sliceCols) +
+tmp=rocPlot(rocPrData, type='pr', linetypes=ggLty, legPos=c(.7,.7), legText=7, legSpace=1.75) +
 	annotate('text', hjust=0, x=.88, y=.95, 
 		label='AUC (PR)', family='Source Sans Pro Black', size=2.85) + 
-	annotate('text', hjust=0, x=.9, y=seq(.63, .93, .09), 
-		label=rev(aucSumm[-1,2]), family='Source Sans Pro Light', size=2.7)
-ggsave(tmp, file=paste0(pathGraphics, 'rocPr_outSampleNotUs.pdf'), width=5, height=5, device=cairo_pdf)
+	annotate('text', hjust=0, x=.9, y=seq(.54, .93, .09), 
+		label=rev(aucSumm[,2]), family='Source Sans Pro Light', size=2.7)
+ggsave(tmp, file=paste0(pathGraphics, 'rocPr_outSample.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################

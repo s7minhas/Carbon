@@ -64,7 +64,7 @@ aucSumm=do.call('rbind', lapply(predDfs,function(x){
 	return( c('AUC'=aucROC,'AUC (PR)'=aucPR) ) }) )
 aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
-aucSumm
+
 # roc data
 rocData=do.call('rbind', 
 	lapply(predDfs, function(x){

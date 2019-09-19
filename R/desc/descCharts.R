@@ -43,10 +43,6 @@ idPt = idPt[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	idPt$id),c('id','idealpointdistance')]
-idPt$idealpointdistance = rescale(idPt$idealpointdistance, 
-	min(idPt$idealpointdistance), 
-	max(idPt$idealpointdistance)
-	)
 # idPt$idealpointdistance = 1-idPt$idealpointdistance
 # idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
 

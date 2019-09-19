@@ -8,6 +8,13 @@ source(paste0(gpth, 'R/Funcs/postHelpers.R'))
 ############################
 load( paste0(pathDataBin, 'logitModData.rda') )
 
+#
+modData$lag1_idPtDist = rescale(
+	modData$lag1_idPtDist, 
+	min(modData$lag1_idPtDist,na.rm=TRUE),
+	max(modData$lag1_idPtDist,na.rm=TRUE)	
+	)
+
 # Finalize data for modeling
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)
@@ -45,13 +52,13 @@ coefData = lapply(mods, function(x){
 
 # clean up vars
 modKey = data.frame(dirty=unique(coefData$mod))
-modKey$clean = c('Latent Angle\nDistance', 'Ideal Point\nDistance', 'S-Score', 'Ideal Point &\nS-Score',' Base\nModel')
+modKey$clean = c('Tensor\nDependence', 'Ideal Point\nSimilarity', 'S-Score', 'Ideal Point &\nS-Score',' Base\nModel')
 coefData$modClean = modKey$clean[match(coefData$mod,modKey$dirty)]
 coefData$modClean = factor(coefData$modClean, levels=modKey$clean)
 varKey = data.frame(dirty=unique(coefData$var))
 varKey$clean = c(
 	'(Intercept)', 
-	'Latent Angle\nDistance$_{ij,t-1}$',
+	'Tensor\nDependence$_{ij,t-1}$',
 	'Joint Democracy$_{ij,t-1}$',
 	'Capability Ratio$_{ij,t-1}$',
 	'Geographically\nContiguous$_{ij,t-1}$',
@@ -59,9 +66,9 @@ varKey$clean = c(
 	'Peace Years$_{ij,t-1}$',
 	'Peace Years$^{2}_{ij,t-1}$',
 	'Peace Years$^{3}_{ij,t-1}$',
-	'Ideal Point\nDistance$_{ij,t-1}$',
+	'Ideal Point\nSimilarity$_{ij,t-1}$',
 	'S-Score$_{ij,t-1}$',
-	'Ideal Point\nDistance$_{ij,t-1}$'
+	'Ideal Point\nSimilarity$_{ij,t-1}$'
 	)
 varKey = varKey[c(2,10,12,11,3:6,7:9,1),]
 coefData$varClean = varKey$clean[match(coefData$var,varKey$dirty)]

@@ -41,13 +41,13 @@ latAngle$sOld = latAngle$sScore
 # latAngle$idealpointdistance = rescale(latAngle$idealpointdistance, 1, 0)
 latAngle$idealpointdistance = rescale(
 	latAngle$idealpointdistance, 
-	min(latAngle$idealpointdistance),
-	max(latAngle$idealpointdistance)	
+	min(latAngle$idealpointdistance,na.rm=TRUE),
+	max(latAngle$idealpointdistance,na.rm=TRUE)	
 	)
 ############################
 
 ############################
-plausPlot = function(dyadIds, dyadLabs, pW=12, pH=5, fName, fck=FALSE){
+plausPlot = function(dyadIds, dyadLabs, pW=8, pH=7, fName, fck=FALSE){
 	fig1Plaus = latAngle[
 		which( latAngle$dyad %in% dyadIds ),
 		c('country1','country2','dyad','year.x','value','sScore','idealpointdistance')] 
@@ -96,8 +96,6 @@ plausPlot(
 	)
 
 # SoKo-NoKo | Iraq-Iran
-paste0('731_732_',1965:2012)
-
 toReplace = latAngle$idealpointdistance[
 	latAngle$dyadid %in% paste0('731_732_',1965:2012)]
 latAngle$idealpointdistance[
@@ -113,4 +111,4 @@ plausPlot(
 	pW=8, pH=5, #fck=TRUE,
 	fName=paste0(pathGraphics, 'plausPlot_3.pdf')
 	)
-############################
+############################s

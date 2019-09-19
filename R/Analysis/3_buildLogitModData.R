@@ -14,7 +14,7 @@ for(v in names(data)[-which(names(data)=='id')]){
 data = id
 
 # pref measures
-load(paste0(pathResults, 'latDist.rda')) # includes object called latDist
+load(paste0(pathResults, 'mltrDep.rda')) # includes object called latDist
 load(paste0(pathDataBin, 'idPt.rda'))  # includes object called idPt
 load(paste0(pathDataBin,'sScore.rda'))
 ############################
@@ -25,6 +25,15 @@ sScoreData = lapply(names(sL), function(x){
 	tmp=sL[[x]]; tmp$year=x
 	tmp$id = paste(tmp$ccode1, tmp$ccode2, tmp$year, sep='_')
 	return(tmp) }) %>% do.call('rbind', .)
+############################
+
+############################
+# flip idpt
+idPt$idealpointdistance = rescale(
+	idPt$idealpointdistance, 
+	min(idPt$idealpointdistance,na.rm=TRUE),
+	max(idPt$idealpointdistance,na.rm=TRUE)	
+	)
 ############################
 
 ############################

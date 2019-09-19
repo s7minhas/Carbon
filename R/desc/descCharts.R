@@ -43,7 +43,11 @@ idPt = idPt[match(
 		'USA/DPRK','CHN/ROK',
 		'USA/CHN','CHN/DPRK'),
 	idPt$id),c('id','idealpointdistance')]
-idPt$idealpointdistance = 1-idPt$idealpointdistance
+idPt$idealpointdistance = rescale(idPt$idealpointdistance, 
+	min(idPt$idealpointdistance), 
+	max(idPt$idealpointdistance)
+	)
+# idPt$idealpointdistance = 1-idPt$idealpointdistance
 # idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
 
 sScore = sL$'2012'
@@ -93,27 +97,32 @@ ggData$variable[
 	] = 'S-Score'	
 ggData$variable = factor(ggData$variable,
 	levels=c('S-Score','Ideal Point Similarity'))
+ccols = brewer.pal(3, 'Set1')
 
 g=ggplot(ggData, aes(x=id, y=value,color=variable)) + 
 	geom_linerange(aes(ymin=0,ymax=value)) +
 	geom_point(aes(shape=variable), size=1.5) +
 	facet_wrap(~variable, scales='free_y', nrow=2) +
 	labs(color='', shape='') + ylab('') + xlab('') +
-	scale_color_brewer(palette='Set1') + 
+	# scale_color_brewer(palette='Set1') + 
+	scale_color_manual(values=ccols[2:3]) + 
+	scale_shape_manual(values=c('triangle','square')) + 
 	theme(
 		axis.ticks=element_blank(),
 		panel.border=element_blank(),
 		legend.text=element_text(family="Source Sans Pro Light"),
 		legend.position='top',
-		axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
-		axis.text.y=element_text(family="Source Sans Pro Light"),
+		axis.text.x=element_text(
+			family="Source Sans Pro Light", angle=45, hjust=1),
+		axis.text.y=element_text(
+			family="Source Sans Pro Light", size=6),
 		strip.text.x = element_text(color='white',
 			family="Source Sans Pro Semibold"),		
 		strip.text.y = element_text(color='white',
 			family="Source Sans Pro Semibold"),			
 		strip.background = element_rect(fill = "#525252", color='#525252')				
 		)
-ggsave(g, height=3, width=7,
+ggsave(g, height=3.5, width=7,
 	file=paste0(pathGraphics, 'idPtScoreViz.pdf'),
 	device=cairo_pdf
 	)
@@ -154,15 +163,17 @@ g=ggplot(ggData, aes(x=id, y=value,color=variable)) +
 		panel.border=element_blank(),
 		legend.text=element_text(family="Source Sans Pro Light"),
 		legend.position='top',
-		axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
-		axis.text.y=element_text(family="Source Sans Pro Light"),
+		axis.text.x=element_text(
+			family="Source Sans Pro Light", angle=45, hjust=1),
+		axis.text.y=element_text(
+			family="Source Sans Pro Light", size=6),
 		strip.text.x = element_text(color='white',
 			family="Source Sans Pro Semibold"),
 		strip.text.y = element_text(color='white',
 			family="Source Sans Pro Semibold"),			
 		strip.background = element_rect(fill = "#525252", color='#525252')				
 		)
-ggsave(g, height=5, width=7,
+ggsave(g, height=5.5, width=7,
 	file=paste0(pathGraphics, 'idPtScoreLatAngleViz.pdf'),
 	device=cairo_pdf
 	)

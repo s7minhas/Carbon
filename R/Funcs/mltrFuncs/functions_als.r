@@ -20,16 +20,20 @@ alm.ALS<-function(Y,X,tol=1e-5,imax=100,verbose=FALSE,seed=1)
     for(k in sample(1:K))
     {
       E<-Y
-      for(l in (1:K)[-k]){ E<-sweep(E,c(l,K+1),B[[l]]%*%XS[[l]] )}
+      # for(l in (1:K)[-k]){ E<-sweep(E,c(l,K+1),B[[l]]%*%XS[[l]] )}
+      for(l in (1:K)[-k]){ E<-sweep(E,c(K,l+1),XS[[l]]%*%B[[l]] )}
 
-      y<-apply(E,c(k,K+1),sum)
+      # y<-apply(E,c(k,K+1),sum)
+      y<-apply(E,c(k,sqrt(K)),sum)
       x<-XS[[k]]
 
-      Syx<-y%*%t(x)
+      # Syx<-y%*%t(x)
+      Syx<-y%*%t(x) + prod(m[K-1][1:k])
       Sxx<-x%*%t(x) * prod(m[(1:K)[-k]])  
 
       eS<-eigen(Sxx) 
-      ieV<-1/eS$val ; ieV[ieV==Inf]<-0 ; iSxx<-eS$vec%*%diag(ieV)%*%t(eS$vec)
+      # ieV<-1/eS$val ; ieV[ieV==Inf]<-0 ; iSxx<-eS$vec%*%diag(ieV)%*%t(eS$vec)
+      ieV<-1/eS$val ; ieV[ieV==Inf]<-0 ; iSxx<-eS$vec%*%K%*%diag(ieV)%*%t(eS$vec)
 
       B[[k]]<-  Syx%*%iSxx
     }

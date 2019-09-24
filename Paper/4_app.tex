@@ -10,6 +10,28 @@ $\bl B_{1}$ and $\bl B_{2}$  contain $m \times m$ regression coefficients. The $
 
 % To visualize the posterior distributions for these parameters, we create a set of network plots in which linkages designate significant positive effects using a 99\% credible interval. Nodes are replaced with three letter country abbreviations and these pieces of text are colored by the geographic location of countries shown in Figure~\ref{fig:map}. Results using a lower threshold for significance lead to a large number of linkages being drawn and the plots becoming illegible. Additionally, very few, less than 3\%, of the $ij$ estimates were significantly negative, so we exclude visualizing those here as well to improve readability. 
 
+As an example of how our tensor dependence measure is effected by changes in alliance relations or UN voting similarity consider the United States and Israel, in 1981. With the signing of the ``Joint Memorandum of Understanding," the two states went from having no alliance relationship to having one, the states were voting together at the UN 80\% of the time (up 3\% from 1980, below the median yearly change for this dyad). These factors, coupled with changes in the third order effects for the dyad, led the tensor dependency to increase from about 2.72 to about 3.08. 
+
+\textcolor{red}{Can you put in the explicit math that leads to this SM?} 
+
+Of course, another pair of countries might sign an alliance (or withdraw from an alliance) and have a markedly different effect on this measure of tensor dependency. For example, in 1977, the United Kingdom and the United States went from being in 5 alliances together to being in 4, and this led to a drop in their tensor dependency from 3.13 to 2.28, despite a decrease in their UN voting similarity of less than 1\%. This is because the alliance that ended in 1977 was the Southeast Asian Treaty Organization, which had 4 other members, and so the third order effects were concomittantly more severe. To capture the aggregate effects of dyadic variables on our measure of tensor dependency, we estimated a simple linear model, depicted in table \ref{tensor:ols}, and these dyadic factors account for about 78\% of the variance, with the rest coming from third order factors. 
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		& Estimate & Std. Error & t value & Pr($>|t|$) \\ 
+		\hline
+		(Intercept) & 0.0773 & 0.001 & 74.26 & 0.000 \\ 
+		Tensor Dependence$_{t-1}$ & 0.888 & 0.0004 & 2094.81 & 0.000 \\ 
+		Change in Alliance Relationship & 0.131 & 0.009 & 15.30 & 0.000 \\ 
+		Change in UN Voting Similarity & 4.401 & 0.014 & 313.14 & 0.000 \\ 
+		\hline
+	\end{tabular}
+	\label{tensor:ols}
+	\caption{Regression of tensor dependence on dyadic components.}
+\end{table}
+
 \subsection*{Face Plausibility}
 
 An important question for these different measures of preferences, are whether they give results that ``make sense." In particular, we would hope that the measure both provides plausible levels to relationships -- sorting states into friends and foes effectively -- and that when these measures change, they do so in ways that correspond to changes in the world. One of our principle critiques of both alliance portfolio S-scores and UN voting based ideal points is that they describe certain important relationships in a way that some may find implausible. Using our measure we return to the example of relationships in East Asia in 2012. We find that our tensor dependence measure, depicted in figure \ref{korea:withus}, corresponds much better to conventional understanding of the relations between these states.

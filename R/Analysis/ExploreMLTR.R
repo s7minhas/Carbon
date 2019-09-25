@@ -44,8 +44,16 @@ mltr$unDif = mltr$agree3un - mltr$agree3un.l1
 which(mltr$ally == 2 & mltr$ally.l1 == 0)
 
 mltr[96813,]
-mltr[mltr$Var1 == 590 & mltr$Var2 == 200 & mltr$year == 1976,]
+mltr$country1 = countrycode(mltr$Var1, "cown", "country.name")
+mltr$country2 = countrycode(mltr$Var2, "cown", "country.name")
 mltr$tensDif = mltr$value - mltr$value.l1
 
-mean(mltr$tensDif[mltr$allyDif == -1], na.rm = T)
-dumb = lm(value~ally + agree3un, data = mltr)
+dumb = lm(value~value.l1 + allyDif + unDif, data = mltr)
+dumbchange = lm(tensDif~allyDif + unDif, data = mltr)
+which(mltr$unDif < -.5)
+
+
+load("/Users/maxgallop/Dropbox/Carbon/Results/tnsrDepSpace/1981_mltr.rda")
+fit1981 = fit
+load("/Users/maxgallop/Dropbox/Carbon/Results/mltrDep/1980_mltr.rda")
+fit1980 = fit

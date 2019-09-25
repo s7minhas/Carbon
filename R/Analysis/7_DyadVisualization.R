@@ -44,13 +44,13 @@ latAngle$idealpointdistance = rescale(
 	min(latAngle$idealpointdistance,na.rm=TRUE),
 	max(latAngle$idealpointdistance,na.rm=TRUE)	
 	)
-# latAngle$value = stdz(latAngle$value)
-# latAngle$sScore = stdz(latAngle$sScore)
-# latAngle$idealpointdistance = stdz(latAngle$idealpointdistance)
+latAngle$value = stdz(latAngle$value)
+latAngle$sScore = stdz(latAngle$sScore)
+latAngle$idealpointdistance = stdz(latAngle$idealpointdistance)
 ############################
 
 ############################
-plausPlot = function(dyadIds, dyadLabs, pW=8, pH=7, fName, fck=FALSE){
+plausPlot = function(dyadIds, dyadLabs, pW=8, pH=5, fName, fck=FALSE){
 	fig1Plaus = latAngle[
 		which( latAngle$dyad %in% dyadIds ),
 		c('country1','country2','dyad','year.x','value','sScore','idealpointdistance')] 
@@ -64,16 +64,17 @@ plausPlot = function(dyadIds, dyadLabs, pW=8, pH=7, fName, fck=FALSE){
 	if(fck){ggFig1 = ggFig1[ggFig1$variable!='Ideal Point\nSimilarity',]}
 
 	ggPlaus = ggplot(ggFig1, aes(x=year.x, y=value, group=variable, color=variable)) +
+		geom_hline(yintercept=0, color='grey', linetype='dashed', size=1) +	
 		geom_line(size=.8) + geom_point(aes(shape=variable), size=1.5) +
 		scale_color_brewer(palette='Set1') + 
 		facet_grid(variable~dyadAbb, scales='free') +
 		labs(color='', shape='') + ylab('') + xlab('') +
 		theme(
 			axis.ticks=element_blank(),
-			panel.border=element_blank(),
+			# panel.border=element_blank(),
 			legend.text=element_text(family="Source Sans Pro Light"),
 			legend.position='top',
-			axis.text.x=element_text(family="Source Sans Pro Light", angle=45),
+			axis.text.x=element_text(family="Source Sans Pro Light", angle=45, hjust=1),
 			axis.text.y=element_text(family="Source Sans Pro Light"),
 			strip.text.x = element_text(color='white',
 				family="Source Sans Pro Semibold"),
@@ -88,14 +89,14 @@ plausPlot = function(dyadIds, dyadLabs, pW=8, pH=7, fName, fck=FALSE){
 plausPlot(
 	dyadIds=c('220_260', '2_666', '710_731'),
 	dyadLabs=c('France-Germany', 'USA-Israel', 'China-North Korea'),
-	fName=paste0(pathGraphics, 'plausPlot_1.pdf')
+	fName=paste0(pathGraphics, 'plausPlot_1_border.pdf')
 	)
 
 # SoKo-NoKo | Iraq-Iran
 plausPlot(
-	dyadIds=c('2_710', '2_365', '2_645'),
-	dyadLabs=c('USA-China', 'USA-Russia', 'USA-Iraq'),
-	fName=paste0(pathGraphics, 'plausPlot_2.pdf')
+	dyadIds=c('2_365', '2_645', '2_710'),
+	dyadLabs=c('USA-Russia', 'USA-Iraq', 'USA-China'),
+	fName=paste0(pathGraphics, 'plausPlot_2_border.pdf')
 	)
 
 # SoKo-NoKo | Iraq-Iran
@@ -112,6 +113,6 @@ plausPlot(
 	dyadIds=c('732_731', '645_630'),
 	dyadLabs=c('South Korea-North Korea', 'Iraq-Iran'),
 	pW=8, pH=5, #fck=TRUE,
-	fName=paste0(pathGraphics, 'plausPlot_3.pdf')
+	fName=paste0(pathGraphics, 'plausPlot_3_border.pdf')
 	)
 ############################s

@@ -44,6 +44,9 @@ latAngle$idealpointdistance = rescale(
 	min(latAngle$idealpointdistance,na.rm=TRUE),
 	max(latAngle$idealpointdistance,na.rm=TRUE)	
 	)
+# latAngle$value = stdz(latAngle$value)
+# latAngle$sScore = stdz(latAngle$sScore)
+# latAngle$idealpointdistance = stdz(latAngle$idealpointdistance)
 ############################
 
 ############################

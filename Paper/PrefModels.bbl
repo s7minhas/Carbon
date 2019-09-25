@@ -1,225 +1,377 @@
-\begin{thebibliography}{47}
+\begin{thebibliography}{49}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-\expandafter\ifx\csname url\endcsname\relax
-  \def\url#1{\texttt{#1}}\fi
-\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
-
-\bibitem[{Airoldi et~al.(2008)Airoldi, Blei, Fienberg, and
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Airoldi et~al.(2008)Airoldi, Blei, Fienberg and
   Xing}]{airoldi:etal:2008}
-Airoldi, E.~M., Blei, D.~M., Fienberg, S.~E., Xing, E.~P., 2008. Mixed
-  membership stochastic blockmodels. Journal of Machine Learning Research
-  9~(September), 1981--2014.
-
-\bibitem[{Anderson et~al.(1992)Anderson, Wasserman, and
-  Faust}]{anderson:etal:1992}
-Anderson, C.~J., Wasserman, S., Faust, K., 1992. Building stochastic
-  blockmodels. Social Networks 14~(1), 137--161.
-
-\bibitem[{Bailey et~al.(2017)Bailey, Strezhnev, and Voeten}]{bailey:etal:2015}
-Bailey, M.~A., Strezhnev, A., Voeten, E., 2017. Estimating dynamic state
-  preferences from {U}nited {N}ations voting data. Journal of Conflict
-  Resolution 61~(2), 430--456.
-
-\bibitem[{Beardsley et~al.(2018)Beardsley, Liu, Mucha, Siegel, and
+\bibinfo{author}{Airoldi, E.M.}, \bibinfo{author}{Blei, D.M.},
+  \bibinfo{author}{Fienberg, S.E.}, \bibinfo{author}{Xing, E.P.},
+  \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{Mixed membership stochastic blockmodels}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research}
+  \bibinfo{volume}{9}, \bibinfo{pages}{1981--2014}.
+%Type = Article
+\bibitem[{Bailey et~al.(2017)Bailey, Strezhnev and Voeten}]{bailey:etal:2015}
+\bibinfo{author}{Bailey, M.A.}, \bibinfo{author}{Strezhnev, A.},
+  \bibinfo{author}{Voeten, E.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Estimating dynamic state preferences from {U}nited
+  {N}ations voting data}.
+\newblock \bibinfo{journal}{Journal of Conflict Resolution}
+  \bibinfo{volume}{61}, \bibinfo{pages}{430--456}.
+%Type = Misc
+\bibitem[{{BBC {N}ews}(2015)}]{bbc:2015}
+\bibinfo{author}{{BBC {N}ews}}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Turkey's downing of russian warplane - what we know}.
+\newblock
+  \bibinfo{note}{\url{https://www.bbc.com/news/world-middle-east-34912581}}.
+%Type = Techreport
+\bibitem[{Beardsley et~al.(2018)Beardsley, Liu, Mucha, Siegel and
   Tellez}]{beardsley:etal:2018}
-Beardsley, K., Liu, H., Mucha, P.~J., Siegel, D.~A., Tellez, J., 2018.
-  Hierarchy and the provision of order in international politics. Tech. rep.,
-  Working paper, Duke University.
-
+\bibinfo{author}{Beardsley, K.}, \bibinfo{author}{Liu, H.},
+  \bibinfo{author}{Mucha, P.J.}, \bibinfo{author}{Siegel, D.A.},
+  \bibinfo{author}{Tellez, J.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Hierarchy and the Provision of Order in International
+  Politics}.
+\newblock \bibinfo{type}{Technical Report}. Working paper, Duke University.
+%Type = Article
 \bibitem[{Bennett and Rupert(2003)}]{bennett:rupert:2003}
-Bennett, D.~S., Rupert, M.~C., June 2003. Comparing measures of political
-  similarity: {A}n empirical comparison of {$S$} versus $\tau_b$ in the study
-  of international conflict. Journal of Conflict Resolution 47~(3), 367--393.
-
+\bibinfo{author}{Bennett, D.S.}, \bibinfo{author}{Rupert, M.C.},
+  \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{Comparing measures of political similarity: {A}n
+  empirical comparison of {$S$} versus $\tau_b$ in the study of international
+  conflict}.
+\newblock \bibinfo{journal}{Journal of Conflict Resolution}
+  \bibinfo{volume}{47}, \bibinfo{pages}{367--393}.
+%Type = Article
 \bibitem[{Braumoeller(2008)}]{braumoeller:2008}
-Braumoeller, B.~F., 2008. Systemic politics and the origins of great power
-  conflict. American Political Science Review 102~(1), 77--93.
-
+\bibinfo{author}{Braumoeller, B.F.}, \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{Systemic politics and the origins of great power
+  conflict}.
+\newblock \bibinfo{journal}{American Political Science Review}
+  \bibinfo{volume}{102}, \bibinfo{pages}{77--93}.
+%Type = Book
 \bibitem[{{Bueno de Mesquita}(1983)}]{buenodemesquita:1983}
-{Bueno de Mesquita}, B., 1983. The War Trap. Yale University Press, New Haven,
-  CT.
-
+\bibinfo{author}{{Bueno de Mesquita}, B.}, \bibinfo{year}{1983}.
+\newblock \bibinfo{title}{The War Trap}.
+\newblock \bibinfo{publisher}{Yale University Press}, \bibinfo{address}{New
+  Haven, CT}.
+%Type = Book
 \bibitem[{{Bueno De Mesquita} and Lalman(2008)}]{buenodemesquita:lalman:2008}
-{Bueno De Mesquita}, B., Lalman, D., 2008. War and reason: {D}omestic and
-  international imperatives. Yale University Press.
-
+\bibinfo{author}{{Bueno De Mesquita}, B.}, \bibinfo{author}{Lalman, D.},
+  \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{War and reason: {D}omestic and international
+  imperatives}.
+\newblock \bibinfo{publisher}{Yale University Press}.
+%Type = Article
 \bibitem[{Carter and Signorino(2010)}]{carter:signorino:2010}
-Carter, D.~B., Signorino, C.~S., 2010. Back to the future: {M}odeling time
-  dependence in binary data. Political Analysis 18~(3), 271--292.
-
-\bibitem[{Clinton et~al.(2004)Clinton, Jackman, and Rivers}]{clinton:etal:2004}
-Clinton, J., Jackman, S., Rivers, D., May 2004. The statistical analysis of
-  roll call data. American Political Science Review 98~(2), 355--370.
-
-\bibitem[{Cranmer et~al.(2012{\natexlab{a}})Cranmer, Desmarais, and
+\bibinfo{author}{Carter, D.B.}, \bibinfo{author}{Signorino, C.S.},
+  \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Back to the future: {M}odeling time dependence in
+  binary data}.
+\newblock \bibinfo{journal}{Political Analysis} \bibinfo{volume}{18},
+  \bibinfo{pages}{271--292}.
+%Type = Article
+\bibitem[{Clinton et~al.(2004)Clinton, Jackman and Rivers}]{clinton:etal:2004}
+\bibinfo{author}{Clinton, J.}, \bibinfo{author}{Jackman, S.},
+  \bibinfo{author}{Rivers, D.}, \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{The statistical analysis of roll call data}.
+\newblock \bibinfo{journal}{American Political Science Review}
+  \bibinfo{volume}{98}, \bibinfo{pages}{355--370}.
+%Type = Article
+\bibitem[{Cramer et~al.(2010)Cramer, Waldorp, Van Der~Maas and
+  Borsboom}]{cramer:etal:2010}
+\bibinfo{author}{Cramer, A.O.}, \bibinfo{author}{Waldorp, L.J.},
+  \bibinfo{author}{Van Der~Maas, H.L.}, \bibinfo{author}{Borsboom, D.},
+  \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Comorbidity: A network perspective}.
+\newblock \bibinfo{journal}{Behavioral and brain sciences}
+  \bibinfo{volume}{33}, \bibinfo{pages}{137--150}.
+%Type = Article
+\bibitem[{Cranmer et~al.(2012a)Cranmer, Desmarais and
   Kirkland}]{cranmer:etal:2012}
-Cranmer, S.~J., Desmarais, B.~A., Kirkland, J.~H., 2012{\natexlab{a}}. Toward a
-  network theory of alliance formation. International Interactions 38~(3),
-  295--324.
-
-\bibitem[{Cranmer et~al.(2012{\natexlab{b}})Cranmer, Desmarais, and
+\bibinfo{author}{Cranmer, S.J.}, \bibinfo{author}{Desmarais, B.A.},
+  \bibinfo{author}{Kirkland, J.H.}, \bibinfo{year}{2012}a.
+\newblock \bibinfo{title}{Toward a network theory of alliance formation}.
+\newblock \bibinfo{journal}{International Interactions} \bibinfo{volume}{38},
+  \bibinfo{pages}{295--324}.
+%Type = Article
+\bibitem[{Cranmer et~al.(2012b)Cranmer, Desmarais and
   Menninga}]{cranmer:etal:2015}
-Cranmer, S.~J., Desmarais, B.~A., Menninga, E.~J., 2012{\natexlab{b}}. Complex
-  dependencies in the alliance network. Conflict Management and Peace Science
-  29~(3), 279--313.
-
+\bibinfo{author}{Cranmer, S.J.}, \bibinfo{author}{Desmarais, B.A.},
+  \bibinfo{author}{Menninga, E.J.}, \bibinfo{year}{2012}b.
+\newblock \bibinfo{title}{Complex dependencies in the alliance network}.
+\newblock \bibinfo{journal}{Conflict Management and Peace Science}
+  \bibinfo{volume}{29}, \bibinfo{pages}{279--313}.
+%Type = Article
 \bibitem[{DeRouen and Heo(2004)}]{derouen:heo:2004}
-DeRouen, K., Heo, U., 2004. Reward, punishment or inducement? {US} economic and
-  military aid, 1946--1996. Defence and Peace Economics 15~(5), 453--470.
-
+\bibinfo{author}{DeRouen, K.}, \bibinfo{author}{Heo, U.}, \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{Reward, punishment or inducement? {US} economic and
+  military aid, 1946--1996}.
+\newblock \bibinfo{journal}{Defence and Peace Economics} \bibinfo{volume}{15},
+  \bibinfo{pages}{453--470}.
+%Type = Article
 \bibitem[{Farber and Gowa(1995)}]{farber:gowa:1995}
-Farber, H., Gowa, J., 1995. Politics and peace. International Security 20~(2),
-  123--146.
-
+\bibinfo{author}{Farber, H.}, \bibinfo{author}{Gowa, J.}, \bibinfo{year}{1995}.
+\newblock \bibinfo{title}{Politics and peace}.
+\newblock \bibinfo{journal}{International Security} \bibinfo{volume}{20},
+  \bibinfo{pages}{123--146}.
+%Type = Article
 \bibitem[{Fariss(2014)}]{fariss:2014}
-Fariss, C.~J., 2014. Respect for human rights has improved over time:
-  {M}odeling the changing standard of accountability. American Political
-  Science Review 108~(2), 297--318.
-
+\bibinfo{author}{Fariss, C.J.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Respect for human rights has improved over time:
+  {M}odeling the changing standard of accountability}.
+\newblock \bibinfo{journal}{American Political Science Review}
+  \bibinfo{volume}{108}, \bibinfo{pages}{297--318}.
+%Type = Article
 \bibitem[{Gallop(2017)}]{gallop:2017}
-Gallop, M., 2017. More dangerous than dyads: {H}ow a third party enables
-  rationalist explanations for war. Journal of Peace Research.
-
+\bibinfo{author}{Gallop, M.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{More dangerous than dyads: {H}ow a third party
+  enables rationalist explanations for war}.
+\newblock \bibinfo{journal}{Journal of Peace Research} .
+%Type = Article
 \bibitem[{Gartzke(1998)}]{gartzke:1998}
-Gartzke, E., 1998. {K}ant we all just get along? {O}pportunity, willingness,
-  and the origins of the democratic peace. American Journal of Political
-  Science 42~(1), 1--27.
-
+\bibinfo{author}{Gartzke, E.}, \bibinfo{year}{1998}.
+\newblock \bibinfo{title}{{K}ant we all just get along? {O}pportunity,
+  willingness, and the origins of the democratic peace}.
+\newblock \bibinfo{journal}{American Journal of Political Science}
+  \bibinfo{volume}{42}, \bibinfo{pages}{1--27}.
+%Type = Article
 \bibitem[{Gartzke(2000)}]{gartzke:2000}
-Gartzke, E., 2000. Preferences and the democratic peace. International Studies
-  Quarterly 44, 191--212.
-
+\bibinfo{author}{Gartzke, E.}, \bibinfo{year}{2000}.
+\newblock \bibinfo{title}{Preferences and the democratic peace}.
+\newblock \bibinfo{journal}{International Studies Quarterly}
+  \bibinfo{volume}{44}, \bibinfo{pages}{191--212}.
+%Type = Article
 \bibitem[{Gartzke(2007)}]{gartzke:2007}
-Gartzke, E., 2007. The capitalist peace. American Journal of Political Science
-  51~(1), 166--191.
-
+\bibinfo{author}{Gartzke, E.}, \bibinfo{year}{2007}.
+\newblock \bibinfo{title}{The capitalist peace}.
+\newblock \bibinfo{journal}{American Journal of Political Science}
+  \bibinfo{volume}{51}, \bibinfo{pages}{166--191}.
+%Type = Article
 \bibitem[{Gibler and Sarkees(2004)}]{gibler:sarkees:2004}
-Gibler, D.~M., Sarkees, M., March 2004. Measuring alliances: {T}he correlates
-  of war formal interstate alliance data set, 1816-2000. Journal of Peace
-  Research 41~(2), 211--222.
-
-\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg, Airoldi,
+\bibinfo{author}{Gibler, D.M.}, \bibinfo{author}{Sarkees, M.},
+  \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{Measuring alliances: {T}he correlates of war formal
+  interstate alliance data set, 1816-2000}.
+\newblock \bibinfo{journal}{Journal of Peace Research} \bibinfo{volume}{41},
+  \bibinfo{pages}{211--222}.
+%Type = Article
+\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg, Airoldi
   et~al.}]{goldenberg:etal:2010}
-Goldenberg, A., Zheng, A.~X., Fienberg, S.~E., Airoldi, E.~M., et~al., 2010. A
-  survey of statistical network models. Foundations and Trends{\textregistered}
-  in Machine Learning 2~(2), 129--233.
-
+\bibinfo{author}{Goldenberg, A.}, \bibinfo{author}{Zheng, A.X.},
+  \bibinfo{author}{Fienberg, S.E.}, \bibinfo{author}{Airoldi, E.M.}, et~al.,
+  \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{A survey of statistical network models}.
+\newblock \bibinfo{journal}{Foundations and Trends{\textregistered} in Machine
+  Learning} \bibinfo{volume}{2}, \bibinfo{pages}{129--233}.
+%Type = Article
 \bibitem[{H{\"a}ge(2011)}]{hage:2011}
-H{\"a}ge, F.~M., 2011. Choice or circumstance? {A}djusting measures of foreign
-  policy similarity for chance agreement. Political Analysis, 287--305.
-
-\bibitem[{Handcock et~al.(2008)Handcock, Hunter, Butts, Goodreau, and
+\bibinfo{author}{H{\"a}ge, F.M.}, \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Choice or circumstance? {A}djusting measures of
+  foreign policy similarity for chance agreement}.
+\newblock \bibinfo{journal}{Political Analysis} , \bibinfo{pages}{287--305}.
+%Type = Article
+\bibitem[{Handcock et~al.(2008)Handcock, Hunter, Butts, Goodreau and
   Morris}]{handcock:etal:2008}
-Handcock, M.~S., Hunter, D.~R., Butts, C.~T., Goodreau, S.~M., Morris, M.,
-  2008. \texttt{statnet}: {Software} tools for the representation,
-  visualization, analysis and simulation of network data. Journal of
-  Statistical Software 24~(1), 1548.
-
-\bibitem[{Hoff(2005)}]{hoff:2005}
-Hoff, P.~D., 2005. Bilinear mixed-effects models for dyadic data. Journal of
-  the American Statistical Association 100~(4690), 286--295.
-
-\bibitem[{Hoff et~al.(2013)Hoff, Fosdick, Volfovsky, and
-  Stovel}]{hoff:etal:2013}
-Hoff, P.~D., Fosdick, B., Volfovsky, A., Stovel, K., 2013. Likelihoods for
-  fixed rank nomination networks. Network Science 1~(3), 253--277.
-
+\bibinfo{author}{Handcock, M.S.}, \bibinfo{author}{Hunter, D.R.},
+  \bibinfo{author}{Butts, C.T.}, \bibinfo{author}{Goodreau, S.M.},
+  \bibinfo{author}{Morris, M.}, \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{\texttt{statnet}: {Software} tools for the
+  representation, visualization, analysis and simulation of network data}.
+\newblock \bibinfo{journal}{Journal of Statistical Software}
+  \bibinfo{volume}{24}, \bibinfo{pages}{1548}.
+%Type = Article
+\bibitem[{Hoff(2015)}]{hoff:2015}
+\bibinfo{author}{Hoff, P.D.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Multilinear tensor regression for longitudinal
+  relational data}.
+\newblock \bibinfo{journal}{The Annals of Applied Statistics}
+  \bibinfo{volume}{9}, \bibinfo{pages}{1169--1193}.
+%Type = Article
 \bibitem[{Kastner(2007)}]{kastner:2007}
-Kastner, S.~L., 2007. When do conflicting political relations affect
-  international trade? Journal of Conflict Resolution 51~(4), 664--688.
-
+\bibinfo{author}{Kastner, S.L.}, \bibinfo{year}{2007}.
+\newblock \bibinfo{title}{When do conflicting political relations affect
+  international trade?}
+\newblock \bibinfo{journal}{Journal of Conflict Resolution}
+  \bibinfo{volume}{51}, \bibinfo{pages}{664--688}.
+%Type = Article
 \bibitem[{Kinne and Bunte(2018)}]{kinne:bunte:2018}
-Kinne, B.~J., Bunte, J.~B., 2018. Guns or money? defense co-operation and
-  bilateral lending as coevolving networks. British Journal of Political
-  Science, 1--22.
-
-\bibitem[{K{\"o}nig et~al.(2013)K{\"o}nig, Marbach, and
+\bibinfo{author}{Kinne, B.J.}, \bibinfo{author}{Bunte, J.B.},
+  \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Guns or money? defense co-operation and bilateral
+  lending as coevolving networks}.
+\newblock \bibinfo{journal}{British Journal of Political Science} ,
+  \bibinfo{pages}{1--22}.
+%Type = Techreport
+\bibitem[{Kolda(2006)}]{kolda:2006}
+\bibinfo{author}{Kolda, T.G.}, \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{Multilinear operators for higher-order
+  decompositions.}
+\newblock \bibinfo{type}{Technical Report}. Sandia National Laboratories.
+%Type = Article
+\bibitem[{Kolda and Bader(2009)}]{kolda:bader:2009}
+\bibinfo{author}{Kolda, T.G.}, \bibinfo{author}{Bader, B.W.},
+  \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Tensor decompositions and applications}.
+\newblock \bibinfo{journal}{SIAM review} \bibinfo{volume}{51},
+  \bibinfo{pages}{455--500}.
+%Type = Article
+\bibitem[{K{\"o}nig et~al.(2013)K{\"o}nig, Marbach and
   Osnabr{\"u}gge}]{konig:etal:2013}
-K{\"o}nig, T., Marbach, M., Osnabr{\"u}gge, M., 2013. Estimating party
-  positions across countries and time---a dynamic latent variable model for
-  manifesto data. Political Analysis 21~(4), 468--491.
-
+\bibinfo{author}{K{\"o}nig, T.}, \bibinfo{author}{Marbach, M.},
+  \bibinfo{author}{Osnabr{\"u}gge, M.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Estimating party positions across countries and
+  time---a dynamic latent variable model for manifesto data}.
+\newblock \bibinfo{journal}{Political Analysis} \bibinfo{volume}{21},
+  \bibinfo{pages}{468--491}.
+%Type = Article
 \bibitem[{Kydd(2003)}]{kydd:2003}
-Kydd, A., 2003. Which side are you on? {B}ias, {C}redibility, and {M}ediation.
-  American Journal of Political Science 47~(4), 597--611.
-
+\bibinfo{author}{Kydd, A.}, \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{Which side are you on? {B}ias, {C}redibility, and
+  {M}ediation}.
+\newblock \bibinfo{journal}{American Journal of Political Science}
+  \bibinfo{volume}{47}, \bibinfo{pages}{597--611}.
+%Type = Article
 \bibitem[{Linzer and Staton(2015)}]{linzer:staton:2015}
-Linzer, D.~A., Staton, J.~K., 2015. A global measure of judicial independence,
-  1948--2012. Journal of Law and Courts 3~(2), 223--256.
-
+\bibinfo{author}{Linzer, D.A.}, \bibinfo{author}{Staton, J.K.},
+  \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{A global measure of judicial independence,
+  1948--2012}.
+\newblock \bibinfo{journal}{Journal of Law and Courts} \bibinfo{volume}{3},
+  \bibinfo{pages}{223--256}.
+%Type = Article
 \bibitem[{Martin and Quinn(2002)}]{martin:quinn:2002}
-Martin, A.~D., Quinn, K.~M., 2002. Dynamic ideal point estimation via markov
-  chain, monte carlo for the {U.S.} {S}upreme {C}ourt, 1953-1999. Political
-  Analysis 10~(2), 134--153.
-
-\bibitem[{Minhas et~al.(2018)Minhas, Hoff, and Ward}]{minhas:etal:2018}
-Minhas, S., Hoff, P.~D., Ward, M.~D., 2018. Inferential approaches for network
-  analysis: {AMEN} for latent factor models. Political Analysis.
-
+\bibinfo{author}{Martin, A.D.}, \bibinfo{author}{Quinn, K.M.},
+  \bibinfo{year}{2002}.
+\newblock \bibinfo{title}{Dynamic ideal point estimation via markov chain,
+  monte carlo for the {U.S.} {S}upreme {C}ourt, 1953-1999}.
+\newblock \bibinfo{journal}{Political Analysis} \bibinfo{volume}{10},
+  \bibinfo{pages}{134--153}.
+%Type = Article
+\bibitem[{Minhas et~al.(2016)Minhas, Hoff and Ward}]{minhas:etal:2016}
+\bibinfo{author}{Minhas, S.}, \bibinfo{author}{Hoff, P.D.},
+  \bibinfo{author}{Ward, M.D.}, \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{A new approach to analyzing coevolving longitudinal
+  networks in international relations}.
+\newblock \bibinfo{journal}{Journal of Peace Research} \bibinfo{volume}{53},
+  \bibinfo{pages}{491--505}.
+%Type = Article
+\bibitem[{Minhas et~al.(2019)Minhas, Hoff and Ward}]{minhas:etal:2019}
+\bibinfo{author}{Minhas, S.}, \bibinfo{author}{Hoff, P.D.},
+  \bibinfo{author}{Ward, M.D.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Inferential approaches for network analysis: Amen for
+  latent factor models}.
+\newblock \bibinfo{journal}{Political Analysis} \bibinfo{volume}{27},
+  \bibinfo{pages}{208–222}.
+\newblock \DOIprefix\doi{10.1017/pan.2018.50}.
+%Type = Article
 \bibitem[{Moody and White(2003)}]{moody:white:2003}
-Moody, J., White, D.~R., 2003. Structural cohesion and embeddedness: A
-  hierarchical concept of social groups. American sociological review,
-  103--127.
-
+\bibinfo{author}{Moody, J.}, \bibinfo{author}{White, D.R.},
+  \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{Structural cohesion and embeddedness: A hierarchical
+  concept of social groups}.
+\newblock \bibinfo{journal}{American sociological review} ,
+  \bibinfo{pages}{103--127}.
+%Type = Article
 \bibitem[{Oneal and Russett(1999)}]{oneal:russett:1999e}
-Oneal, J., Russett, B.~M., 1999. Is the liberal peace just an artifact of cold
-  war interests? {A}ssessing recent critiques. International Interactions
-  25~(3), 213--241.
-
+\bibinfo{author}{Oneal, J.}, \bibinfo{author}{Russett, B.M.},
+  \bibinfo{year}{1999}.
+\newblock \bibinfo{title}{Is the liberal peace just an artifact of cold war
+  interests? {A}ssessing recent critiques}.
+\newblock \bibinfo{journal}{International Interactions} \bibinfo{volume}{25},
+  \bibinfo{pages}{213--241}.
+%Type = Article
 \bibitem[{Oneal and Russett(1997)}]{oneal:russett:1997}
-Oneal, J.~R., Russett, B.~M., 1997. The classical liberals were right:
-  {D}emocracy, interdependence, and conflict, 1950-1985. International Studies
-  Quarterly 41~(2), 267--293.
-
+\bibinfo{author}{Oneal, J.R.}, \bibinfo{author}{Russett, B.M.},
+  \bibinfo{year}{1997}.
+\newblock \bibinfo{title}{The classical liberals were right: {D}emocracy,
+  interdependence, and conflict, 1950-1985}.
+\newblock \bibinfo{journal}{International Studies Quarterly}
+  \bibinfo{volume}{41}, \bibinfo{pages}{267--293}.
+%Type = Article
 \bibitem[{Poole and Rosenthal(1985)}]{poole:rosenthal:1985}
-Poole, K.~T., Rosenthal, H., 1985. A spatial model for legislative roll call
-  analysis. American Journal of Political Science 29~(2), 357--384.
-
+\bibinfo{author}{Poole, K.T.}, \bibinfo{author}{Rosenthal, H.},
+  \bibinfo{year}{1985}.
+\newblock \bibinfo{title}{A spatial model for legislative roll call analysis}.
+\newblock \bibinfo{journal}{American Journal of Political Science}
+  \bibinfo{volume}{29}, \bibinfo{pages}{357--384}.
+%Type = Article
 \bibitem[{Rubin(1976)}]{rubin:1976}
-Rubin, D.~B., 1976. Inference and missing data. Biometrika 63~(3), 581--592.
-
+\bibinfo{author}{Rubin, D.B.}, \bibinfo{year}{1976}.
+\newblock \bibinfo{title}{Inference and missing data}.
+\newblock \bibinfo{journal}{Biometrika} \bibinfo{volume}{63},
+  \bibinfo{pages}{581--592}.
+%Type = Article
 \bibitem[{Signorino and Ritter(1999)}]{signorino:ritter:1999}
-Signorino, C., Ritter, J., 1999. Tau-b or not tau-b. International Studies
-  Quarterly 43~(1), 115--144.
-
+\bibinfo{author}{Signorino, C.}, \bibinfo{author}{Ritter, J.},
+  \bibinfo{year}{1999}.
+\newblock \bibinfo{title}{Tau-b or not tau-b}.
+\newblock \bibinfo{journal}{International Studies Quarterly}
+  \bibinfo{volume}{43}, \bibinfo{pages}{115--144}.
+%Type = Book
 \bibitem[{Singer and Small(1995)}]{singer:small:1995}
-Singer, J.~D., Small, M., 1995. National Military Capabilities Data. Correlates
-  of War Project, Ann Arbor, MI.
-
+\bibinfo{author}{Singer, J.D.}, \bibinfo{author}{Small, M.},
+  \bibinfo{year}{1995}.
+\newblock \bibinfo{title}{National Military Capabilities Data}.
+\newblock \bibinfo{publisher}{Correlates of War Project}, \bibinfo{address}{Ann
+  Arbor, MI}.
+%Type = Article
 \bibitem[{Snijders and Nowicki(1997)}]{snijders:nowicki:1997}
-Snijders, T.~A., Nowicki, K., 1997. Estimation and prediction for stochastic
-  blockmodels for graphs with latent block structure. Journal of Classification
-  14~(1), 75--100.
-
+\bibinfo{author}{Snijders, T.A.}, \bibinfo{author}{Nowicki, K.},
+  \bibinfo{year}{1997}.
+\newblock \bibinfo{title}{Estimation and prediction for stochastic blockmodels
+  for graphs with latent block structure}.
+\newblock \bibinfo{journal}{Journal of Classification} \bibinfo{volume}{14},
+  \bibinfo{pages}{75--100}.
+%Type = Article
 \bibitem[{Stone(2004)}]{stone:2004}
-Stone, R.~W., 2004. The political economy of {IMF} lending in {A}frica.
-  American Political Science Review 98~(4), 577--591.
-
+\bibinfo{author}{Stone, R.W.}, \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{The political economy of {IMF} lending in {A}frica}.
+\newblock \bibinfo{journal}{American Political Science Review}
+  \bibinfo{volume}{98}, \bibinfo{pages}{577--591}.
+%Type = Inbook
 \bibitem[{Voeten(2013)}]{voeten:2013}
-Voeten, E., 2013. Data and analyses of voting in the {U}nited {N}ations.
-  Routledge, Ch.~4.
-
+\bibinfo{author}{Voeten, E.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Data and analyses of voting in the {U}nited
+  {N}ations}. \bibinfo{publisher}{Routledge}. chapter~\bibinfo{chapter}{4}.
+%Type = Article
 \bibitem[{Warren(2010)}]{warren:2010}
-Warren, T.~C., 2010. The geometry of security: {M}odeling interstate alliances
-  as evolving networks. Journal of Peace Research 47~(6), 697--709.
-
+\bibinfo{author}{Warren, T.C.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{The geometry of security: {M}odeling interstate
+  alliances as evolving networks}.
+\newblock \bibinfo{journal}{Journal of Peace Research} \bibinfo{volume}{47},
+  \bibinfo{pages}{697--709}.
+%Type = Article
 \bibitem[{Warren(2016)}]{warren:2016}
-Warren, T.~C., 2016. Modeling the co-evolution of international and domestic
-  institutions: {A}lliances, democracy, and the complex path to peace. Journal
-  of Peace Research 53, tbd.
-
+\bibinfo{author}{Warren, T.C.}, \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Modeling the co-evolution of international and
+  domestic institutions: {A}lliances, democracy, and the complex path to
+  peace}.
+\newblock \bibinfo{journal}{Journal of Peace Research} \bibinfo{volume}{53},
+  \bibinfo{pages}{tbd}.
+%Type = Book
 \bibitem[{Wasserman and Faust(1994)}]{wasserman:faust:1994}
-Wasserman, S., Faust, K., 1994. Social Network Analysis: {M}ethods and
-  Applications. Cambridge University Press, Cambridge.
-
+\bibinfo{author}{Wasserman, S.}, \bibinfo{author}{Faust, K.},
+  \bibinfo{year}{1994}.
+\newblock \bibinfo{title}{Social Network Analysis: {M}ethods and Applications}.
+\newblock \bibinfo{publisher}{Cambridge University Press},
+  \bibinfo{address}{Cambridge}.
+%Type = Article
 \bibitem[{Wolford(2014)}]{wolford:2014}
-Wolford, S., 2014. Showing restraint, signaling resolve: {C}oalitions,
-  cooperation, and crisis bargaining. American Journal of Political Science
-  58~(1), 144--156.
-
-\bibitem[{Xavier~Amatriain and Pujo(2015)}]{amatriain:etal:2015}
-Xavier~Amatriain, Alejandro~Jaimes, N.~O., Pujo, J.~M., 2015. Data mining
-  methods for recommender systems. In: Recommender Systems Handbook. Springer,
-  pp. 227--262.
+\bibinfo{author}{Wolford, S.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Showing restraint, signaling resolve: {C}oalitions,
+  cooperation, and crisis bargaining}.
+\newblock \bibinfo{journal}{American Journal of Political Science}
+  \bibinfo{volume}{58}, \bibinfo{pages}{144--156}.
 
 \end{thebibliography}

@@ -28,6 +28,12 @@ idPt$idealpointdistance = rescale(
 	min(idPt$idealpointdistance),
 	max(idPt$idealpointdistance)	
 	)
+
+# #stdz
+# idPt = idPt[idPt$year==2012,]
+# idPt$idealpointdistance = stdz(idPt$idealpointdistance)
+
+# subset
 idPt = idPt[
 	idPt$year==2012 & 
 	idPt$ccode1 %in% cntries & 
@@ -46,7 +52,13 @@ idPt = idPt[match(
 # idPt$idealpointdistance = 1-idPt$idealpointdistance
 # idPt$idealpointdistance = rescale(idPt$idealpointdistance, 1, 0)
 
+# s score
 sScore = sL$'2012'
+
+# # stdz
+# sScore$sScore = stdz(sScore$sScore)
+
+# subset
 sScore = sScore[
 	sScore$ccode1 %in% cntries & 
 	sScore$ccode2 %in% cntries
@@ -54,6 +66,8 @@ sScore = sScore[
 sScore$abb1 = cntryKey$abb[match(sScore$ccode1,cntryKey$ccode)]
 sScore$abb2 = cntryKey$abb[match(sScore$ccode2,cntryKey$ccode)]
 sScore$id = with(sScore, paste(abb1,abb2,sep='/'))
+
+# clean up
 sScore = sScore[match(
 	c(
 		'USA/ROK','DPRK/ROK',
@@ -65,6 +79,11 @@ sScore = sScore[match(
 
 
 # latDist
+# # stdz
+# latAngle = latAngle[latAngle$year==2012,]
+# latAngle$value = stdz(latAngle$value)
+
+# subset
 latAngle = latAngle[match(
 	c(
 		'2_732_2012', '731_732_2012',

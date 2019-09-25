@@ -8,13 +8,6 @@ source(paste0(gpth, 'R/Funcs/postHelpers.R'))
 ############################
 load( paste0(pathDataBin, 'logitModData.rda') )
 
-#
-modData$lag1_idPtDist = rescale(
-	modData$lag1_idPtDist, 
-	min(modData$lag1_idPtDist,na.rm=TRUE),
-	max(modData$lag1_idPtDist,na.rm=TRUE)	
-	)
-
 # Finalize data for modeling
 kivs = paste0('lag1_', kivs)
 cntrls = paste0('lag1_', cntrls)

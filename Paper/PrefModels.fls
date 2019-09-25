@@ -460,9 +460,14 @@ INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/tensor_viz.png
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/tensor_viz.png
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/tensor_viz.png
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/tensor_viz.png
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Regular-OSFigures-t1.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Bold-OSFigures-t1.tfm
 INPUT /Users/s7m/Research/Carbon/Paper/4_app.tex
 INPUT /Users/s7m/Research/Carbon/Paper/4_app.tex
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/public/opensans/OpenSans-Bold-OSFigures-t1.vf
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Bold-01.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Bold-02.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Bold-03.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/opensans/OpenSans-Bold-04.tfm
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/idPtScoreLatAngleViz.pdf
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/idPtScoreLatAngleViz.pdf
 INPUT /Volumes/Samsung_X5/Dropbox/Research/Carbon/Graphics/idPtScoreLatAngleViz.pdf
@@ -506,7 +511,6 @@ INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.p
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
@@ -516,6 +520,5 @@ INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb

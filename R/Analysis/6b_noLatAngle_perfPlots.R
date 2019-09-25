@@ -10,7 +10,7 @@ load(paste0(pathResults, 'crossValResults.rda')) # adds modSumm, rocPrData
 
 # rename
 key = data.frame(dirty=unique(rocData$model),stringsAsFactors=FALSE)
-key$clean = c('Ideal Point\nDistance', 'Ideal Point &\nS-Score', 'Base\nModel', 'Latent Angle\nDistance', 'S-Score')
+key$clean = c('Ideal Point\nSimilarity', 'Ideal Point &\nS-Score', 'Base\nModel', 'Tensor\nDependence', 'S-Score')
 key$clean = factor(key$clean,levels=key$clean[c(4,2,1,5,3)])
 
 # cleanup names
@@ -29,9 +29,9 @@ ggLty = c('dotdash', 'dotted', 'twodash', 'solid')
 
 # subset
 rocData$model = char(rocData$model)
-rocData = rocData[which(rocData$model!='Latent Angle\nDistance'),]
+rocData = rocData[which(rocData$model!='Tensor\nDependence'),]
 rocData$model = factor(rocData$model, levels=unique(rocData$model)[c(2,1,4,3)])
-aucSumm = aucSumm[-match('Latent Angle\nDistance', rownames(aucSumm)),]
+aucSumm = aucSumm[-match('Tensor\nDependence', rownames(aucSumm)),]
 
 #
 tmp = rocPlot(rocData, 
@@ -55,7 +55,7 @@ rocPrData$model = factor(rocPrData$model, levels=levels(rocData$model))
 
 # subset
 rocPrData$model = char(rocPrData$model)
-rocPrData = rocPrData[which(rocPrData$model!='Latent Angle\nDistance'),]
+rocPrData = rocPrData[which(rocPrData$model!='Tensor\nDependence'),]
 rocPrData$model = factor(rocPrData$model, levels=levels(rocData$model))
 
 tmp=rocPlot(rocPrData, type='pr', 

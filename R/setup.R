@@ -23,12 +23,12 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	 pathResults=paste0(dpth, 'results/') }
 
 ####################################
-
+print('hello world')
 ####################################
 # Load helpful libraries
 loadPkg=function(toLoad){
 	for(lib in toLoad){
-	  if(!(lib %in% installed.packages()[,1])){ 
+	  if(!(lib %in% installed.packages()[,1])){
 	    install.packages(lib, repos='http://cran.rstudio.com/') }
 	  suppressMessages( library(lib, character.only=TRUE) )
 	} }
@@ -41,7 +41,7 @@ toLoad=c(
 	'ggplot2', 'grid', 'xtable', 'latex2exp', 'Cairo', # plotting/output
 	'amen', 'MASS', # stat pkgs
 	'magrittr', # other
-	'foreach', 'doParallel', # Parallelization	
+	'foreach', 'doParallel', # Parallelization
 	'ROCR', 'caTools' # Performance
 	)
 
@@ -66,8 +66,8 @@ trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 stdz = function(x, na=TRUE){ (x - mean(x, na.rm=na))/sd(x, na.rm=na) }
 mysqlSetup = function(user=NULL, pw=NULL, db=NULL, host=NULL) {
-	tryCatch(conn <<- dbConnect(MySQL(), user=user, password=pw, 
-		dbname=db, host=host), 
+	tryCatch(conn <<- dbConnect(MySQL(), user=user, password=pw,
+		dbname=db, host=host),
 	error=function(e) warning("MySQL connection does not work") )
 }
 # https://cran.r-project.org/doc/contrib/Lemon-kickstart/rescale.R

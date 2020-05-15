@@ -1,0 +1,93 @@
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
+	source('~/Research/Carbon/R/setup.R') }
+
+if(Sys.info()["user"]=="Owner"){
+	source('C:/Users/Owner/Research/Carbon/R/setup.R') }
+
+if(Sys.info()["user"]=="maxgallop"){
+	source("/Users/maxgallop/Documents/Carbon/R/setup.R") }
+############################
+
+############################
+load( paste0(pathDataBin, 'logitModData.rda') )
+
+# Finalize data for modeling
+kivs = paste0('lag1_', kivs)
+cntrls = paste0('lag1_', cntrls)
+splines = paste0("lag1_", splines)
+
+# remove missing data
+modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
+
+# Create model specifications and run
+modForms = lapply(kivs, function(x){
+	formula( paste0(dv,' ~ ' ,
+		paste(c(x, cntrls, splines), collapse=' + '))) })
+# add mod with idPtDist + sScore
+kivs = c(kivs, 'lag1_idPtDist_sScore')
+modData$lag1_idPtDist_sScore = modData$lag1_idPtDist
+modForms[[4]] = formula(paste0(dv, ' ~ ', paste(c(kivs[c(4,3)],cntrls,splines), collapse = ' + ')))
+modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines), collapse = ' + ') ) )
+############################
+
+############################
+# run model by year buckets
+yrBreaks = seq(1966, 2008, by=5)
+outPerf = lapply(modForms, function(x){
+	outByForm = lapply(1:(length(yrBreaks)-1), function(i){
+		# get yr labels
+		start = yrBreaks[i]
+		end = yrBreaks[i+1]
+
+		# divide data
+		trainData = modData[modData$year %in% (start:(end)-1),]
+		testData = modData[modData$year %in% end,]
+
+		# run mod
+		mod = glm(x, data=trainData, family='binomial' )
+		outProb = predict(object=mod, newdata=testData, type='response')
+		rocAUC = getAUC(outProb, testData$mid)
+		prAUC = auc_pr(testData$mid, outProb)
+
+		#
+		summ = cbind(
+			kivCoef=coef(mod)[2], kivStdError=sqrt(diag(vcov(mod)))[2],
+			rocAUC=rocAUC, prAUC=prAUC )
+		rocPrRes = cbind(prob=outProb, actual=testData$mid, timeEnd=end)
+		return(list(summ=summ, rocPrRes=rocPrRes))
+	})
+
+	# organize
+	tmp = do.call('rbind', lapply(outByForm, function(x){x$summ}))
+	df = data.frame(tmp) ; df$model = rownames(tmp)[1]
+	tmp2 = do.call('rbind', lapply(outByForm, function(x){x$rocPrRes}))
+	rocPR = data.frame(tmp2) ; rocPR$model = rownames(tmp)[1]
+	list(df=df, rocPR=rocPR)
+})
+
+# org
+modSumm = do.call('rbind', lapply(outPerf, function(x){ x$df } ) )
+rocPrData = do.call('rbind', lapply(outPerf, function(x){ x$rocPR } ) )
+predDfs = split(rocPrData,rocPrData$model)
+
+# tabular data
+aucSumm=do.call('rbind', lapply(predDfs,function(x){
+	aucROC=getAUC(x$prob,x$actual) ; aucPR=auc_pr(x$actual,x$prob)
+	return( c('AUC'=aucROC,'AUC (PR)'=aucPR) ) }) )
+aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
+aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
+
+# roc data
+rocData=do.call('rbind',
+	lapply(predDfs, function(x){
+		y=roc(x$prob,x$actual);y$model=unique(x$model);return(y) }))
+
+# precision recall curve data
+prData=do.call('rbind',
+	lapply(predDfs, function(x){
+		y=rocdf(x$prob,x$actual,type='pr');y$model=unique(x$model);return(y) }))
+
+# save
+save(modSumm, rocPrData, predDfs, aucSumm, rocData, prData,
+	file=paste0(pathResults, 'crossValResults_time.rda'))
+############################

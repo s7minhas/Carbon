@@ -14,6 +14,17 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	mltrFuncs=paste0(gpth, 'R/funcs/mltrFuncs/')
 }
 
+if(Sys.info()["user"] %in% c('Owner','herme','S7M')){
+	u = Sys.info()["user"]
+	dpth=paste0('C:/Users/',u,'/Dropbox/Research/Carbon/')
+	gpth=paste0('C:/Users/',u,'/Research/Carbon/')
+	pathDataRaw=paste0(dpth, 'data/components/')
+	pathDataBin=paste0(dpth, 'data/binaries/')
+	pathGraphics=paste0(dpth, 'graphics/')
+	pathResults=paste0(dpth, 'results/')
+	mltrFuncs=paste0(gpth, 'R/funcs/mltrFuncs/')
+}
+
  if(Sys.info()["user"]=="maxgallop" ){
 	 dpth='~/Dropbox/Carbon/'
 	 gpth='/Users/maxgallop/Documents/Carbon/'
@@ -21,9 +32,8 @@ if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	 pathDataBin=paste0(dpth, 'data/binaries/')
 	 pathGraphics=paste0(dpth, 'graphics/')
 	 pathResults=paste0(dpth, 'results/') }
-
 ####################################
-print('hello world')
+
 ####################################
 # Load helpful libraries
 loadPkg=function(toLoad){

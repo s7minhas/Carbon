@@ -31,7 +31,8 @@
 %Type = Misc
 \bibitem[{{BBC {N}ews}(2015)}]{bbc:2015}
 \bibinfo{author}{{BBC {N}ews}}, \bibinfo{year}{2015}.
-\newblock \bibinfo{title}{Turkey's downing of russian warplane - what we know}.
+\newblock \bibinfo{title}{{T}urkey's downing of russian warplane - what we
+  know}.
 \newblock
   \bibinfo{note}{\url{https://www.bbc.com/news/world-middle-east-34912581}}.
 %Type = Techreport
@@ -88,21 +89,21 @@
 \newblock \bibinfo{journal}{American Political Science Review}
   \bibinfo{volume}{98}, \bibinfo{pages}{355--370}.
 %Type = Article
-\bibitem[{Cranmer et~al.(2012a)Cranmer, Desmarais and
+\bibitem[{Cranmer et~al.(2012)Cranmer, Desmarais and
   Kirkland}]{cranmer:etal:2012}
 \bibinfo{author}{Cranmer, S.J.}, \bibinfo{author}{Desmarais, B.A.},
-  \bibinfo{author}{Kirkland, J.H.}, \bibinfo{year}{2012}a.
+  \bibinfo{author}{Kirkland, J.H.}, \bibinfo{year}{2012}.
 \newblock \bibinfo{title}{Toward a network theory of alliance formation}.
 \newblock \bibinfo{journal}{International Interactions} \bibinfo{volume}{38},
   \bibinfo{pages}{295--324}.
 %Type = Article
-\bibitem[{Cranmer et~al.(2012b)Cranmer, Desmarais and
-  Menninga}]{cranmer:etal:2015}
-\bibinfo{author}{Cranmer, S.J.}, \bibinfo{author}{Desmarais, B.A.},
-  \bibinfo{author}{Menninga, E.J.}, \bibinfo{year}{2012}b.
-\newblock \bibinfo{title}{Complex dependencies in the alliance network}.
-\newblock \bibinfo{journal}{Conflict Management and Peace Science}
-  \bibinfo{volume}{29}, \bibinfo{pages}{279--313}.
+\bibitem[{Cranmer et~al.(2015)Cranmer, Menninga and Mucha}]{cranmer:etal:2015}
+\bibinfo{author}{Cranmer, S.J.}, \bibinfo{author}{Menninga, E.},
+  \bibinfo{author}{Mucha, P.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{{K}antian fractionalization predicts the conflict
+  propensity of the international system}.
+\newblock \bibinfo{journal}{Proceedings of the National Academy of Sciences}
+  \bibinfo{volume}{112}, \bibinfo{pages}{11812--11816}.
 %Type = Article
 \bibitem[{DeRouen and Heo(2004)}]{derouen:heo:2004}
 \bibinfo{author}{DeRouen, K.}, \bibinfo{author}{Heo, U.}, \bibinfo{year}{2004}.
@@ -157,14 +158,14 @@
 \newblock \bibinfo{journal}{Journal of Peace Research} \bibinfo{volume}{41},
   \bibinfo{pages}{211--222}.
 %Type = Article
-\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg, Airoldi
-  et~al.}]{goldenberg:etal:2010}
+\bibitem[{Goldenberg et~al.(2010)Goldenberg, Zheng, Fienberg and
+  Airoldi}]{goldenberg:etal:2010}
 \bibinfo{author}{Goldenberg, A.}, \bibinfo{author}{Zheng, A.X.},
-  \bibinfo{author}{Fienberg, S.E.}, \bibinfo{author}{Airoldi, E.M.}, et~al.,
+  \bibinfo{author}{Fienberg, S.E.}, \bibinfo{author}{Airoldi, E.M.},
   \bibinfo{year}{2010}.
 \newblock \bibinfo{title}{A survey of statistical network models}.
-\newblock \bibinfo{journal}{Foundations and Trends{\textregistered} in Machine
-  Learning} \bibinfo{volume}{2}, \bibinfo{pages}{129--233}.
+\newblock \bibinfo{journal}{Foundations and Trends in Machine Learning}
+  \bibinfo{volume}{2}, \bibinfo{pages}{129--233}.
 %Type = Article
 \bibitem[{H{\"a}ge(2011)}]{hage:2011}
 \bibinfo{author}{H{\"a}ge, F.M.}, \bibinfo{year}{2011}.
@@ -205,7 +206,7 @@
 \bibitem[{Kolda(2006)}]{kolda:2006}
 \bibinfo{author}{Kolda, T.G.}, \bibinfo{year}{2006}.
 \newblock \bibinfo{title}{Multilinear operators for higher-order
-  decompositions.}
+  decompositions}.
 \newblock \bibinfo{type}{Technical Report}. Sandia National Laboratories.
 %Type = Article
 \bibitem[{Kolda and Bader(2009)}]{kolda:bader:2009}
@@ -261,7 +262,7 @@
 \newblock \bibinfo{title}{Inferential approaches for network analysis: Amen for
   latent factor models}.
 \newblock \bibinfo{journal}{Political Analysis} \bibinfo{volume}{27},
-  \bibinfo{pages}{208–222}.
+  \bibinfo{pages}{208--222}.
 \newblock \DOIprefix\doi{10.1017/pan.2018.50}.
 %Type = Article
 \bibitem[{Moody and White(2003)}]{moody:white:2003}

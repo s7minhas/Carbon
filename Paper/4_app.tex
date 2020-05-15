@@ -1,8 +1,8 @@
-\section*{Data Sources, Modeling choices}
+\section*{Data Sources \& Modeling choices}
 
 The inputs we use to generate our measure of state preference through this tensor regression framework are a score of two countries' UN voting similarity index in year $t$ \citep{voeten:2013}\footnote{Specifically, the ``agree3un'' variable.}, and a count of the number of alliance commitments made by one state to another by time $t$ \citep{gibler:sarkees:2004}. However, to facilitate comparison between the metrics, we first standardize and normalize these two measures. This gives us an $n \times n \times 2 \times T$ array, where the first two dimensions represent countries, the third is the particular measure of similarity, and the fourth dimension is the year. The item at index (1,2,1,1) would be the transformed value of the UN similarity index for countries $i$ and $j$ at the first year of our data, similarly (1,2,2,1) would be the number of alliance relationships.
 
-To generate a time series of measurements of $\bl A$ and $\bl B$ we run separate tensor regression models for every year and in each only include the last three years of dyadic observations.\footnote{As a robustness check, we also ran models in which we include the last five years of observations, however, the state preference measurements generated through these models led to models that fit worse out-of-sample in terms of predicting conflict.} Thus our measurement of state preference at $t=4$ includes observations from $t=1-3$, $t=5$ would include observations from $t=2-4$, and so on. The risk if we increase the size of the rolling temporal window is that we would be including data that is no longer relevant to a country's relative preferences. For instance, Turkey and Russia's relationship looks a lot more positive when we look at 2013 and 2014 than 2015 following the downing of a Russian warplane by Turkish F-16s in the Turkey-Syria border \citep{bbc:2015}. 
+To generate a time series of measurements of $\bl A$ and $\bl B$ we run separate tensor regression models for every year and in each only include the last three years of dyadic observations.\footnote{As a robustness check, we also ran models in which we include the last five years of observations, however, the state preference measurements generated through this choice had worse out-of-sample in terms of predicting conflict.} Thus our measurement of state preference at $t=4$ includes observations from $t=1-3$, $t=5$ would include observations from $t=2-4$, and so on. The risk if we increase the size of the rolling temporal window is that we would be including data that is no longer relevant to a country's relative preferences. For instance, Turkey and Russia's relationship looks a lot more positive when we look at 2013 and 2014 than 2015 following the downing of a Russian warplane by Turkish F-16s in the Turkey-Syria border \citep{bbc:2015}.\footnote{A limitation of the approach that we are using here is that generating a time series of measurements of $\bl A$ and $\bl B$ requires running separate models. There are alternative frameworks that have been developed to allow for time varying dependence parameters. For example, \citet{minhas:etal:2017:arxiv} extend the MLTR framework by allowing it to have time-varying dependence parameters and also model $\bl A$ and $\bl B$ be a function of exogenous covariates. However, for this approach, one must specify a set of exogenous covariates that they think can explain dependencies in relations between dyads. Additionally, some of the other variants that exist in the literature that would allow for the estimation of a time varying set of dependence parameters have so far only been developed for binary networks (e.g., \citealp{durante:etal:2017,park:sohn:2017}).}
 
 Additionally, though we obtain estimates of both $\bl A$ and $\bl B$, we only use estimates of $\bl A$ in generating our measure of state preference. The dyad specific regression coefficients in $\bl A$ capture how similar two countries are in terms of actions that they initiate, whereas $\bl B$ provides us a measurement of how similar countries are in terms of who they receive actions from. Though the latter is of substantive interest, we leave further analysis of it to future research. Measurement of how similar two countries are in terms of the actions that they initiate provides us with a closer measurement of how the foreign policy preferences of two states are aligned as it will be based on the actions that they choose, rather than actions taken by third parties. For convenience in the rest of the paper, we term to the estimates of state preference that we retrieve from $\bl A$ as ``tensor dependence''.
 
@@ -34,11 +34,11 @@ In Figure \ref{unfriendly:dyads} we look at the United States' relationship with
 	\label{unfriendly:dyads}
 \end{figure}
 
-As can be seen from these relationships, the measure of preferences based on tensor dependence distance is in many cases as plausible or more than incumbent measures of preferences. While the measure has more temporal instability than S-scores or UN ideal points, in these six cases it often does better, and rarely worse at conforming to our expectations of the relationships. Of course, this could just be a case of us picking particularly propitious cases. 
+As can be seen from these relationships, the measure of preferences based on tensor dependence distance is in many cases as plausible or more than incumbent measures of preferences. While the measure has more temporal instability than S-scores or UN ideal points, in these six cases it often does better, and rarely worse at conforming to our expectations of the relationships. Of course, this could just be a case of us picking particularly propitious cases.
 
 \subsection*{Relationship between Tensor Dependence and Components}
 
-We also examine how our tensor dependence measure is affected by changes in alliance relations or UN voting similarity by considering the relationship between the United States and Israel in 1981. With the signing of the ``Joint Memorandum of Understanding," the two states went from having no alliance relationship to having one, the states were voting together at the UN 80\% of the time (up 3\% from 1980, below the median yearly change for this dyad). These factors, coupled with changes in the third order effects for the dyad, led the tensor dependence to increase from about 2.72 to about 3.08. 
+We also examine how our tensor dependence measure is affected by changes in alliance relations or UN voting similarity by considering the relationship between the United States and Israel in 1981. With the signing of the ``Joint Memorandum of Understanding," the two states went from having no alliance relationship to having one, the states were voting together at the UN 80\% of the time (up 3\% from 1980, below the median yearly change for this dyad). These factors, coupled with changes in the third order effects for the dyad, led the tensor dependence to increase from about 2.72 to about 3.08.
 
 Of course, another pair of countries might sign an alliance (or withdraw from an alliance) and have a markedly different effect on this measure of tensor dependency. For example, in 1977, the United Kingdom and the United States went from being in 5 alliances together to being in 4, and this led to a drop in their tensor dependence from 3.13 to 2.28, despite a decrease in their UN voting similarity of less than 1\%. This is because the alliance that ended in 1977 was the Southeast Asian Treaty Organization, which had 4 other members, and so the third order effects were concomittantly more severe. To capture the aggregate effects of dyadic variables on our measure of tensor dependence, we estimate a simple AR(1) model, depicted in Table~\ref{tensor:ols}, and these dyadic factors account for about 78\% of the variance, with the rest coming from third order factors. Next, we conduct a the large-N analysis of conflict and compare the added utility of these various measures of state preferences.
 
@@ -46,23 +46,23 @@ Of course, another pair of countries might sign an alliance (or withdraw from an
 	\centering
 	\begin{tabular}{lcccc}
 		\hline
-		& Estimate & Std. Error & t value & Pr($>|t|$) \\ 
+		& Estimate & Std. Error & t value & Pr($>|t|$) \\
 		\hline
-		(Intercept) & 0.0773 & 0.001 & 74.26 & 0.000 \\ 
-		Tensor Dependence$_{t-1}$ & 0.888 & 0.0004 & 2094.81 & 0.000 \\ 
-		Change in Alliance Relationship & 0.131 & 0.009 & 15.30 & 0.000 \\ 
-		Change in UN Voting Similarity & 4.401 & 0.014 & 313.14 & 0.000 \\ 
+		(Intercept) & 0.0773 & 0.001 & 74.26 & 0.000 \\
+		Tensor Dependence$_{t-1}$ & 0.888 & 0.0004 & 2094.81 & 0.000 \\
+		Change in Alliance Relationship & 0.131 & 0.009 & 15.30 & 0.000 \\
+		Change in UN Voting Similarity & 4.401 & 0.014 & 313.14 & 0.000 \\
 		\hline
 	\end{tabular}
 	\caption{Regression of tensor dependence on dyadic components.}
-	\label{tensor:ols}		
+	\label{tensor:ols}
 \end{table}
 
 \subsection*{Model Competition}
 
 To evaluate the different measures of state preferences, we assess their utility in predicting the occurrence of interstate disputes. Here we look at four non-nested models: a model using no measures of state preferences, one using an S-Score based on similarity in alliance portfolio \citep{signorino:ritter:1999}, one using the ideal points determined by UN voting \citep{bailey:etal:2015}, a model using both UN ideal points and alliance S-scores, and finally, a model using our tensor dependence approach that combines the raw data from UN voting and alliances. We evaluate the models on two criteria: whether state preferences have a consistent effect in the predicted direction, and how well each model does at predicting disputes in an out-of-sample context.
 
-In each of these models, we utilize a logistic regression of Militarized Interstate Dispute (MID) participation on measures of state preferences and a vector of control variables. These control variables overlap with the standard framework used in O'Neal and Russett's canonical work on the democratic peace \citep{oneal:russett:1997}.\footnote{The exception is that our models ignore trade interdependency, as including that data drastically decreases the number of observations.} In particular, we include a binary measure of joint democracy (whether both states have Polity IV scores $\geq 7$), whether the states are contiguous, and the ratio of state capabilities as measured by the Correlates of War Project's Composite Index of National Capabilities (CINC). We also account for temporal interdependence using a peace year spline \citep{carter:signorino:2010}. 
+In each of these models, we utilize a logistic regression of Militarized Interstate Dispute (MID) participation on measures of state preferences and a vector of control variables. These control variables overlap with the standard framework used in O'Neal and Russett's canonical work on the democratic peace \citep{oneal:russett:1997}.\footnote{The exception is that our models ignore trade interdependency, as including that data drastically decreases the number of observations.} In particular, we include a binary measure of joint democracy (whether both states have Polity IV scores $\geq 7$), whether the states are contiguous, and the ratio of state capabilities as measured by the Correlates of War Project's Composite Index of National Capabilities (CINC). We also account for temporal interdependence using a peace year spline \citep{carter:signorino:2010}.
 
 \subsection*{In-sample explanation}
 
@@ -85,13 +85,13 @@ Given these results, we can say that two of the measures of preferences behave a
 
 We then compare the performance of these models using two metrics: area under the Receiver Operator Characteristic Curve (AUC-ROC) and the Precision Recall Curve (AUC-PR). The ROC curve examines the tradeoff between true positives and false positives, and the PR examines the tradeoff between making only correct predictions and predicting all the disputes that occurred. In general, the ROC will disproportionately reward those models that predict $0$ well -- and we can interpret the ROC as the likelihood a prediction is correct. The numeric value for the PR has less of a clear interpretation, but models with a higher PR do a better job of predicting when events actually occur.
 
-As shown in figure \ref{fig:roc}, the model using tensor dependence distance decisively outperforms the other models. While the AUC-ROC is somewhat higher with the tensor dependence model, the real difference between the measures shines through in the AUC-PR, where the model using this measure performs almost twice as well as the base model. In contrast, models using other measures of state preferences yield only minimal improvements in prediction over the base model. This is especially relevant because AUC-PR specifically focuses on the difficult task of predicting conflict, compared to the relatively easier task of predicting non-conflict that is rewarded by the AUC-ROC measure. Thus we have reason for confidence in both the usefulness of this measure of state preferences. 
+As shown in figure \ref{fig:roc}, the model using tensor dependence distance decisively outperforms the other models. While the AUC-ROC is somewhat higher with the tensor dependence model, the real difference between the measures shines through in the AUC-PR, where the model using this measure performs almost twice as well as the base model. In contrast, models using other measures of state preferences yield only minimal improvements in prediction over the base model. This is especially relevant because AUC-PR specifically focuses on the difficult task of predicting conflict, compared to the relatively easier task of predicting non-conflict that is rewarded by the AUC-ROC measure. Thus we have reason for confidence in both the usefulness of this measure of state preferences.
 
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.4\textwidth]{roc_outSample} & 
-	\includegraphics[width=.4\textwidth]{rocPr_outSample}	
+	\includegraphics[width=.4\textwidth]{roc_outSample} &
+	\includegraphics[width=.4\textwidth]{rocPr_outSample}
 	\end{tabular}
 	\caption{Assessments of out-of-sample predictive performance using ROC curves and PR curves. AUC statistics are provided as well for both curves.}
 	\label{fig:roc}

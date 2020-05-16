@@ -32,15 +32,17 @@ modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines
 
 ############################
 # run model by year buckets
-yrBreaks = seq(1966, 2008, by=5)
+yrBreaks = seq(1966, 2008, by=3)
+
+years = 1969:2008
 outPerf = lapply(modForms, function(x){
-	outByForm = lapply(1:(length(yrBreaks)-1), function(i){
+	outByForm = lapply(years, function(t){
 		# get yr labels
-		start = yrBreaks[i]
-		end = yrBreaks[i+1]
+		start = t-3
+		end = t
 
 		# divide data
-		trainData = modData[modData$year %in% (start:(end)-1),]
+		trainData = modData[modData$year %in% (start:end),]
 		testData = modData[modData$year %in% end,]
 
 		# run mod
@@ -89,5 +91,5 @@ prData=do.call('rbind',
 
 # save
 save(modSumm, rocPrData, predDfs, aucSumm, rocData, prData,
-	file=paste0(pathResults, 'crossValResults_time.rda'))
+	file=paste0(pathResults, 'crossValResults_time2.rda'))
 ############################

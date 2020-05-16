@@ -1,8 +1,8 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 
-	if(Sys.info()["user"]=="Owner"){
-		source('C:/Users/Owner/Research/Carbon/R/setup.R') }
+if(Sys.info()["user"]=="Owner"){
+	source('C:/Users/Owner/Research/Carbon/R/setup.R') }
 
 if(Sys.info()["user"]=="maxgallop"){
 	source("/Users/maxgallop/Documents/Carbon/R/setup.R") }
@@ -10,7 +10,7 @@ if(Sys.info()["user"]=="maxgallop"){
 
 ############################
 # load results
-load(paste0(pathResults, 'crossValResults_time.rda')) # adds modSumm, rocPrData
+load(paste0(pathResults, 'crossValResults_time2.rda')) # adds modSumm, rocPrData
 
 # rename
 key = data.frame(dirty=unique(rocData$model),stringsAsFactors=FALSE)
@@ -37,7 +37,7 @@ tmp = rocPlot(rocData, linetypes=ggLty, legPos=c(.7, .23), legText=7, legSpace=1
 	annotate('text', hjust=0, x=.9, y=seq(.01, .4, .09),
 		label=rev(aucSumm[,1]),
 		family='Source Sans Pro Light', size=2.7)
-ggsave(tmp, file=paste0(pathGraphics, 'roc_outSample_time.pdf'), width=5, height=5, device=cairo_pdf)
+ggsave(tmp, file=paste0(pathGraphics, 'roc_outSample_time2.pdf'), width=5, height=5, device=cairo_pdf)
 
 # area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -52,5 +52,5 @@ tmp=rocPlot(rocPrData, type='pr', linetypes=ggLty, legPos=c(.7,.7), legText=7, l
 		label='AUC (PR)', family='Source Sans Pro Black', size=2.85) +
 	annotate('text', hjust=0, x=.9, y=seq(.54, .93, .09),
 		label=rev(aucSumm[,2]), family='Source Sans Pro Light', size=2.7)
-ggsave(tmp, file=paste0(pathGraphics, 'rocPr_outSample_time.pdf'), width=5, height=5, device=cairo_pdf)
+ggsave(tmp, file=paste0(pathGraphics, 'rocPr_outSample_time2.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################

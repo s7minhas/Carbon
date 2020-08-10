@@ -1,4 +1,4 @@
-\begin{thebibliography}{51}
+\begin{thebibliography}{54}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -20,6 +20,14 @@
 \newblock \bibinfo{title}{Mixed membership stochastic blockmodels}.
 \newblock \bibinfo{journal}{Journal of Machine Learning Research}
   \bibinfo{volume}{9}, \bibinfo{pages}{1981--2014}.
+%Type = Article
+\bibitem[{Akdemir and Gupta(2011)}]{akdemir:gupta:2011}
+\bibinfo{author}{Akdemir, D.}, \bibinfo{author}{Gupta, A.K.},
+  \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Array variate random variables with multiway
+  kronecker delta covariance matrix structure.}
+\newblock \bibinfo{journal}{Journal of Algebraic Statistics}
+  \bibinfo{volume}{2}.
 %Type = Article
 \bibitem[{Bailey et~al.(2017)Bailey, Strezhnev and Voeten}]{bailey:etal:2015}
 \bibinfo{author}{Bailey, M.A.}, \bibinfo{author}{Strezhnev, A.},
@@ -182,6 +190,13 @@
   foreign policy similarity for chance agreement}.
 \newblock \bibinfo{journal}{Political Analysis} , \bibinfo{pages}{287--305}.
 %Type = Article
+\bibitem[{Hoff(2011)}]{hoff:2011a}
+\bibinfo{author}{Hoff, P.D.}, \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Separable covariance arrays via the tucker product,
+  with applications to multivariate relational data}.
+\newblock \bibinfo{journal}{Bayesian Analysis} \bibinfo{volume}{6},
+  \bibinfo{pages}{179--196}.
+%Type = Article
 \bibitem[{Hoff(2015)}]{hoff:2015}
 \bibinfo{author}{Hoff, P.D.}, \bibinfo{year}{2015}.
 \newblock \bibinfo{title}{Multilinear tensor regression for longitudinal
@@ -317,6 +332,13 @@
 \newblock \bibinfo{title}{Inference and missing data}.
 \newblock \bibinfo{journal}{Biometrika} \bibinfo{volume}{63},
   \bibinfo{pages}{581--592}.
+%Type = Article
+\bibitem[{Sewell and Chen(2015)}]{sewell:chen:2015}
+\bibinfo{author}{Sewell, D.K.}, \bibinfo{author}{Chen, Y.},
+  \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Latent space models for dynamic networks}.
+\newblock \bibinfo{journal}{Journal of the American Statistical Association}
+  \bibinfo{volume}{110}, \bibinfo{pages}{1646--1657}.
 %Type = Article
 \bibitem[{Signorino and Ritter(1999)}]{signorino:ritter:1999}
 \bibinfo{author}{Signorino, C.}, \bibinfo{author}{Ritter, J.},

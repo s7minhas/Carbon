@@ -79,6 +79,9 @@ digitsep=fullstop
 % Spacing
 \usepackage[doublespacing]{setspace}
 
+% package to help with template mods
+\usepackage{etoolbox}
+
 % Add some colors
 \definecolor{red1}{RGB}{253,219,199}
 \definecolor{red2}{RGB}{244,165,130}
@@ -149,6 +152,17 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% environ to add text before abstract in elsarticle
+\patchcmd{\pprintMaketitle}
+  {\hrule\vskip12pt}% the second rule
+  {\hrule\vskip12pt\ifvoid\extrainfobox\else\unvbox\extrainfobox\par\vskip12pt\fi}
+  {}{}
+
+\newenvironment{extrainfo}
+  {\global\setbox\extrainfobox=\vbox\bgroup\parindent=0pt }
+  {\egroup}
+\newsavebox\extrainfobox
+
 % remove silly elsevier preprint note
 \makeatletter
 \def\ps@pprintTitle{%
@@ -159,7 +173,6 @@ digitsep=fullstop
 
 \makeatother
 
-\usepackage{etoolbox}
 \makeatletter
     \patchcmd{\@author}{\global\let\@fnmark\@empty}{\global\let\@fnmark\@empty\global\let\@corref\@empty}{}{\@latex@error{Failed to patch \string\@author for \string\@corref reset}}
 \makeatother
@@ -176,21 +189,27 @@ digitsep=fullstop
 \title{A Network Approach to Measuring State Preferences \tnoteref{t1}}
 \tnotetext[label1]{Author order is alphabetical.}
 
-\tnotetext[t1]{We would like to thank comments from discussants and audience members at the International Studies Association and Midwest Political Science Association Conferences as well as participants from the Government Speaker Series at the University of Essex. We are also grateful for comments from three anonymous reviewers who provided thoughtful insight to help us improve our paper.}
+\tnotetext[t1]{We would like to thank comments from discussants and audience members at the International Studies Association and Midwest Political Science Association Conferences as well as participants from the Speaker Series at the University College London. We are also grateful for comments from Michael D. Ward, Scott de Marchi, and three anonymous reviewers who provided thoughtful insight to help us improve our paper.}
 
 \author[strath]{Max Gallop}
-\ead{max.gallop@strath.ac.uk}
+% \ead{max.gallop@strath.ac.uk}
 \author[msu]{Shahryar Minhas\corref{cor1}}
-\ead{minhassh@msu.edu}
+% \ead{minhassh@msu.edu}
 %
 \cortext[cor1]{Corresponding author}
 %
-\address[strath]{Departments of Political Science, University of Strathclyde}
-\address[msu]{Department of Political Science, Michigan State University}
+\address[strath]{Departments of Political Science, University of Strathclyde (email: \textit{max.gallop@strath.ac.uk})}
+\address[msu]{Department of Political Science, Michigan State University (email: \textit{minhassh@msu.edu})}
+
+\begin{extrainfo}
+\textit{Action Editor}: Stanley Wasserman
+\end{extrainfo}
 
 \begin{abstract}
 \singlespacing{State preferences play an important role in international politics. Unfortunately, actually observing and measuring these preferences is impossible. In general, scholars have tried to infer preferences using either UN voting or alliance behavior. The two most notable measures of state preferences that have flowed from this research area are ideal points (Bailey et al., 2017) and S-scores (Signorino \& Ritter, 1999). The basis of both these models is a spatial weighting scheme that has proven useful but discounts higher-order effects that might be present in relational data structures such as UN voting and alliances. We begin by arguing that both alliances and UN voting are simply examples of the multiple layers upon which states interact with one another. To estimate a measure of state preferences, we utilize a tensor decomposition model that provides a reduced-rank approximation of the main patterns across the layers. Our new measure of preferences plausibly describes important state relations, and yields important insights on the relationship between preferences, democracy, and international conflict. Additionally, we show that a model of conflict using this measure of state preferences decisively outperforms models using extant measures when it comes to predicting conflict in an out-of-sample context.}
 \end{abstract}
+
+\begin{keyword} \small{international relations, state preferences, measurement, multilayer networks} \end{keyword}
 
 \end{frontmatter}
 % ----------------------------------------------- %
@@ -285,7 +304,7 @@ Relational data is composed of observations between pairs of actors, or dyads. F
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{tensor_viz.png}
+	\includegraphics[width=1\textwidth]{tensor_viz.pdf}
 	\caption{The green and blue colors represent different relational measures and darker shading indicates later time periods. Our goal is to reduce the patterns found across those layers of relationships into a single measure.}
 	\label{fig:tensViz}
 \end{figure}
@@ -451,11 +470,7 @@ Authors have nothing to disclose.
 
 % Bib stuff
 \clearpage
-% \bibliography{C:/Users/herme/whistle/master}
-% \bibliography{C:/Users/Owner/whistle/master}
-% \bibliography{C:/Users/maxgallop/Documents/whistle/master}
-\bibliography{C:/Users/S7M/whistle/master}
-% \bibliography{/Users/s7m/whistle/master}
+\bibliography{master}
 \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 
 \end{document}

@@ -1,7 +1,4 @@
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-	source('~/Research/Carbon/R/setup.R') }
-if(Sys.info()["user"]=="maxgallop"){
-	source("/Users/maxgallop/Documents/Carbon/R/setup.R") }
+source(paste0(here::here(), '/R/setup.R'))
 ############################
 
 ############################
@@ -30,9 +27,9 @@ sScoreData = lapply(names(sL), function(x){
 ############################
 # flip idpt
 idPt$idealpointdistance = rescale(
-	idPt$idealpointdistance, 
+	idPt$idealpointdistance,
 	min(idPt$idealpointdistance,na.rm=TRUE),
-	max(idPt$idealpointdistance,na.rm=TRUE)	
+	max(idPt$idealpointdistance,na.rm=TRUE)
 	)
 ############################
 
@@ -91,6 +88,6 @@ modData$dyadidYr = paste0( modData$dyadid, modData$year ) %>% num()
 modData = lagData(modData, 'dyadidYr', 'dyadid', c(kivs, cntrls, splines))
 
 # save
-save(modData, ids, splines, kivs, dv, cntrls, 
+save(modData, ids, splines, kivs, dv, cntrls,
 	file=paste0(pathDataBin, 'logitModData.rda'))
 ############################

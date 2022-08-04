@@ -1,15 +1,19 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
 	source('~/Research/Carbon/R/setup.R') }
 
-#### 
+if(Sys.info()["user"] %in% c('Owner','herme','S7M')){
+	u = Sys.info()["user"]
+	source(paste0('C:/Users/', u, '/Research/Carbon/R/setup.R')) }
+
+####
 # Load ALM function
 loadPkg('abind')
-source(paste0(mltrFuncs, "tfunctions.r"))	
+source(paste0(mltrFuncs, "tfunctions.r"))
 source(paste0(mltrFuncs, "functions_als.r"))
 source(paste0(mltrFuncs, "functions_bayes.r"))
-#### 
+####
 
-#### 
+####
 # data
 load( paste0(pathDataBin,'amenData_all_stdz.rda') )
 inclVars = c('agree3un','totAllyCnt')
@@ -38,12 +42,12 @@ names(amDataBuck)
 
 # random c val
 X = array(
-	rnorm(length(c(Y))), 
+	rnorm(length(c(Y))),
 	dim=dim(Y)
 	)
 ####
 
-#### MCMC 
+#### MCMC
 # parallelize
 loadPkg(c('foreach','doParallel'))
 cores = length(amDataBuck)

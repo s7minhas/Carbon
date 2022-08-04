@@ -1,7 +1,4 @@
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-	source('~/Research/Carbon/R/setup.R') }
-if(Sys.info()["user"]=="maxgallop"){
-	source("/Users/maxgallop/Documents/Carbon/R/setup.R") }
+source(paste0(here::here(), '/R/setup.R'))
 source(paste0(gpth, 'R/Funcs/postHelpers.R'))
 ############################
 
@@ -18,12 +15,12 @@ modData = na.omit( modData[,c(ids, splines, dv, kivs, cntrls)] )
 
 # Create model specifications and run
 modForms = lapply(kivs, function(x){
-	formula( paste0(dv,' ~ ' , 
+	formula( paste0(dv,' ~ ' ,
 		paste(c(x, cntrls, splines), collapse=' + '))) })
 
 # add mod with idPtDist + sScore
 kivs = c(kivs, 'lag1_idPtDist_sScore')
-modData$lag1_idPtDist_sScore = modData$lag1_idPtDist 
+modData$lag1_idPtDist_sScore = modData$lag1_idPtDist
 modForms[[4]] = formula(paste0(dv, ' ~ ', paste(c(kivs[c(4,3)],cntrls,splines), collapse = ' + ')))
 modForms[[length(modForms)+1]] = formula( paste0(dv, '~', paste(c(cntrls,splines), collapse = ' + ') ) )
 
@@ -33,6 +30,8 @@ mods = lapply(modForms, function(x){
 	# modData[,c(splines,kivs,cntrls)] = apply(modData[,c(splines,kivs,cntrls)],2,sdz)
 	glm(x, data=modData, family='binomial' ) })
 names(mods) = gsub('lag1_','',kivs)
+
+lapply(mods, summary)
 
 # save results
 coefData = lapply(mods, function(x){
@@ -50,7 +49,7 @@ coefData$modClean = modKey$clean[match(coefData$mod,modKey$dirty)]
 coefData$modClean = factor(coefData$modClean, levels=modKey$clean)
 varKey = data.frame(dirty=unique(coefData$var))
 varKey$clean = c(
-	'(Intercept)', 
+	'(Intercept)',
 	'Tensor\nDependence$_{ij,t-1}$',
 	'Joint Democracy$_{ij,t-1}$',
 	'Capability Ratio$_{ij,t-1}$',
@@ -70,15 +69,15 @@ coefData = coefData[which(!coefData$varClean %in% varKey$clean[8:12]),]
 
 # plot
 posDodge = .7
-ggCoef=ggplot(coefData, aes(x=varClean, y=mean, color=sig, group=modClean)) + 
-	geom_hline(aes(yintercept=0), linetype=2, color = "black") + 
-	geom_point(aes(shape=modClean), size=4, position=position_dodge(width = posDodge)) + 
-	geom_linerange(aes(ymin=lo90, ymax=hi90),alpha = 1, size = 1, position=position_dodge(width = posDodge)) + 
-	geom_linerange(aes(ymin=lo95,ymax=hi95),alpha = 1, size = .5, position=position_dodge(width = posDodge)) +	
+ggCoef=ggplot(coefData, aes(x=varClean, y=mean, color=sig, group=modClean)) +
+	geom_hline(aes(yintercept=0), linetype=2, color = "black") +
+	geom_point(aes(shape=modClean), size=4, position=position_dodge(width = posDodge)) +
+	geom_linerange(aes(ymin=lo90, ymax=hi90),alpha = 1, size = 1, position=position_dodge(width = posDodge)) +
+	geom_linerange(aes(ymin=lo95,ymax=hi95),alpha = 1, size = .5, position=position_dodge(width = posDodge)) +
 	scale_colour_manual(values = coefp_colors, guide=FALSE) +
-	ylab('') + scale_x_discrete('', labels=TeX(rev(unique(varKey$clean[-2])))) +	
+	ylab('') + scale_x_discrete('', labels=TeX(rev(unique(varKey$clean[-2])))) +
 	# ylab(TeX('$\\beta_{p} \\times \\frac{\\sigma_{x_{p}}}{\\sigma_{y}}$')) +
-	coord_flip() + 
+	coord_flip() +
 	theme(
 		legend.position='top', legend.title=element_blank(),
 		legend.text=element_text(family="Source Sans Pro Light"),
